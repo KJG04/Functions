@@ -1,56 +1,42 @@
-import { useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import Point from "../../module/Point";
 import EmptyCell from "../Cell/EmptyCell/EmptyCell";
 import MineCell from "../Cell/MineCell/MineCell";
 import NumCell from "../Cell/NumCell/NumCell";
 import * as S from "./styles";
 
+const EMPTY = "EMPTY";
+const MINE = "MINE";
+const NUMBER = "NUMBER";
+const ROW = 16;
+const COLUMN = 16;
+const MINE_COUNT = 40;
+
+type CellType = {
+  point: Point;
+  isOpen: boolean;
+  type: string;
+  mineCount: number;
+};
+
 const MainPage = (): JSX.Element => {
-  class Point {
-    x: number;
-    y: number;
-    constructor(x: number, y: number) {
-      this.x = x;
-      this.y = y;
+  const initOpenList = (): boolean[][] => {
+    const openList: boolean[][] = [];
+
+    for (let i = 0; i < ROW; i++) {
+      const temp: boolean[] = [];
+
+      for (let j = 0; j < COLUMN; j++) {
+        temp.push(false);
+      }
+      openList.push(temp);
     }
-    equals(other: Point): boolean {
-      return this.x === other.x && this.y === other.y;
-    }
-  }
-  const EMPTY = "EMPTY";
-  const MINE = "MINE";
-  const NUMBER = "NUMBER";
-  const ROW = 16;
-  const COLUMN = 16;
-  const MINE_COUNT = 40;
 
-  type CellType = {
-    point: Point;
-    isOpen: boolean;
-    type: string;
-    object: JSX.Element;
+    return openList;
   };
-
-  const openEmptyCell = (point: Point): void => {
-    cells[point.y][point.x].isOpen = true;
-  };
-
-  useLayoutEffect(() => {
-    init();
-  }, []);
 
   const [cells, setCells] = useState<CellType[][]>([]);
-  //   useLayoutEffect(() => {
-  //     cells.forEach((item) => {
-  //       console.log(
-  //         "" +
-  //           item.map((value) => {
-  //             if (value.type === MINE) return "■";
-  //             else if (value.type === NUMBER) return "◆";
-  //             else return "◎";
-  //           })
-  //       );
-  //     });
-  //   }, [cells]);
+  const [isOpenList, setIsOpenList] = useState<boolean[][]>(initOpenList());
 
   const init = (): void => {
     const mineList: Point[] = [];
@@ -60,7 +46,6 @@ const MainPage = (): JSX.Element => {
       const point: Point = getPoint(mineList);
       mineList.push(point);
     }
-
     const cellList: CellType[][] = [];
     for (let i = 0; i < ROW; i++) {
       //일단 빈 셀들을 생성한다.
@@ -74,11 +59,7 @@ const MainPage = (): JSX.Element => {
           point: point,
           isOpen: false,
           type: isMine ? MINE : EMPTY,
-          object: isMine ? (
-            <MineCell key={point.x * 10 + point.y} />
-          ) : (
-            <EmptyCell key={point.x * 10 + point.y} isOpen={false} />
-          ),
+          mineCount: 0,
         };
         cellRow.push(cell);
       }
@@ -94,7 +75,7 @@ const MainPage = (): JSX.Element => {
           const mineCount = getSurroundMineCount(new Point(j, i), cellList);
           if (mineCount > 0) {
             cell.type = NUMBER;
-            cell.object = <NumCell count={mineCount} key={j * 10 + i} />;
+            cell.mineCount = mineCount;
           }
         }
       }
@@ -142,11 +123,110 @@ const MainPage = (): JSX.Element => {
     return point;
   };
 
+  useLayoutEffect(() => {
+    init();
+  }, []);
+
+  const openCell = (point: Point) => {
+    if (isOpenList[point.y][point.x]) {
+      //이미 셀이 열려있는 경우
+      return;
+    }
+
+    const isVisit: boolean[][] = []; //
+    for (let i = 0; i < ROW; i++) {
+      const temp: boolean[] = [];
+      for (let j = 0; j < COLUMN; j++) {
+        temp.push(false);
+      }
+      isVisit.push(temp);
+    }
+    let mustOpenCell: Point[] = []; //열어야하는 빈셀
+    getOpenCell(point, isVisit, mustOpenCell);
+
+    const additionalList: Point[] = []; //테두리를 열기위해 필요한 리스트
+
+    mustOpenCell.forEach((item) => {
+      for (let i = -1; i < 2; ++i) {
+        for (let j = -1; j < 2; ++j) {
+          const p = new Point(item.x + j, item.y + i);
+          if (
+            p.x < 0 ||
+            p.x >= COLUMN ||
+            p.y < 0 ||
+            p.y >= ROW ||
+            mustOpenCell.some((item) => item.equals(p))
+          ) {
+            //범위 안에 있고 이미 열려야하는 셀에 있지 않은 경우
+            continue;
+          }
+          additionalList.push(p);
+        }
+      }
+    });
+
+    mustOpenCell = mustOpenCell.concat(additionalList);
+
+    setIsOpenList(
+      isOpenList.map((value, i) => {
+        return value.map((v, j) => {
+          if (mustOpenCell.some((item) => item.equals(new Point(j, i)))) {
+            v = true;
+          }
+          return v;
+        });
+      })
+    );
+  };
+
+  const getOpenCell = (point: Point, isVisit: boolean[][], list: Point[]) => {
+    if (
+      point.x < 0 ||
+      point.x >= COLUMN ||
+      point.y < 0 ||
+      point.y >= ROW ||
+      isOpenList[point.y][point.x] ||
+      cells[point.y][point.x].type !== EMPTY ||
+      isVisit[point.y][point.x]
+    ) {
+      //포인트가 범위를 벗어났거나 이미 열려있거나 빈 셀이 아니리면
+      return;
+    }
+
+    list.push(point);
+    isVisit[point.y][point.x] = true;
+
+    getOpenCell(new Point(point.x, point.y - 1), isVisit, list);
+    getOpenCell(new Point(point.x + 1, point.y), isVisit, list);
+    getOpenCell(new Point(point.x, point.y + 1), isVisit, list);
+    getOpenCell(new Point(point.x - 1, point.y), isVisit, list);
+  };
+
   return (
     <S.Container>
       {cells.map((item, i) => {
         return item.map((item) => {
-          return item.object;
+          if (item.type === EMPTY)
+            return (
+              <EmptyCell
+                key={item.point.x * 10 + item.point.y}
+                point={item.point}
+                isOpenList={isOpenList}
+                openCell={openCell}
+              />
+            );
+          else if (item.type === NUMBER)
+            return (
+              <NumCell
+                count={item.mineCount}
+                point={item.point}
+                isOpenList={isOpenList}
+                setIsOpenList={setIsOpenList}
+                key={item.point.x * 10 + item.point.y}
+              />
+            );
+          else if (item.type === MINE)
+            return <MineCell key={item.point.x * 10 + item.point.y} />;
         });
       })}
     </S.Container>
