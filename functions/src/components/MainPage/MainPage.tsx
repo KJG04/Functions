@@ -13,6 +13,7 @@ const COLUMN = 16;
 const MINE_COUNT = 40;
 
 type CellType = {
+  //셀의 정보를 담기 위한 객체의 타입
   point: Point;
   isOpen: boolean;
   type: string;
@@ -21,6 +22,7 @@ type CellType = {
 
 const MainPage = (): JSX.Element => {
   const initOpenList = (): boolean[][] => {
+    //초기화 함수
     const openList: boolean[][] = [];
 
     for (let i = 0; i < ROW; i++) {
@@ -35,10 +37,11 @@ const MainPage = (): JSX.Element => {
     return openList;
   };
 
-  const [cells, setCells] = useState<CellType[][]>([]);
-  const [isOpenList, setIsOpenList] = useState<boolean[][]>(initOpenList());
+  const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
+  const [isOpenList, setIsOpenList] = useState<boolean[][]>(initOpenList()); //셀이 열려있는지 확인하는 boolean을 담고있는 2차원 배열
 
   const init = (): void => {
+    //처음 초기화 함수
     const mineList: Point[] = [];
 
     while (mineList.length < MINE_COUNT) {
@@ -84,6 +87,10 @@ const MainPage = (): JSX.Element => {
     setCells([...cellList]);
   };
 
+  useLayoutEffect(() => {
+    init();
+  }, []);
+
   const getSurroundMineCount = (
     point: Point,
     cellList: CellType[][]
@@ -123,11 +130,9 @@ const MainPage = (): JSX.Element => {
     return point;
   };
 
-  useLayoutEffect(() => {
-    init();
-  }, []);
-
   const openCell = (point: Point) => {
+    //빈 셀을 눌렀을 때 실행되는 함수
+    // 빈 셀을 눌렀을때는 주변의 빈셀을 다 열어야 한다.
     if (isOpenList[point.y][point.x]) {
       //이미 셀이 열려있는 경우
       return;
@@ -180,6 +185,7 @@ const MainPage = (): JSX.Element => {
   };
 
   const getOpenCell = (point: Point, isVisit: boolean[][], list: Point[]) => {
+    //point를 기준으로 point와 point 주변의 열리지 않는 빈 셀을 list에 담아주는 함수
     if (
       point.x < 0 ||
       point.x >= COLUMN ||
