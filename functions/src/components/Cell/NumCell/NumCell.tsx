@@ -1,11 +1,14 @@
+import { MutableRefObject } from "react";
+import { useRef } from "react";
+import { useLayoutEffect } from "react";
 import Point from "../../../module/Point";
+import { CellType } from "../../../module/Types";
 import { color } from "../../../style/color";
-import * as S from "../styles";
+import * as S from "./styles";
 type PropsType = {
-  count: number;
-  point: Point;
+  cellType: CellType;
   isOpenList: boolean[][];
-  setIsOpenList: React.Dispatch<React.SetStateAction<boolean[][]>>;
+  openNotEmptyCell: (point: Point) => void;
 };
 
 const colors = [
@@ -20,32 +23,36 @@ const colors = [
 ];
 
 const NumCell = ({
-  count,
-  point,
+  cellType,
   isOpenList,
-  setIsOpenList,
+  openNotEmptyCell,
 }: PropsType): JSX.Element => {
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
-    setIsOpenList(
-      isOpenList.map((value, i) => {
-        return value.map((v, j) => {
-          if (new Point(j, i).equals(point)) v = true;
-          return v;
-        });
-      })
-    );
+    openNotEmptyCell(point);
     e.preventDefault();
   };
+  const numberCell = useRef<HTMLDivElement>(null);
 
+  const { point, mineCount, delay, direction } = cellType;
   return (
-    <S.Cell
+    <S.CellContainer
       isOpen={isOpenList[point.y][point.x]}
-      color={colors[count - 1]}
-      opacity={isOpenList[point.y][point.x] ? "00" : ""}
-      onClick={onClickHandler}
+      delay={delay}
+      direction={direction}
     >
-      {count}
-    </S.Cell>
+      <S.Cell
+        direction={direction}
+        ref={numberCell}
+        delay={delay}
+        isOpen={isOpenList[point.y][point.x]}
+        // color={colors[count - 1]}
+        color={color.white}
+        opacity={isOpenList[point.y][point.x] ? "00" : ""}
+        onClick={onClickHandler}
+      >
+        {mineCount}
+      </S.Cell>
+    </S.CellContainer>
   );
 };
 

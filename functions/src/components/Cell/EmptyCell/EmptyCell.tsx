@@ -1,12 +1,18 @@
 import Point from "../../../module/Point";
+import { CellType } from "../../../module/Types";
 import { color } from "../../../style/color";
 import * as S from "../styles";
-type CellType = {
-  point: Point;
+type PropsType = {
+  cellType: CellType;
   isOpenList: boolean[][];
   openCell: (point: Point) => void;
 };
-const EmptyCell = ({ point, isOpenList, openCell }: CellType): JSX.Element => {
+const EmptyCell = ({
+  cellType,
+  isOpenList,
+  openCell,
+}: PropsType): JSX.Element => {
+  const { point, delay, direction } = cellType;
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
     openCell(point);
     e.preventDefault();
@@ -18,6 +24,8 @@ const EmptyCell = ({ point, isOpenList, openCell }: CellType): JSX.Element => {
       color={color.black}
       isOpen={isOpenList[point.y][point.x]}
       opacity={isOpenList[point.y][point.x] ? "00" : ""}
+      delay={delay}
+      direction={direction}
     />
   );
 };

@@ -1,12 +1,30 @@
+import Point from "../../../module/Point";
+import { CellType } from "../../../module/Types";
 import { color } from "../../../style/color";
-import * as S from "../styles";
 import * as I from "./styles";
 
-const MineCell = (): JSX.Element => {
+type PropsType = {
+  cellType: CellType;
+  isOpenList: boolean[][];
+  openNotEmptyCell: (point: Point) => void;
+};
+
+const MineCell = ({
+  cellType,
+  isOpenList,
+  openNotEmptyCell,
+}: PropsType): JSX.Element => {
+  const { point } = cellType;
+
+  const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    openNotEmptyCell(point);
+    e.preventDefault();
+  };
+
   return (
-    <S.Cell isOpen={false} color={color.black} opacity={""}>
-      <I.Mine />
-    </S.Cell>
+    <I.Cell onClick={onClickHandler} isOpen={isOpenList[point.y][point.x]}>
+      <I.Mine isOpen={isOpenList[point.y][point.x]} />
+    </I.Cell>
   );
 };
 

@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { Switch, Route } from "react-router-dom";
-import { MainPageContainer } from "../container";
+import { MinesweeperContainer, TestContainer } from "../container";
 
 const MainRouter: FC = (): JSX.Element => {
   return (
     <>
       <Switch>
-        <Route component={MainPageContainer} />
+        <Route component={MinesweeperContainer} path="/minesweeper" />
+        <Route component={TestContainer} path="/test" />
       </Switch>
     </>
   );

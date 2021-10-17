@@ -8,4 +8,5 @@ export const Container = styled.div`
   column-gap: 5px;
   row-gap: 5px;
   grid-template-columns: repeat(16, 1fr);
+  transform: perspective(300px);
 `;
