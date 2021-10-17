@@ -6,22 +6,22 @@ export const color = {
   red: "#EE5353",
   orange: "#FF9F0A",
   yellow: "#FECA57",
+  white: "#FFFFFF",
   green: "#1CD1A1",
   purple: "#5F27CD",
+  lightBlue: "#64D2FF",
   darkGray: "#576574",
 };
 
 // export const color = {
 //   red :         "#FF453A",
 //   blue :        "#0A84FF",
-//   lightBlue :   "#64D2FF",
 //   indigo :      "#5E5CE6",
 //   pink :        "#FF2D55",
 //   black :       "#1C1C1E",
 //   gray :        "#8E8E93",
 //   lightGray :   "#C7C7CC",
 //   lighterGray : "#F2F2F7",
-//   white :       "#FFFFFF",
 //   hoverBlue :   "#075DB2",
 //   hoverBlack :  "#4B4B4D"
 // }

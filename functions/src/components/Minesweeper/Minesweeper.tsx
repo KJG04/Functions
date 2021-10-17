@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import Point from "../../module/Point";
+import { CellType, Direction } from "../../module/Types";
 import EmptyCell from "../Cell/EmptyCell/EmptyCell";
 import MineCell from "../Cell/MineCell/MineCell";
 import NumCell from "../Cell/NumCell/NumCell";
@@ -11,14 +12,6 @@ const NUMBER = "NUMBER";
 const ROW = 16;
 const COLUMN = 16;
 const MINE_COUNT = 40;
-
-type CellType = {
-  //셀의 정보를 담기 위한 객체의 타입
-  point: Point;
-  isOpen: boolean;
-  type: string;
-  mineCount: number;
-};
 
 const MainPage = (): JSX.Element => {
   const initOpenList = (): boolean[][] => {
@@ -60,9 +53,14 @@ const MainPage = (): JSX.Element => {
 
         const cell: CellType = {
           point: point,
-          isOpen: false,
           type: isMine ? MINE : EMPTY,
           mineCount: 0,
+          delay: 0,
+          direction: {
+            axisX: 0,
+            axisY: 0,
+            sign: 0,
+          },
         };
         cellRow.push(cell);
       }
@@ -88,6 +86,10 @@ const MainPage = (): JSX.Element => {
   };
 
   useLayoutEffect(() => {
+    console.log(
+      "%cDon't cheatting!",
+      `font-size: x-large; font-family: "Spoqa Han Sans Neo", "sans-serif"; `
+    );
     init();
   }, []);
 
@@ -130,6 +132,46 @@ const MainPage = (): JSX.Element => {
     return point;
   };
 
+  const getDirection = (origin: Point, to: Point): Direction => {
+    const dir: Direction = {
+      axisX: 0,
+      axisY: 0,
+      sign: 1,
+    };
+    const x1 = origin.x,
+      y1 = origin.y,
+      x2 = to.x,
+      y2 = to.y;
+
+    if (x1 > x2) dir.axisY = 1;
+    else if (x1 < x2) dir.axisY = -1;
+
+    if (y1 > y2) dir.axisX = -1;
+    else if (y1 < y2) dir.axisX = 1;
+
+    return dir;
+  };
+
+  const getDelay = (origin: Point, to: Point): number => {
+    const offset = 0.2;
+    const x1 = origin.x,
+      y1 = origin.y,
+      x2 = to.x,
+      y2 = to.y;
+
+    var a = x1 - x2;
+    var b = y1 - y2;
+
+    var c = Math.sqrt(a * a + b * b);
+
+    return c * offset;
+  };
+
+  const onReset = () => {
+    setIsOpenList(initOpenList());
+    init();
+  };
+
   const openCell = (point: Point) => {
     //빈 셀을 눌렀을 때 실행되는 함수
     // 빈 셀을 눌렀을때는 주변의 빈셀을 다 열어야 한다.
@@ -160,7 +202,8 @@ const MainPage = (): JSX.Element => {
             p.x >= COLUMN ||
             p.y < 0 ||
             p.y >= ROW ||
-            mustOpenCell.some((item) => item.equals(p))
+            mustOpenCell.some((item) => item.equals(p)) ||
+            isOpenList[p.y][p.x]
           ) {
             //범위 안에 있고 이미 열려야하는 셀에 있지 않은 경우
             continue;
@@ -171,6 +214,17 @@ const MainPage = (): JSX.Element => {
     });
 
     mustOpenCell = mustOpenCell.concat(additionalList);
+    setCells(
+      cells.map((value, i) => {
+        return value.map((v, j) => {
+          if (mustOpenCell.some((item) => item.equals(v.point))) {
+            v.direction = getDirection(point, v.point);
+            v.delay = getDelay(point, v.point);
+          }
+          return v;
+        });
+      })
+    );
 
     setIsOpenList(
       isOpenList.map((value, i) => {
@@ -208,6 +262,17 @@ const MainPage = (): JSX.Element => {
     getOpenCell(new Point(point.x - 1, point.y), isVisit, list);
   };
 
+  const openNotEmptyCell = (point: Point) => {
+    setIsOpenList(
+      isOpenList.map((value, i) => {
+        return value.map((v, j) => {
+          if (new Point(j, i).equals(point)) v = true;
+          return v;
+        });
+      })
+    );
+  };
+
   return (
     <S.Container>
       {cells.map((item, i) => {
@@ -216,7 +281,7 @@ const MainPage = (): JSX.Element => {
             return (
               <EmptyCell
                 key={item.point.x * 10 + item.point.y}
-                point={item.point}
+                cellType={item}
                 isOpenList={isOpenList}
                 openCell={openCell}
               />
@@ -224,15 +289,21 @@ const MainPage = (): JSX.Element => {
           else if (item.type === NUMBER)
             return (
               <NumCell
-                count={item.mineCount}
-                point={item.point}
+                cellType={item}
                 isOpenList={isOpenList}
-                setIsOpenList={setIsOpenList}
+                openNotEmptyCell={openNotEmptyCell}
                 key={item.point.x * 10 + item.point.y}
               />
             );
           else if (item.type === MINE)
-            return <MineCell key={item.point.x * 10 + item.point.y} />;
+            return (
+              <MineCell
+                cellType={item}
+                isOpenList={isOpenList}
+                openNotEmptyCell={openNotEmptyCell}
+                key={item.point.x * 10 + item.point.y}
+              />
+            );
         });
       })}
     </S.Container>

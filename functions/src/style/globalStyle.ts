@@ -110,7 +110,7 @@ export const reset = css`
   body {
     line-height: auto;
     margin: 0;
-    background-color: ${color.backgroundColor};
+    background-color: ${color.green};
   }
   ol,
   ul {
@@ -135,6 +135,6 @@ export const reset = css`
     list-style: none;
   }
   html {
-    background-color: ${color.backgroundColor};
+    background-color: ${color.green};
   }
 `;
