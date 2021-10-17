@@ -13,7 +13,7 @@ const ROW = 16;
 const COLUMN = 16;
 const MINE_COUNT = 40;
 
-const MainPage = (): JSX.Element => {
+const Minesweeper = (): JSX.Element => {
   const initOpenList = (): boolean[][] => {
     //초기화 함수
     const openList: boolean[][] = [];
@@ -310,4 +310,4 @@ const MainPage = (): JSX.Element => {
   );
 };
 
-export default MainPage;
+export default Minesweeper;
