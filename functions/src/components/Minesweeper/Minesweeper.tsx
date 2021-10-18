@@ -9,8 +9,8 @@ import * as S from "./styles";
 const EMPTY = "EMPTY";
 const MINE = "MINE";
 const NUMBER = "NUMBER";
-const ROW = 16;
-const COLUMN = 16;
+const ROW = 17;
+const COLUMN = 17;
 const MINE_COUNT = 40;
 
 const Minesweeper = (): JSX.Element => {
@@ -32,6 +32,7 @@ const Minesweeper = (): JSX.Element => {
 
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
   const [isOpenList, setIsOpenList] = useState<boolean[][]>(initOpenList()); //셀이 열려있는지 확인하는 boolean을 담고있는 2차원 배열
+  const [canControl, setCanControl] = useState(false);
 
   const init = (): void => {
     //처음 초기화 함수
@@ -172,6 +173,30 @@ const Minesweeper = (): JSX.Element => {
     init();
   };
 
+  const openAllBaseWithPoint = (point: Point) => {
+    //매개변수로 받은 포인트를 기준으로 모든 셀을 연다
+
+    cells.map((value, i) => {
+      return value.map((v, j) => {
+        if (!isOpenList[i][j]) {
+          const p = new Point(j, i);
+          v.direction = getDirection(point, p);
+          v.delay = getDelay(point, p);
+        }
+        return v;
+      });
+    });
+
+    setIsOpenList(
+      isOpenList.map((value) => {
+        return value.map((v) => {
+          v = true;
+          return v;
+        });
+      })
+    );
+  };
+
   const openCell = (point: Point) => {
     //빈 셀을 눌렀을 때 실행되는 함수
     // 빈 셀을 눌렀을때는 주변의 빈셀을 다 열어야 한다.
@@ -263,6 +288,21 @@ const Minesweeper = (): JSX.Element => {
   };
 
   const openNotEmptyCell = (point: Point) => {
+    setCells(
+      cells.map((value, i) => {
+        return value.map((v, j) => {
+          if (cells[point.y][point.x].type === MINE) {
+            const { direction } = v;
+            direction.axisX = 0;
+            direction.axisY = 1;
+            direction.sign = 1;
+            v.delay = 0;
+          }
+          return v;
+        });
+      })
+    );
+
     setIsOpenList(
       isOpenList.map((value, i) => {
         return value.map((v, j) => {
@@ -273,39 +313,48 @@ const Minesweeper = (): JSX.Element => {
     );
   };
 
+  const cellRender = cells.map((item, i) => {
+    return item.map((item) => {
+      if (item.type === EMPTY)
+        return (
+          <EmptyCell
+            key={item.point.x * 10 + item.point.y}
+            cellType={item}
+            isOpenList={isOpenList}
+            openCell={openCell}
+          />
+        );
+      else if (item.type === NUMBER)
+        return (
+          <NumCell
+            cellType={item}
+            isOpenList={isOpenList}
+            openNotEmptyCell={openNotEmptyCell}
+            key={item.point.x * 10 + item.point.y}
+          />
+        );
+      else if (item.type === MINE)
+        return (
+          <MineCell
+            cellType={item}
+            isOpenList={isOpenList}
+            openNotEmptyCell={openNotEmptyCell}
+            key={item.point.x * 10 + item.point.y}
+          />
+        );
+    });
+  });
+
   return (
     <S.Container>
-      {cells.map((item, i) => {
-        return item.map((item) => {
-          if (item.type === EMPTY)
-            return (
-              <EmptyCell
-                key={item.point.x * 10 + item.point.y}
-                cellType={item}
-                isOpenList={isOpenList}
-                openCell={openCell}
-              />
-            );
-          else if (item.type === NUMBER)
-            return (
-              <NumCell
-                cellType={item}
-                isOpenList={isOpenList}
-                openNotEmptyCell={openNotEmptyCell}
-                key={item.point.x * 10 + item.point.y}
-              />
-            );
-          else if (item.type === MINE)
-            return (
-              <MineCell
-                cellType={item}
-                isOpenList={isOpenList}
-                openNotEmptyCell={openNotEmptyCell}
-                key={item.point.x * 10 + item.point.y}
-              />
-            );
-        });
-      })}
+      <S.InfoContainer>
+        <S.InfoInner>안녕하세요</S.InfoInner>
+      </S.InfoContainer>
+      <S.CellContainer>
+        <S.CellContainerInner row={ROW} column={COLUMN}>
+          {cellRender}
+        </S.CellContainerInner>
+      </S.CellContainer>
     </S.Container>
   );
 };
