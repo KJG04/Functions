@@ -13,4 +13,5 @@ export type CellType = {
   mineCount: number;
   delay: number;
   direction: Direction;
+  isFlag: boolean;
 };

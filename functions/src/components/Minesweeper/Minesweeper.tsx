@@ -1,6 +1,7 @@
 import { useLayoutEffect, useState } from "react";
 import Point from "../../module/Point";
 import { CellType, Direction } from "../../module/Types";
+import CellContainer from "../Cell/CellContainer/CellContainer";
 import EmptyCell from "../Cell/EmptyCell/EmptyCell";
 import MineCell from "../Cell/MineCell/MineCell";
 import NumCell from "../Cell/NumCell/NumCell";
@@ -62,6 +63,7 @@ const Minesweeper = (): JSX.Element => {
             axisY: 0,
             sign: 0,
           },
+          isFlag: false,
         };
         cellRow.push(cell);
       }
@@ -313,34 +315,40 @@ const Minesweeper = (): JSX.Element => {
     );
   };
 
-  const cellRender = cells.map((item, i) => {
-    return item.map((item) => {
+  const cellRender = cells.map((elem) => {
+    return elem.map((item) => {
       if (item.type === EMPTY)
         return (
-          <EmptyCell
-            key={item.point.x * 10 + item.point.y}
-            cellType={item}
-            isOpenList={isOpenList}
-            openCell={openCell}
-          />
+          <CellContainer>
+            <EmptyCell
+              key={item.point.x * 10 + item.point.y}
+              cellType={item}
+              isOpenList={isOpenList}
+              openCell={openCell}
+            />
+          </CellContainer>
         );
       else if (item.type === NUMBER)
         return (
-          <NumCell
-            cellType={item}
-            isOpenList={isOpenList}
-            openNotEmptyCell={openNotEmptyCell}
-            key={item.point.x * 10 + item.point.y}
-          />
+          <CellContainer>
+            <NumCell
+              cellType={item}
+              isOpenList={isOpenList}
+              openNotEmptyCell={openNotEmptyCell}
+              key={item.point.x * 10 + item.point.y}
+            />
+          </CellContainer>
         );
       else if (item.type === MINE)
         return (
-          <MineCell
-            cellType={item}
-            isOpenList={isOpenList}
-            openNotEmptyCell={openNotEmptyCell}
-            key={item.point.x * 10 + item.point.y}
-          />
+          <CellContainer>
+            <MineCell
+              cellType={item}
+              isOpenList={isOpenList}
+              openNotEmptyCell={openNotEmptyCell}
+              key={item.point.x * 10 + item.point.y}
+            />
+          </CellContainer>
         );
     });
   });
