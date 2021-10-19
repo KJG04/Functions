@@ -293,7 +293,7 @@ const Minesweeper = (): JSX.Element => {
     setCells(
       cells.map((value, i) => {
         return value.map((v, j) => {
-          if (cells[point.y][point.x].type === MINE) {
+          if (cells[i][j].type === MINE && point.equals(new Point(j, i))) {
             const { direction } = v;
             direction.axisX = 0;
             direction.axisY = 1;
