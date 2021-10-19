@@ -136,6 +136,7 @@ const Minesweeper = (): JSX.Element => {
   };
 
   const getDirection = (origin: Point, to: Point): Direction => {
+    //기준(origin)에서 목표(to)로 방향을 리턴한다.
     const dir: Direction = {
       axisX: 0,
       axisY: 0,
@@ -156,6 +157,7 @@ const Minesweeper = (): JSX.Element => {
   };
 
   const getDelay = (origin: Point, to: Point): number => {
+    //기준(origin)에서 목표(to)까지 거리를 계산해 특정 비율로 delay 값을 리턴한다.
     const offset = 0.2;
     const x1 = origin.x,
       y1 = origin.y,
@@ -171,6 +173,7 @@ const Minesweeper = (): JSX.Element => {
   };
 
   const onReset = () => {
+    //리셋하는 함수
     setIsOpenList(initOpenList());
     init();
   };
@@ -197,6 +200,21 @@ const Minesweeper = (): JSX.Element => {
         });
       })
     );
+  };
+
+  const leftMineCount = (): number => {
+    var count = MINE_COUNT;
+
+    cells.forEach((item) => {
+      item.forEach((elem) => {
+        if (elem.type === MINE && elem.isFlag) {
+          //종류가 깃발이 꼿혀있다면
+          count--;
+        }
+      });
+    });
+
+    return count;
   };
 
   const openCell = (point: Point) => {
@@ -315,52 +333,62 @@ const Minesweeper = (): JSX.Element => {
     );
   };
 
-  const cellRender = cells.map((elem) => {
-    return elem.map((item) => {
-      if (item.type === EMPTY)
-        return (
-          <CellContainer>
+  const renderCell = (): JSX.Element[][] => {
+    const cellRender = cells.map((elem) => {
+      return elem.map((item) => {
+        if (item.type === EMPTY)
+          return (
             <EmptyCell
               key={item.point.x * 10 + item.point.y}
               cellType={item}
               isOpenList={isOpenList}
               openCell={openCell}
             />
-          </CellContainer>
-        );
-      else if (item.type === NUMBER)
-        return (
-          <CellContainer>
+          );
+        else if (item.type === NUMBER)
+          return (
             <NumCell
               cellType={item}
               isOpenList={isOpenList}
               openNotEmptyCell={openNotEmptyCell}
               key={item.point.x * 10 + item.point.y}
             />
-          </CellContainer>
-        );
-      else if (item.type === MINE)
-        return (
-          <CellContainer>
+          );
+        else if (item.type === MINE)
+          return (
             <MineCell
               cellType={item}
               isOpenList={isOpenList}
               openNotEmptyCell={openNotEmptyCell}
               key={item.point.x * 10 + item.point.y}
             />
+          );
+      });
+    });
+
+    return cellRender.map((item, i) => {
+      return item.map((value, j) => {
+        return (
+          <CellContainer
+            setCell={setCells}
+            cells={cells}
+            point={new Point(j, i)}
+          >
+            {value}
           </CellContainer>
         );
+      });
     });
-  });
+  };
 
   return (
     <S.Container>
       <S.InfoContainer>
-        <S.InfoInner>안녕하세요</S.InfoInner>
+        <S.InfoInner>남은 지뢰 수 : {leftMineCount()}</S.InfoInner>
       </S.InfoContainer>
       <S.CellContainer>
         <S.CellContainerInner row={ROW} column={COLUMN}>
-          {cellRender}
+          {renderCell()}
         </S.CellContainerInner>
       </S.CellContainer>
     </S.Container>
