@@ -28,11 +28,7 @@ export const getTransformStyle = (
 
 export const getTransition = (delay: number): string => {
   return `transform 2s cubic-bezier(0.075, 0.82, 0.165, 1) ${delay}s, background-color 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) ${
-<<<<<<< HEAD
     Math.round((delay + delay * 0.3) * 10) / 10
-=======
-    Math.round((delay + delay * 0.5) * 10) / 10
->>>>>>> 1-develop-minesweeper
   }s`;
 };
 
