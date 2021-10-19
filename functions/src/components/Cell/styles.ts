@@ -5,8 +5,8 @@ import { color } from "../../style/color";
 import { font } from "../../style/font";
 
 export const CellStyle = css`
+  aspect-ratio: 1 / 1;
   width: 100%;
-  height: 100%;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -15,7 +15,6 @@ export const CellStyle = css`
   user-select: none;
   cursor: pointer;
   transform-style: preserve-3d;
-  box-sizing: border-box;
 `;
 
 export const getTransformStyle = (
@@ -29,7 +28,11 @@ export const getTransformStyle = (
 
 export const getTransition = (delay: number): string => {
   return `transform 2s cubic-bezier(0.075, 0.82, 0.165, 1) ${delay}s, background-color 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) ${
+<<<<<<< HEAD
     Math.round((delay + delay * 0.3) * 10) / 10
+=======
+    Math.round((delay + delay * 0.5) * 10) / 10
+>>>>>>> 1-develop-minesweeper
   }s`;
 };
 

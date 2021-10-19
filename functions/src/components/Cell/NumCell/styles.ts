@@ -11,8 +11,6 @@ export const CellContainer = styled.div<{
   position: relative;
   transform: ${(props) => getTransformStyle(props.direction, props.isOpen)};
   transition: ${(props) => getTransition(props.delay)};
-  width: 100%;
-  height: 100%;
 `;
 
 const reverseDirection = (direction: Direction): Direction => {
