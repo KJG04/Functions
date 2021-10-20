@@ -15,24 +15,7 @@ const COLUMN = 17;
 const MINE_COUNT = 40;
 
 const Minesweeper = (): JSX.Element => {
-  const initOpenList = (): boolean[][] => {
-    //초기화 함수
-    const openList: boolean[][] = [];
-
-    for (let i = 0; i < ROW; i++) {
-      const temp: boolean[] = [];
-
-      for (let j = 0; j < COLUMN; j++) {
-        temp.push(false);
-      }
-      openList.push(temp);
-    }
-
-    return openList;
-  };
-
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
-  const [isOpenList, setIsOpenList] = useState<boolean[][]>(initOpenList()); //셀이 열려있는지 확인하는 boolean을 담고있는 2차원 배열
   const [canControl, setCanControl] = useState(false);
 
   const init = (): void => {
@@ -64,6 +47,7 @@ const Minesweeper = (): JSX.Element => {
             sign: 0,
           },
           isFlag: false,
+          isOpen: false,
         };
         cellRow.push(cell);
       }
@@ -174,7 +158,14 @@ const Minesweeper = (): JSX.Element => {
 
   const onReset = () => {
     //리셋하는 함수
-    setIsOpenList(initOpenList());
+    setCells(
+      cells.map((item) => {
+        return item.map((value) => {
+          value.isOpen = false;
+          return value;
+        });
+      })
+    );
     init();
   };
 
@@ -183,23 +174,16 @@ const Minesweeper = (): JSX.Element => {
 
     cells.map((value, i) => {
       return value.map((v, j) => {
-        if (!isOpenList[i][j]) {
+        const { isOpen } = v;
+        if (!isOpen) {
           const p = new Point(j, i);
           v.direction = getDirection(point, p);
           v.delay = getDelay(point, p);
         }
+        v.isOpen = true;
         return v;
       });
     });
-
-    setIsOpenList(
-      isOpenList.map((value) => {
-        return value.map((v) => {
-          v = true;
-          return v;
-        });
-      })
-    );
   };
 
   const leftMineCount = (): number => {
@@ -220,8 +204,10 @@ const Minesweeper = (): JSX.Element => {
   const openCell = (point: Point) => {
     //빈 셀을 눌렀을 때 실행되는 함수
     // 빈 셀을 눌렀을때는 주변의 빈셀을 다 열어야 한다.
-    if (isOpenList[point.y][point.x]) {
-      //이미 셀이 열려있는 경우
+    const { isOpen, isFlag } = cells[point.y][point.x];
+
+    if (isOpen && isFlag) {
+      //이미 셀이 열려있는 경우와 깃발이 꽃힌 경우
       return;
     }
 
@@ -248,7 +234,7 @@ const Minesweeper = (): JSX.Element => {
             p.y < 0 ||
             p.y >= ROW ||
             mustOpenCell.some((item) => item.equals(p)) ||
-            isOpenList[p.y][p.x]
+            cells[p.y][p.x].isOpen
           ) {
             //범위 안에 있고 이미 열려야하는 셀에 있지 않은 경우
             continue;
@@ -260,22 +246,12 @@ const Minesweeper = (): JSX.Element => {
 
     mustOpenCell = mustOpenCell.concat(additionalList);
     setCells(
-      cells.map((value, i) => {
-        return value.map((v, j) => {
+      cells.map((value) => {
+        return value.map((v) => {
           if (mustOpenCell.some((item) => item.equals(v.point))) {
             v.direction = getDirection(point, v.point);
             v.delay = getDelay(point, v.point);
-          }
-          return v;
-        });
-      })
-    );
-
-    setIsOpenList(
-      isOpenList.map((value, i) => {
-        return value.map((v, j) => {
-          if (mustOpenCell.some((item) => item.equals(new Point(j, i)))) {
-            v = true;
+            v.isOpen = true;
           }
           return v;
         });
@@ -285,48 +261,43 @@ const Minesweeper = (): JSX.Element => {
 
   const getOpenCell = (point: Point, isVisit: boolean[][], list: Point[]) => {
     //point를 기준으로 point와 point 주변의 열리지 않는 빈 셀을 list에 담아주는 함수
+    const { x, y } = point;
+
     if (
-      point.x < 0 ||
-      point.x >= COLUMN ||
-      point.y < 0 ||
-      point.y >= ROW ||
-      isOpenList[point.y][point.x] ||
-      cells[point.y][point.x].type !== EMPTY ||
-      isVisit[point.y][point.x]
+      x < 0 ||
+      x >= COLUMN ||
+      y < 0 ||
+      y >= ROW ||
+      cells[y][x].isOpen ||
+      cells[y][x].type !== EMPTY ||
+      isVisit[y][x]
     ) {
       //포인트가 범위를 벗어났거나 이미 열려있거나 빈 셀이 아니리면
       return;
     }
 
     list.push(point);
-    isVisit[point.y][point.x] = true;
+    isVisit[y][x] = true;
 
-    getOpenCell(new Point(point.x, point.y - 1), isVisit, list);
-    getOpenCell(new Point(point.x + 1, point.y), isVisit, list);
-    getOpenCell(new Point(point.x, point.y + 1), isVisit, list);
-    getOpenCell(new Point(point.x - 1, point.y), isVisit, list);
+    getOpenCell(new Point(x, y - 1), isVisit, list);
+    getOpenCell(new Point(x + 1, y), isVisit, list);
+    getOpenCell(new Point(x, y + 1), isVisit, list);
+    getOpenCell(new Point(x - 1, y), isVisit, list);
   };
 
   const openNotEmptyCell = (point: Point) => {
     setCells(
       cells.map((value, i) => {
         return value.map((v, j) => {
-          if (cells[i][j].type === MINE && point.equals(new Point(j, i))) {
-            const { direction } = v;
+          const { type, direction } = v;
+          if (type === MINE && point.equals(new Point(j, i))) {
             direction.axisX = 0;
             direction.axisY = 1;
             direction.sign = 1;
             v.delay = 0;
           }
-          return v;
-        });
-      })
-    );
 
-    setIsOpenList(
-      isOpenList.map((value, i) => {
-        return value.map((v, j) => {
-          if (new Point(j, i).equals(point)) v = true;
+          if (new Point(j, i).equals(point)) v.isOpen = true;
           return v;
         });
       })
@@ -336,31 +307,30 @@ const Minesweeper = (): JSX.Element => {
   const renderCell = (): JSX.Element[][] => {
     const cellRender = cells.map((elem) => {
       return elem.map((item) => {
-        if (item.type === EMPTY)
+        const { point, type } = item;
+
+        if (type === EMPTY)
           return (
             <EmptyCell
-              key={item.point.x * 10 + item.point.y}
+              key={point.x * 10 + point.y}
               cellType={item}
-              isOpenList={isOpenList}
               openCell={openCell}
             />
           );
-        else if (item.type === NUMBER)
+        else if (type === NUMBER)
           return (
             <NumCell
               cellType={item}
-              isOpenList={isOpenList}
               openNotEmptyCell={openNotEmptyCell}
-              key={item.point.x * 10 + item.point.y}
+              key={point.x * 10 + point.y}
             />
           );
-        else if (item.type === MINE)
+        else if (type === MINE)
           return (
             <MineCell
               cellType={item}
-              isOpenList={isOpenList}
               openNotEmptyCell={openNotEmptyCell}
-              key={item.point.x * 10 + item.point.y}
+              key={point.x * 10 + point.y}
             />
           );
       });
@@ -369,11 +339,7 @@ const Minesweeper = (): JSX.Element => {
     return cellRender.map((item, i) => {
       return item.map((value, j) => {
         return (
-          <CellContainer
-            setCell={setCells}
-            cells={cells}
-            point={new Point(j, i)}
-          >
+          <CellContainer setCells={setCells} cells={cells} cell={cells[i][j]}>
             {value}
           </CellContainer>
         );

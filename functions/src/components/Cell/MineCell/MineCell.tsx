@@ -5,17 +5,11 @@ import * as I from "./styles";
 
 type PropsType = {
   cellType: CellType;
-  isOpenList: boolean[][];
   openNotEmptyCell: (point: Point) => void;
 };
 
-const MineCell = ({
-  cellType,
-  isOpenList,
-  openNotEmptyCell,
-}: PropsType): JSX.Element => {
-
-  const { point } = cellType;
+const MineCell = ({ cellType, openNotEmptyCell }: PropsType): JSX.Element => {
+  const { point, isOpen } = cellType;
 
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
     openNotEmptyCell(point);
@@ -23,8 +17,8 @@ const MineCell = ({
   };
 
   return (
-    <I.Cell onClick={onClickHandler} isOpen={isOpenList[point.y][point.x]}>
-      <I.Mine isOpen={isOpenList[point.y][point.x]} />
+    <I.Cell onClick={onClickHandler} isOpen={isOpen}>
+      <I.Mine isOpen={isOpen} />
     </I.Cell>
   );
 };

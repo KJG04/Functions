@@ -7,47 +7,24 @@ import { color } from "../../../style/color";
 import * as S from "./styles";
 type PropsType = {
   cellType: CellType;
-  isOpenList: boolean[][];
   openNotEmptyCell: (point: Point) => void;
 };
 
-const colors = [
-  color.darkBlue,
-  color.green,
-  color.red,
-  color.purple,
-  color.black,
-  color.black,
-  color.black,
-  color.black,
-];
-
-const NumCell = ({
-  cellType,
-  isOpenList,
-  openNotEmptyCell,
-}: PropsType): JSX.Element => {
+const NumCell = ({ cellType, openNotEmptyCell }: PropsType): JSX.Element => {
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
     openNotEmptyCell(point);
     e.preventDefault();
   };
-  const numberCell = useRef<HTMLDivElement>(null);
 
-  const { point, mineCount, delay, direction } = cellType;
+  const { point, mineCount, delay, direction, isOpen } = cellType;
   return (
-    <S.CellContainer
-      isOpen={isOpenList[point.y][point.x]}
-      delay={delay}
-      direction={direction}
-    >
+    <S.CellContainer isOpen={isOpen} delay={delay} direction={direction}>
       <S.Cell
         direction={direction}
-        ref={numberCell}
         delay={delay}
-        isOpen={isOpenList[point.y][point.x]}
-        // color={colors[count - 1]}
+        isOpen={isOpen}
         color={color.white}
-        opacity={isOpenList[point.y][point.x] ? "00" : ""}
+        opacity={isOpen ? "00" : ""}
         onClick={onClickHandler}
       >
         {mineCount}

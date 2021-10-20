@@ -5,38 +5,37 @@ import * as S from "./styles";
 type PropType = {
   children: React.ReactNode;
   cells: CellType[][];
-  setCell: React.Dispatch<React.SetStateAction<CellType[][]>>;
-  point: Point;
+  cell: CellType;
+  setCells: React.Dispatch<React.SetStateAction<CellType[][]>>;
 };
 
 const CellContainer = ({
   children,
   cells,
-  setCell,
-  point,
+  cell,
+  setCells,
 }: PropType): JSX.Element => {
+  const { point } = cell;
+
+  const onContextMenukHandler = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    setCells(
+      cells.map((item) => {
+        return item.map((value) => {
+          if (value.point.equals(point)) {
+            value.isFlag = true;
+          }
+          return value;
+        });
+      })
+    );
+  };
+
   return (
     <>
-      <S.Container
-        onContextMenu={(e) => {
-          e.preventDefault();
-          // setCell(
-          //   cells.map((item, i) => {
-          //     return item.map((value, j) => {
-          //       if (value.point.equals(point)) {
-          //         value.isFlag = true;
-          //       }
-          //       return value;
-          //     });
-          //   })
-          // );
-        }}
-        onClick={(e) => {
-          if (cells[point.y][point.x].isFlag) {
-            e.preventDefault();
-          }
-        }}
-      >
+      <S.Container onContextMenu={onContextMenukHandler}>
         {children}
       </S.Container>
     </>

@@ -14,4 +14,5 @@ export type CellType = {
   delay: number;
   direction: Direction;
   isFlag: boolean;
+  isOpen: boolean;
 };
