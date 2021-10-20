@@ -1,6 +1,6 @@
-import Point from "../../../module/Point";
 import { CellType } from "../../../module/Types";
 import * as S from "./styles";
+import { useEffect, useRef } from "react";
 
 type PropType = {
   children: React.ReactNode;
@@ -15,28 +15,35 @@ const CellContainer = ({
   cell,
   setCells,
 }: PropType): JSX.Element => {
-  const { point } = cell;
+  const { point, isFlag } = cell;
+
+  const flagRef = useRef<HTMLDivElement>(null);
 
   const onContextMenukHandler = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.preventDefault();
-    setCells(
-      cells.map((item) => {
-        return item.map((value) => {
-          if (value.point.equals(point)) {
-            value.isFlag = true;
-          }
-          return value;
-        });
-      })
-    );
+    if (!cell.isOpen) {
+      setCells(
+        cells.map((item) => {
+          return item.map((value) => {
+            if (value.point.equals(point)) {
+              value.isFlag = !isFlag;
+            }
+            return value;
+          });
+        })
+      );
+    }
   };
 
   return (
     <>
       <S.Container onContextMenu={onContextMenukHandler}>
         {children}
+        <S.FlagContainer>
+          <S.Flag ref={flagRef} />
+        </S.FlagContainer>
       </S.Container>
     </>
   );

@@ -16,6 +16,7 @@ export const CellStyle = css`
   user-select: none;
   cursor: pointer;
   transform-style: preserve-3d;
+  transition: filter 0.25s ease-out;
 `;
 
 export const getTransformStyle = (

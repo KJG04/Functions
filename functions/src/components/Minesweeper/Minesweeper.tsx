@@ -191,7 +191,7 @@ const Minesweeper = (): JSX.Element => {
 
     cells.forEach((item) => {
       item.forEach((elem) => {
-        if (elem.type === MINE && elem.isFlag) {
+        if (elem.isFlag) {
           //종류가 깃발이 꼿혀있다면
           count--;
         }
@@ -252,7 +252,9 @@ const Minesweeper = (): JSX.Element => {
             v.direction = getDirection(point, v.point);
             v.delay = getDelay(point, v.point);
             v.isOpen = true;
+            v.isFlag = v.isFlag ? false : isFlag;
           }
+
           return v;
         });
       })
@@ -345,7 +347,12 @@ const Minesweeper = (): JSX.Element => {
     return cellRender.map((item, i) => {
       return item.map((value, j) => {
         return (
-          <CellContainer setCells={setCells} cells={cells} cell={cells[i][j]}>
+          <CellContainer
+            setCells={setCells}
+            cells={cells}
+            cell={cells[i][j]}
+            key={j * 10 + i}
+          >
             {value}
           </CellContainer>
         );
@@ -361,6 +368,7 @@ const Minesweeper = (): JSX.Element => {
       <S.CellContainer>
         <S.CellContainerInner row={ROW} column={COLUMN}>
           {renderCell()}
+          {canControl && <S.CoverPanel />}
         </S.CellContainerInner>
       </S.CellContainer>
     </S.Container>
