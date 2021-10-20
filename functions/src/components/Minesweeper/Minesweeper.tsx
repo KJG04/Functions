@@ -186,7 +186,7 @@ const Minesweeper = (): JSX.Element => {
     });
   };
 
-  const leftMineCount = (): number => {
+  const getLeftMineCount = (): number => {
     var count = MINE_COUNT;
 
     cells.forEach((item) => {
@@ -206,7 +206,7 @@ const Minesweeper = (): JSX.Element => {
     // 빈 셀을 눌렀을때는 주변의 빈셀을 다 열어야 한다.
     const { isOpen, isFlag } = cells[point.y][point.x];
 
-    if (isOpen && isFlag) {
+    if (isOpen || isFlag) {
       //이미 셀이 열려있는 경우와 깃발이 꽃힌 경우
       return;
     }
@@ -289,7 +289,13 @@ const Minesweeper = (): JSX.Element => {
     setCells(
       cells.map((value, i) => {
         return value.map((v, j) => {
-          const { type, direction } = v;
+          const { type, direction, isFlag } = v;
+
+          if (isFlag) {
+            //깃발이 꽃혀있으면 열지 않음
+            return v;
+          }
+
           if (type === MINE && point.equals(new Point(j, i))) {
             direction.axisX = 0;
             direction.axisY = 1;
@@ -350,7 +356,7 @@ const Minesweeper = (): JSX.Element => {
   return (
     <S.Container>
       <S.InfoContainer>
-        <S.InfoInner>남은 지뢰 수 : {leftMineCount()}</S.InfoInner>
+        <S.InfoInner>남은 지뢰 수 : {getLeftMineCount()}</S.InfoInner>
       </S.InfoContainer>
       <S.CellContainer>
         <S.CellContainerInner row={ROW} column={COLUMN}>
