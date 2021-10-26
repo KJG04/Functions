@@ -169,7 +169,7 @@ const Minesweeper = (): JSX.Element => {
     init();
   };
 
-  const openAllBaseWithPoint = (point: Point) => {
+  const changeAllOpenStateWithPoint = (point: Point, state: boolean) => {
     //매개변수로 받은 포인트를 기준으로 모든 셀을 연다
     setCells(
       cells.map((value, i) => {
@@ -180,7 +180,7 @@ const Minesweeper = (): JSX.Element => {
             v.direction = getDirection(point, p);
             v.delay = getDelay(point, p);
           }
-          v.isOpen = true;
+          v.isOpen = state;
           return v;
         });
       })
@@ -317,7 +317,7 @@ const Minesweeper = (): JSX.Element => {
   };
 
   const onMine = (point: Point) => {
-    openAllBaseWithPoint(point);
+    changeAllOpenStateWithPoint(point, true);
   };
 
   const getKey = (x: number, y: number): string => {
