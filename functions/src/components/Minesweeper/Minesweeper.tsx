@@ -312,23 +312,24 @@ const Minesweeper = (): JSX.Element => {
     );
   };
 
+  const getKey = (x: number, y: number): string => {
+    return `${x.toString().padStart(2, "0")}${y.toString().padStart(2, "0")}`;
+  };
+
   const renderCell = (): JSX.Element[][] => {
     const cellRender = cells.map((elem) => {
       return elem.map((item) => {
         const { point, type } = item;
+        const { x, y } = point;
 
         if (type === EMPTY)
           return (
-            <EmptyCell
-              key={point.x * 10 + point.y}
-              cellType={item}
-              openCell={openCell}
-            />
+            <EmptyCell key={getKey(x, y)} cellType={item} openCell={openCell} />
           );
         else if (type === NUMBER)
           return (
             <NumCell
-              key={point.x * 10 + point.y}
+              key={getKey(x, y)}
               cellType={item}
               openCell={openNotEmptyCell}
             />
@@ -336,7 +337,7 @@ const Minesweeper = (): JSX.Element => {
         else if (type === MINE)
           return (
             <MineCell
-              key={point.x * 10 + point.y}
+              key={getKey(x, y)}
               cellType={item}
               openCell={openNotEmptyCell}
             />
