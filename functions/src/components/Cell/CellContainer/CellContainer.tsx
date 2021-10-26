@@ -1,6 +1,6 @@
 import { CellType } from "../../../module/Types";
 import * as S from "./styles";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 type PropType = {
   children: React.ReactNode;
