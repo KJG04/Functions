@@ -2,10 +2,12 @@ import Point from "../../../module/Point";
 import { CellType } from "../../../module/Types";
 import { color } from "../../../style/color";
 import * as S from "../styles";
-type PropsType = {
+
+interface PropsType {
   cellType: CellType;
   openCell: (point: Point) => void;
-};
+}
+
 const EmptyCell = ({ cellType, openCell }: PropsType): JSX.Element => {
   const { point, delay, direction, isOpen } = cellType;
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {

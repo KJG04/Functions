@@ -5,10 +5,10 @@ import Point from "../../../module/Point";
 import { CellType } from "../../../module/Types";
 import { color } from "../../../style/color";
 import * as S from "./styles";
-type PropsType = {
+interface PropsType {
   cellType: CellType;
   openNotEmptyCell: (point: Point) => void;
-};
+}
 
 const NumCell = ({ cellType, openNotEmptyCell }: PropsType): JSX.Element => {
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {

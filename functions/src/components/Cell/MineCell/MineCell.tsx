@@ -3,10 +3,10 @@ import { CellType } from "../../../module/Types";
 import { color } from "../../../style/color";
 import * as I from "./styles";
 
-type PropsType = {
+interface PropsType {
   cellType: CellType;
   openNotEmptyCell: (point: Point) => void;
-};
+}
 
 const MineCell = ({ cellType, openNotEmptyCell }: PropsType): JSX.Element => {
   const { point, isOpen } = cellType;
