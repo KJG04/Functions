@@ -1,16 +1,11 @@
-import { MutableRefObject } from "react";
-import { useRef } from "react";
-import { useLayoutEffect } from "react";
-import Point from "../../../module/Point";
-import { CellType } from "../../../module/Types";
+import { CellPropsType } from "../../../module/Types";
 import { color } from "../../../style/color";
 import * as S from "./styles";
-interface PropsType {
-  cellType: CellType;
-  openNotEmptyCell: (point: Point) => void;
-}
 
-const NumCell = ({ cellType, openNotEmptyCell }: PropsType): JSX.Element => {
+const NumCell = ({
+  cellType,
+  openCell: openNotEmptyCell,
+}: CellPropsType): JSX.Element => {
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
     openNotEmptyCell(point);
     e.preventDefault();

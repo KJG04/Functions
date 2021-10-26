@@ -330,7 +330,7 @@ const Minesweeper = (): JSX.Element => {
             <NumCell
               key={point.x * 10 + point.y}
               cellType={item}
-              openNotEmptyCell={openNotEmptyCell}
+              openCell={openNotEmptyCell}
             />
           );
         else if (type === MINE)
@@ -338,7 +338,7 @@ const Minesweeper = (): JSX.Element => {
             <MineCell
               key={point.x * 10 + point.y}
               cellType={item}
-              openNotEmptyCell={openNotEmptyCell}
+              openCell={openNotEmptyCell}
             />
           );
       });

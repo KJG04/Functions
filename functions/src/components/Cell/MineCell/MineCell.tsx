@@ -1,14 +1,10 @@
-import Point from "../../../module/Point";
-import { CellType } from "../../../module/Types";
-import { color } from "../../../style/color";
+import { CellPropsType } from "../../../module/Types";
 import * as I from "./styles";
 
-interface PropsType {
-  cellType: CellType;
-  openNotEmptyCell: (point: Point) => void;
-}
-
-const MineCell = ({ cellType, openNotEmptyCell }: PropsType): JSX.Element => {
+const MineCell = ({
+  cellType,
+  openCell: openNotEmptyCell,
+}: CellPropsType): JSX.Element => {
   const { point, isOpen } = cellType;
 
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
