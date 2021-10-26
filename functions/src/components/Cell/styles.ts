@@ -36,7 +36,6 @@ export const getTransition = (delay: number): string => {
 
 export const Cell = styled.div<{
   isOpen: boolean;
-  color: string;
   opacity: string;
   delay: number;
   direction: Direction;

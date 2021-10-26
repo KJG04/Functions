@@ -16,7 +16,7 @@ const MINE_COUNT = 40;
 
 const Minesweeper = (): JSX.Element => {
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
-  const [canControl, setCanControl] = useState(false);
+  const [cannotControl, setCannotControl] = useState(false);
 
   const init = (): void => {
     //처음 초기화 함수
@@ -171,19 +171,20 @@ const Minesweeper = (): JSX.Element => {
 
   const openAllBaseWithPoint = (point: Point) => {
     //매개변수로 받은 포인트를 기준으로 모든 셀을 연다
-
-    cells.map((value, i) => {
-      return value.map((v, j) => {
-        const { isOpen } = v;
-        if (!isOpen) {
-          const p = new Point(j, i);
-          v.direction = getDirection(point, p);
-          v.delay = getDelay(point, p);
-        }
-        v.isOpen = true;
-        return v;
-      });
-    });
+    setCells(
+      cells.map((value, i) => {
+        return value.map((v, j) => {
+          const { isOpen } = v;
+          if (!isOpen) {
+            const p = new Point(j, i);
+            v.direction = getDirection(point, p);
+            v.delay = getDelay(point, p);
+          }
+          v.isOpen = true;
+          return v;
+        });
+      })
+    );
   };
 
   const getLeftMineCount = (): number => {
@@ -299,10 +300,13 @@ const Minesweeper = (): JSX.Element => {
           }
 
           if (type === MINE && point.equals(new Point(j, i))) {
+            //만약 지뢰이면
             direction.axisX = 0;
             direction.axisY = 1;
             direction.sign = 1;
             v.delay = 0;
+            setCannotControl(true);
+            setTimeout(() => onMine(point), 1000);
           }
 
           if (new Point(j, i).equals(point)) v.isOpen = true;
@@ -310,6 +314,10 @@ const Minesweeper = (): JSX.Element => {
         });
       })
     );
+  };
+
+  const onMine = (point: Point) => {
+    openAllBaseWithPoint(point);
   };
 
   const getKey = (x: number, y: number): string => {
@@ -368,7 +376,7 @@ const Minesweeper = (): JSX.Element => {
       <S.CellContainer>
         <S.CellContainerInner row={ROW} column={COLUMN}>
           {renderCell()}
-          {canControl && <S.CoverPanel />}
+          {cannotControl && <S.CoverPanel />}
         </S.CellContainerInner>
       </S.CellContainer>
     </S.Container>

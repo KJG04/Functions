@@ -1,5 +1,4 @@
 import { CellPropsType } from "../../../module/Types";
-import { color } from "../../../style/color";
 import * as S from "../styles";
 
 const EmptyCell = ({ cellType, openCell }: CellPropsType): JSX.Element => {
@@ -12,7 +11,6 @@ const EmptyCell = ({ cellType, openCell }: CellPropsType): JSX.Element => {
   return (
     <S.Cell
       onClick={onClickHandler}
-      color={color.black}
       isOpen={isOpen}
       opacity={isOpen ? "00" : ""}
       delay={delay}

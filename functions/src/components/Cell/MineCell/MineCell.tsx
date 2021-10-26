@@ -5,7 +5,7 @@ const MineCell = ({
   cellType,
   openCell: openNotEmptyCell,
 }: CellPropsType): JSX.Element => {
-  const { point, isOpen } = cellType;
+  const { point, delay, direction, isOpen } = cellType;
 
   const onClickHandler = (e: React.MouseEvent<HTMLElement>) => {
     openNotEmptyCell(point);
@@ -13,8 +13,13 @@ const MineCell = ({
   };
 
   return (
-    <I.Cell onClick={onClickHandler} isOpen={isOpen}>
-      <I.Mine isOpen={isOpen} />
+    <I.Cell
+      onClick={onClickHandler}
+      isOpen={isOpen}
+      delay={delay}
+      direction={direction}
+    >
+      <I.Mine isOpen={isOpen} delay={delay} />
     </I.Cell>
   );
 };
