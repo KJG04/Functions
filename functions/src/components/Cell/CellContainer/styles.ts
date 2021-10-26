@@ -20,24 +20,10 @@ export const FlagContainer = styled.div`
   align-items: center;
 `;
 
-export const elastic = keyframes`
-    0% {   transform: scale(0); },
-    39% {  transform: scale(1.5047); },
-    63% {  transform: scale(0.6937); },
-    77% {  transform: scale(1.1854); },
-    86% {  transform: scale(0.8884); },
-    91% {  transform: scale(1.0667); },
-    95% {  transform: scale(0.9608); },
-    97% {  transform: scale(1.0225); },
-    98% {  transform: scale(0.9877); },
-    99% {  transform: scale(1.0061); },
-    99% {  transform: scale(0.9977); },
-    100% { transform: scale(1.0000); }
-  `;
-
 export const Flag = styled.div`
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background-color: ${color.red};
+  transform: scale(0);
 `;

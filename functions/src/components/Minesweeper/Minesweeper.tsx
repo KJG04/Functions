@@ -328,17 +328,17 @@ const Minesweeper = (): JSX.Element => {
         else if (type === NUMBER)
           return (
             <NumCell
+              key={point.x * 10 + point.y}
               cellType={item}
               openNotEmptyCell={openNotEmptyCell}
-              key={point.x * 10 + point.y}
             />
           );
         else if (type === MINE)
           return (
             <MineCell
+              key={point.x * 10 + point.y}
               cellType={item}
               openNotEmptyCell={openNotEmptyCell}
-              key={point.x * 10 + point.y}
             />
           );
       });

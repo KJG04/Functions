@@ -9,19 +9,12 @@ type PropType = {
   setCells: React.Dispatch<React.SetStateAction<CellType[][]>>;
 };
 
-const CellContainer = ({
-  children,
-  cells,
-  cell,
-  setCells,
-}: PropType): JSX.Element => {
+const CellContainer = ({ children, cells, cell, setCells }: PropType): JSX.Element => {
   const { point, isFlag } = cell;
 
   const flagRef = useRef<HTMLDivElement>(null);
 
-  const onContextMenukHandler = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const onContextMenukHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     if (!cell.isOpen) {
       setCells(
