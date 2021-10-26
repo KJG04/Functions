@@ -1,20 +1,26 @@
-import { CellType } from "../../../module/Types";
+import { CellType, State } from "../../../module/Types";
 import * as S from "./styles";
 import { useRef } from "react";
 
 type PropType = {
   children: React.ReactNode;
-  cells: CellType[][];
+  cellsState: State<CellType[][]>;
   cell: CellType;
-  setCells: React.Dispatch<React.SetStateAction<CellType[][]>>;
 };
 
-const CellContainer = ({ children, cells, cell, setCells }: PropType): JSX.Element => {
+const CellContainer = ({
+  children,
+  cell,
+  cellsState,
+}: PropType): JSX.Element => {
   const { point, isFlag } = cell;
+  const [cells, setCells] = cellsState;
 
   const flagRef = useRef<HTMLDivElement>(null);
 
-  const onContextMenukHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onContextMenukHandler = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.preventDefault();
     if (!cell.isOpen) {
       setCells(

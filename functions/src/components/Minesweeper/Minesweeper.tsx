@@ -349,8 +349,7 @@ const Minesweeper = (): JSX.Element => {
       return item.map((value, j) => {
         return (
           <CellContainer
-            setCells={setCells}
-            cells={cells}
+            cellsState={[cells, setCells]}
             cell={cells[i][j]}
             key={j * 10 + i}
           >
