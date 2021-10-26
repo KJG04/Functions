@@ -142,7 +142,7 @@ const Minesweeper = (): JSX.Element => {
 
   const getDelay = (origin: Point, to: Point): number => {
     //기준(origin)에서 목표(to)까지 거리를 계산해 특정 비율로 delay 값을 리턴한다.
-    const offset = 0.2;
+    const offset = 0.12;
     const x1 = origin.x,
       y1 = origin.y,
       x2 = to.x,
