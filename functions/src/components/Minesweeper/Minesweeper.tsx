@@ -328,51 +328,43 @@ const Minesweeper = (): JSX.Element => {
     return `${x.toString().padStart(2, "0")}${y.toString().padStart(2, "0")}`;
   };
 
-  const renderCell = (): JSX.Element[][] => {
-    const cellRender = cells.map((elem) => {
-      return elem.map((item) => {
-        const { point, type } = item;
-        const { x, y } = point;
-        const cellMap = new Map() //if문 대신 map을 사용했다
-          .set(
-            EMPTY,
-            <EmptyCell key={getKey(x, y)} cellType={item} openCell={openCell} />
-          )
-          .set(
-            NUMBER,
-            <NumCell
-              key={getKey(x, y)}
-              cellType={item}
-              openCell={openNotEmptyCell}
-            />
-          )
-          .set(
-            MINE,
-            <MineCell
-              key={getKey(x, y)}
-              cellType={item}
-              openCell={openNotEmptyCell}
-            />
-          );
-
-        return cellMap.get(type);
-      });
-    });
-
-    return cellRender.map((item, i) => {
-      return item.map((value, j) => {
-        return (
-          <CellContainer
-            cellsState={[cells, setCells]}
-            cell={cells[i][j]}
-            key={getKey(j, i)}
-          >
-            {value}
-          </CellContainer>
+  const cellRender = cells.map((elem, i) => {
+    return elem.map((item, j) => {
+      const { point, type } = item;
+      const { x, y } = point;
+      const cellMap = new Map() //if문 대신 map을 사용했다
+        .set(
+          EMPTY,
+          <EmptyCell key={getKey(x, y)} cellType={item} openCell={openCell} />
+        )
+        .set(
+          NUMBER,
+          <NumCell
+            key={getKey(x, y)}
+            cellType={item}
+            openCell={openNotEmptyCell}
+          />
+        )
+        .set(
+          MINE,
+          <MineCell
+            key={getKey(x, y)}
+            cellType={item}
+            openCell={openNotEmptyCell}
+          />
         );
-      });
+
+      return (
+        <CellContainer
+          cellsState={[cells, setCells]}
+          cell={item}
+          key={getKey(j, i)}
+        >
+          {cellMap.get(type)}
+        </CellContainer>
+      );
     });
-  };
+  });
 
   return (
     <S.Container>
@@ -381,7 +373,7 @@ const Minesweeper = (): JSX.Element => {
       </S.InfoContainer>
       <S.CellContainer>
         <S.CellContainerInner row={ROW} column={COLUMN}>
-          {renderCell()}
+          {cellRender}
           {cannotControl && <S.CoverPanel />}
         </S.CellContainerInner>
       </S.CellContainer>
