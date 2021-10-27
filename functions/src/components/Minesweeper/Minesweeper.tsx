@@ -333,27 +333,29 @@ const Minesweeper = (): JSX.Element => {
       return elem.map((item) => {
         const { point, type } = item;
         const { x, y } = point;
-
-        if (type === EMPTY)
-          return (
+        const cellMap = new Map() //if문 대신 map을 사용했다
+          .set(
+            EMPTY,
             <EmptyCell key={getKey(x, y)} cellType={item} openCell={openCell} />
-          );
-        else if (type === NUMBER)
-          return (
+          )
+          .set(
+            NUMBER,
             <NumCell
               key={getKey(x, y)}
               cellType={item}
               openCell={openNotEmptyCell}
             />
-          );
-        else if (type === MINE)
-          return (
+          )
+          .set(
+            MINE,
             <MineCell
               key={getKey(x, y)}
               cellType={item}
               openCell={openNotEmptyCell}
             />
           );
+
+        return cellMap.get(type);
       });
     });
 
