@@ -1,11 +1,18 @@
 import { useLayoutEffect, useState } from "react";
-import { CellContainer, EmptyCell, MineCell, NumCell, Point } from ".";
-import { CellType, Direction } from "../../module/Types";
+import {
+  CellContainer,
+  EmptyCell,
+  MineCell,
+  NumCell,
+  Point,
+  CellType,
+  Direction,
+  EMPTY,
+  MINE,
+  NUMBER,
+} from ".";
 import * as S from "./styles";
 
-const EMPTY = "EMPTY";
-const MINE = "MINE";
-const NUMBER = "NUMBER";
 const ROW = 17;
 const COLUMN = 17;
 const MINE_COUNT = 40;
