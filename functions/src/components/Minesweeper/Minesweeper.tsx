@@ -1,4 +1,3 @@
-import { useLayoutEffect, useState } from "react";
 import {
   CellContainer,
   EmptyCell,
@@ -10,8 +9,10 @@ import {
   EMPTY,
   MINE,
   NUMBER,
+  useLayoutEffect,
+  useState,
+  S,
 } from ".";
-import * as S from "./styles";
 
 const ROW = 17;
 const COLUMN = 17;
