@@ -1,10 +1,6 @@
 import { useLayoutEffect, useState } from "react";
-import Point from "../../module/Point";
+import { CellContainer, EmptyCell, MineCell, NumCell, Point } from ".";
 import { CellType, Direction } from "../../module/Types";
-import CellContainer from "../Cell/CellContainer/CellContainer";
-import EmptyCell from "../Cell/EmptyCell/EmptyCell";
-import MineCell from "../Cell/MineCell/MineCell";
-import NumCell from "../Cell/NumCell/NumCell";
 import * as S from "./styles";
 
 const EMPTY = "EMPTY";
