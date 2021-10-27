@@ -363,7 +363,7 @@ const Minesweeper = (): JSX.Element => {
           <CellContainer
             cellsState={[cells, setCells]}
             cell={cells[i][j]}
-            key={j * 10 + i}
+            key={getKey(j, i)}
           >
             {value}
           </CellContainer>
