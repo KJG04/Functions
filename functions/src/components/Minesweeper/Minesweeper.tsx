@@ -1,3 +1,4 @@
+import React from "react";
 import {
   CellContainer,
   EmptyCell,
@@ -13,6 +14,8 @@ import {
   useState,
   S,
 } from ".";
+import { CellPropsType } from "../../module/Types";
+import { CellTypeType } from "../../module/Types/CellType";
 
 const ROW = 17;
 const COLUMN = 17;
@@ -328,39 +331,69 @@ const Minesweeper = (): JSX.Element => {
     return `${x.toString().padStart(2, "0")}${y.toString().padStart(2, "0")}`;
   };
 
-  const cellRender = cells.map((elem, i) => {
-    return elem.map((item, j) => {
+  // const cellRender = cells.map((elem, i) => {
+  //   return elem.map((item, j) => {
+  //     const { point, type } = item;
+  //     const { x, y } = point;
+  //     const cellMap = new Map() //if문 대신 map을 사용했다
+  //       .set(
+  //         EMPTY,
+  //         <EmptyCell key={getKey(x, y)} cellType={item} openCell={openCell} />
+  //       )
+  //       .set(
+  //         NUMBER,
+  //         <NumCell
+  //           key={getKey(x, y)}
+  //           cellType={item}
+  //           openCell={openNotEmptyCell}
+  //         />
+  //       )
+  //       .set(
+  //         MINE,
+  //         <MineCell
+  //           key={getKey(x, y)}
+  //           cellType={item}
+  //           openCell={openNotEmptyCell}
+  //         />
+  //       );
+
+  //     return (
+  //       <CellContainer
+  //         cellsState={[cells, setCells]}
+  //         cell={item}
+  //         key={getKey(j, i)}
+  //       >
+  //         {cellMap.get(type)}
+  //       </CellContainer>
+  //     );
+  //   });
+  // });
+
+  const cellRender = cells.map((elem) => {
+    return elem.map((item) => {
       const { point, type } = item;
       const { x, y } = point;
-      const cellMap = new Map() //if문 대신 map을 사용했다
-        .set(
-          EMPTY,
-          <EmptyCell key={getKey(x, y)} cellType={item} openCell={openCell} />
-        )
-        .set(
-          NUMBER,
-          <NumCell
-            key={getKey(x, y)}
-            cellType={item}
-            openCell={openNotEmptyCell}
-          />
-        )
-        .set(
-          MINE,
-          <MineCell
-            key={getKey(x, y)}
-            cellType={item}
-            openCell={openNotEmptyCell}
-          />
-        );
+      const cellMap = new Map<
+        CellTypeType,
+        ({ cellType, openCell: openNotEmptyCell }: CellPropsType) => JSX.Element
+      >() //if문 대신 map을 사용했다
+        .set(EMPTY, EmptyCell)
+        .set(NUMBER, NumCell)
+        .set(MINE, MineCell);
+
+      const cell = React.createElement(cellMap.get(type)!, {
+        key: getKey(x, y),
+        cellType: item,
+        openCell: type === "EMPTY" ? openCell : openNotEmptyCell,
+      });
 
       return (
         <CellContainer
           cellsState={[cells, setCells]}
           cell={item}
-          key={getKey(j, i)}
+          key={getKey(x, y)}
         >
-          {cellMap.get(type)}
+          {cell}
         </CellContainer>
       );
     });
