@@ -193,7 +193,7 @@ const Minesweeper = (): JSX.Element => {
       })
     );
   };
-
+  
   const getLeftMineCount = (): number => {
     var count = MINE_COUNT;
 
@@ -346,7 +346,7 @@ const Minesweeper = (): JSX.Element => {
       const cell = React.createElement(cellMap.get(type)!, {
         key: getKey(x, y),
         cellType: item,
-        openCell: type === "EMPTY" ? openCell : openNotEmptyCell,
+        openCell: type === EMPTY ? openCell : openNotEmptyCell,
       });
 
       return (
