@@ -1,4 +1,3 @@
-import React from "react";
 import {
   CellContainer,
   EmptyCell,
@@ -13,6 +12,7 @@ import {
   useLayoutEffect,
   useState,
   S,
+  React,
 } from ".";
 import { CellPropsType } from "../../module/Types";
 import { CellTypeType } from "../../module/Types/CellType";
@@ -87,10 +87,7 @@ const Minesweeper = (): JSX.Element => {
     init();
   }, []);
 
-  const getSurroundMineCount = (
-    point: Point,
-    cellList: CellType[][]
-  ): number => {
+  const getSurroundMineCount = (point: Point, cellList: CellType[][]): number => {
     //주변 지뢰의 개수를 구하는 함수
     let sum = 0;
 
@@ -193,7 +190,7 @@ const Minesweeper = (): JSX.Element => {
       })
     );
   };
-  
+
   const getLeftMineCount = (): number => {
     var count = MINE_COUNT;
 
@@ -350,11 +347,7 @@ const Minesweeper = (): JSX.Element => {
       });
 
       return (
-        <CellContainer
-          cellsState={[cells, setCells]}
-          cell={item}
-          key={getKey(x, y)}
-        >
+        <CellContainer cellsState={[cells, setCells]} cell={item} key={getKey(x, y)}>
           {cell}
         </CellContainer>
       );
