@@ -12,16 +12,3 @@ export const color = {
   lightBlue: "#64D2FF",
   darkGray: "#576574",
 };
-
-// export const color = {
-//   red :         "#FF453A",
-//   blue :        "#0A84FF",
-//   indigo :      "#5E5CE6",
-//   pink :        "#FF2D55",
-//   black :       "#1C1C1E",
-//   gray :        "#8E8E93",
-//   lightGray :   "#C7C7CC",
-//   lighterGray : "#F2F2F7",
-//   hoverBlue :   "#075DB2",
-//   hoverBlack :  "#4B4B4D"
-// }

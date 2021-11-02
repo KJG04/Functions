@@ -184,6 +184,7 @@ const Minesweeper = (): JSX.Element => {
             v.direction = getDirection(point, p);
             v.delay = getDelay(point, p);
           }
+          v.isFlag = false;
           v.isOpen = state;
           return v;
         });

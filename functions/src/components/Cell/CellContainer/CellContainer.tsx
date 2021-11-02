@@ -8,21 +8,13 @@ type PropType = {
   cell: CellType;
 };
 
-const CellContainer = ({
-  children,
-  cell,
-  cellsState,
-}: PropType): JSX.Element => {
-  const { point, isFlag } = cell;
+const CellContainer = ({ children, cell, cellsState }: PropType): JSX.Element => {
+  const { point, isFlag, isOpen, delay } = cell;
   const [cells, setCells] = cellsState;
 
-  const flagRef = useRef<HTMLDivElement>(null);
-
-  const onContextMenukHandler = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const onContextMenukHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
-    if (!cell.isOpen) {
+    if (!isOpen) {
       setCells(
         cells.map((item) => {
           return item.map((value) => {
@@ -41,7 +33,7 @@ const CellContainer = ({
       <S.Container onContextMenu={onContextMenukHandler}>
         {children}
         <S.FlagContainer>
-          <S.Flag ref={flagRef} />
+          <S.Flag scale={isFlag ? 1 : 0} delay={delay} />
         </S.FlagContainer>
       </S.Container>
     </>
