@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { color } from "../../style/color";
+import { font } from "../../style/font";
 
 export const CellContainerInner = styled.div<{ row: number; column: number }>`
   display: grid;
@@ -40,8 +41,15 @@ export const InfoContainer = styled.div`
   width: 300px;
   display: flex;
   align-items: center;
+  font: ${font.body3};
+  padding: 16px;
+  box-sizing: border-box;
 `;
 
 export const InfoInner = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  text-align: right;
 `;

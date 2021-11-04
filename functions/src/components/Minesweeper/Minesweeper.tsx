@@ -16,6 +16,7 @@ import {
 } from ".";
 import { CellPropsType } from "../../module/Types";
 import { CellTypeType } from "../../module/Types/CellType";
+import ElapsedTime from "../ElapsedTime/ElapsedTime";
 
 const ROW = 17;
 const COLUMN = 17;
@@ -358,7 +359,12 @@ const Minesweeper = (): JSX.Element => {
   return (
     <S.Container>
       <S.InfoContainer>
-        <S.InfoInner>남은 지뢰 수 : {getLeftMineCount()}</S.InfoInner>
+        <S.InfoInner>
+          남은 지뢰 수 : {getLeftMineCount()}
+          <div>
+            경과 시간 : <ElapsedTime from={new Date()} interval={1000}></ElapsedTime>{" "}
+          </div>
+        </S.InfoInner>
       </S.InfoContainer>
       <S.CellContainer>
         <S.CellContainerInner row={ROW} column={COLUMN}>
