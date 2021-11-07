@@ -376,6 +376,21 @@ const Minesweeper = (): JSX.Element => {
     return `${x.toString().padStart(2, "0")}${y.toString().padStart(2, "0")}`;
   };
 
+  const onReplayClickHandler = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.preventDefault();
+
+    if (cells.every((value) => value.every((item) => item.isOpen === false))) {
+      return;
+    }
+
+    setCannotControl(true);
+
+    const midX = Math.floor(COLUMN / 2);
+    const midY = Math.floor(ROW / 2);
+
+    closeAllWithPoint(new Point(midX, midY));
+  };
+
   const cellRender = cells.map((elem) => {
     return elem.map((item) => {
       const { point, type } = item;
@@ -401,18 +416,6 @@ const Minesweeper = (): JSX.Element => {
       );
     });
   });
-
-  const onReplayClickHandler = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    e.preventDefault();
-
-    if (cells.every((value) => value.every((item) => item.isOpen === false))) {
-      return;
-    }
-
-    setCannotControl(true);
-
-    closeAllWithPoint(new Point(8, 8));
-  };
 
   return (
     <S.Container>
