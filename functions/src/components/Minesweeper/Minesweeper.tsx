@@ -355,7 +355,7 @@ const Minesweeper = (): JSX.Element => {
       const { x, y } = point;
       const cellMap = new Map<
         CellTypeType,
-        ({ cellType, openCell: openNotEmptyCell }: CellPropsType) => JSX.Element
+        ({ cellType, openCell }: CellPropsType) => JSX.Element
       >() //if문 대신 map을 사용했다
         .set(EMPTY, EmptyCell)
         .set(NUMBER, NumCell)
