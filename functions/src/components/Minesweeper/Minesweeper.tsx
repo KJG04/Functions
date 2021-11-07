@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import {
   CellContainer,
   EmptyCell,
@@ -24,8 +25,13 @@ const MINE_COUNT = 40;
 
 const Minesweeper = (): JSX.Element => {
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
-  const [cannotControl, setCannotControl] = useState(false);
   const [isPlay, setIsPlay] = useState<boolean>(true);
+  const [start, setStart] = useState<Date>(new Date());
+  const [cannotControl, setCannotControl] = useState<boolean>(false);
+
+  const canAnimateRef = useRef<boolean>(true);
+
+  const { current: canAnimate } = canAnimateRef;
 
   const init = (): void => {
     //처음 초기화 함수
@@ -162,7 +168,7 @@ const Minesweeper = (): JSX.Element => {
     return c * offset;
   };
 
-  const onReset = () => {
+  const reset = () => {
     //리셋하는 함수
     setCells(
       cells.map((item) => {
@@ -173,6 +179,10 @@ const Minesweeper = (): JSX.Element => {
       })
     );
     init();
+
+    setCannotControl(false);
+    setIsPlay(true);
+    setStart(new Date());
   };
 
   const openAllWithPoint = (point: Point) => {
@@ -197,19 +207,35 @@ const Minesweeper = (): JSX.Element => {
 
   const closeAllWithPoint = (point: Point) => {
     //매개변수로 받은 포인트를 기준으로 모든 셀을 닫는다
+    canAnimateRef.current = false;
     setCells(
       cells.map((value, i) => {
         return value.map((v, j) => {
           const p = new Point(j, i);
 
-          v.direction = getDirection(point, point);
+          v.direction = getDirection(point, p);
           v.delay = getDelay(point, p);
           v.isFlag = false;
-          v.isOpen = false;
           return v;
         });
       })
     );
+
+    setTimeout(() => {
+      canAnimateRef.current = true;
+      setCells(
+        cells.map((value, i) => {
+          return value.map((v, j) => {
+            v.isOpen = false;
+            return v;
+          });
+        })
+      );
+
+      setTimeout(() => {
+        reset();
+      }, 3000);
+    }, 0);
   };
 
   const getLeftMineCount = (): number => {
@@ -343,6 +369,7 @@ const Minesweeper = (): JSX.Element => {
 
   const onMine = (point: Point) => {
     openAllWithPoint(point);
+    setIsPlay(false);
   };
 
   const getKey = (x: number, y: number): string => {
@@ -393,7 +420,7 @@ const Minesweeper = (): JSX.Element => {
         <S.InfoInner>
           남은 지뢰 수 : {getLeftMineCount()}
           <div>
-            경과 시간 : <ElapsedTime from={new Date()} interval={1000} isPlay={isPlay} />
+            경과 시간 : <ElapsedTime from={start} interval={1000} isPlay={isPlay} />
           </div>
           <S.ReContainer>
             <S.ReInner>
@@ -402,7 +429,7 @@ const Minesweeper = (): JSX.Element => {
           </S.ReContainer>
         </S.InfoInner>
       </S.InfoContainer>
-      <S.CellContainer>
+      <S.CellContainer canAnimate={canAnimate}>
         <S.CellContainerInner row={ROW} column={COLUMN}>
           {cellRender}
           {cannotControl && <S.CoverPanel />}

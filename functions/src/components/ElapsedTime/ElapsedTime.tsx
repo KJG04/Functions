@@ -31,7 +31,7 @@ const ElapsedTime = ({ interval, from, isPlay }: PropsType): JSX.Element => {
     const timeInterval = setInterval(onInterval, interval);
 
     return () => clearInterval(timeInterval);
-  }, [from]);
+  }, [from, isPlay]);
 
   return <span>{timeString}</span>;
 };

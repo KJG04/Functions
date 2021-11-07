@@ -12,11 +12,14 @@ export const CellContainerInner = styled.div<{ row: number; column: number }>`
   transform: perspective(300px);
 `;
 
-export const CellContainer = styled.div`
+export const CellContainer = styled.div<{ canAnimate: boolean }>`
   display: flex;
   align-items: center;
   width: 800px;
   position: relative;
+  div div {
+    ${(props) => !props.canAnimate && "transition: none !important;"}
+  }
 `;
 
 export const CoverPanel = styled.div`
