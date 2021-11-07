@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   CellContainer,
   EmptyCell,
@@ -12,12 +11,13 @@ import {
   NUMBER,
   useLayoutEffect,
   useState,
+  useRef,
   S,
   React,
+  CellPropsType,
+  CellTypeType,
+  ElapsedTime,
 } from ".";
-import { CellPropsType } from "../../module/Types";
-import { CellTypeType } from "../../module/Types/CellType";
-import ElapsedTime from "../ElapsedTime/ElapsedTime";
 
 const ROW = 17;
 const COLUMN = 17;
