@@ -20,12 +20,10 @@ export const FlagContainer = styled.div`
   align-items: center;
 `;
 
-export const Flag = styled.div<{ scale: number; delay: number }>`
+export const Flag = styled.div<{ delay: number }>`
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background-color: ${color.yellow};
-  transform: scale(${(props) => props.scale});
-  transition: transform 0.25s ease-out;
-  transition-delay: ${(props) => props.delay}s;
+  transform: scale(0);
 `;
