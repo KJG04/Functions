@@ -28,6 +28,10 @@ const ElapsedTime = ({ interval, from, isPlay }: PropsType): JSX.Element => {
   };
 
   useLayoutEffect(() => {
+    setTimeString("00:00:00");
+  }, [from]);
+
+  useLayoutEffect(() => {
     const timeInterval = setInterval(onInterval, interval);
 
     return () => clearInterval(timeInterval);

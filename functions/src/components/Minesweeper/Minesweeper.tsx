@@ -30,7 +30,6 @@ const Minesweeper = (): JSX.Element => {
   const [cannotControl, setCannotControl] = useState<boolean>(false);
 
   const canAnimateRef = useRef<boolean>(true);
-
   const { current: canAnimate } = canAnimateRef;
 
   const init = (): void => {
@@ -87,13 +86,22 @@ const Minesweeper = (): JSX.Element => {
     setCells([...cellList]);
   };
 
-  useLayoutEffect(() => {
-    console.log(
-      "%cDon't cheatting!",
-      `font-size: x-large; font-family: "Spoqa Han Sans Neo", "sans-serif"; `
-    );
-    init();
-  }, []);
+  const checkIsFinished = () => {
+    if (cells.length <= 0) return;
+
+    const nonMines = cells.map((value) => value.filter((item) => item.type !== MINE)); //지뢰가 아닌 셀
+    const mines = cells.map((value) => value.filter((item) => item.type === MINE)); //지뢰인 셀
+
+    const isNonMineOpen = nonMines.every((value) => value.every((item) => item.isOpen)); //전부 열려있으면 true
+    const isMineNotOpen = mines.every((value) => value.every((item) => !item.isOpen)); //전부 닫혀있으면 true
+
+    if (isNonMineOpen && isMineNotOpen) {
+      //지뢰는 전부 닫혀있고 나머지는 전부 열었을 때
+      alert("축하드립니다!");
+      setIsPlay(false);
+      setCannotControl(true);
+    }
+  };
 
   const getSurroundMineCount = (point: Point, cellList: CellType[][]): number => {
     //주변 지뢰의 개수를 구하는 함수
@@ -380,6 +388,7 @@ const Minesweeper = (): JSX.Element => {
     e.preventDefault();
 
     if (cells.every((value) => value.every((item) => item.isOpen === false))) {
+      setStart(new Date());
       return;
     }
 
@@ -417,13 +426,36 @@ const Minesweeper = (): JSX.Element => {
     });
   });
 
+  useLayoutEffect(() => {
+    console.log(
+      "%cDon't cheatting!",
+      `font-size: x-large; font-family: "Spoqa Han Sans Neo", "sans-serif"; `
+    );
+    init();
+  }, []);
+
+  useLayoutEffect(() => {
+    checkIsFinished();
+  }, [cells]);
+
+  const cheat = () => {
+    setCells(
+      cells.map((value) => {
+        return value.map((item) => {
+          if (item.type === NUMBER) item.isOpen = true;
+          return item;
+        });
+      })
+    );
+  };
+
   return (
     <S.Container>
       <S.InfoContainer>
-        <S.InfoInner>
+        <S.InfoInner onClick={() => cheat()}>
           남은 지뢰 수 : {getLeftMineCount()}
           <div>
-            경과 시간 : <ElapsedTime from={start} interval={1000} isPlay={isPlay} />
+            경과 시간 : <ElapsedTime from={start} interval={250} isPlay={isPlay} />
           </div>
           <S.ReContainer>
             <S.ReInner>
