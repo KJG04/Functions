@@ -42,7 +42,7 @@ export const InfoContainer = styled.div`
   display: flex;
   align-items: center;
   font: ${font.body3};
-  padding: 16px;
+  padding: 28px;
   box-sizing: border-box;
 `;
 
@@ -52,4 +52,15 @@ export const InfoInner = styled.div`
   flex-direction: column;
   row-gap: 16px;
   text-align: right;
+`;
+
+export const ReContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  text-align: left;
+`;
+
+export const ReInner = styled.div`
+  cursor: pointer;
+  user-select: none;
 `;

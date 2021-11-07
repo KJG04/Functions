@@ -25,6 +25,7 @@ const MINE_COUNT = 40;
 const Minesweeper = (): JSX.Element => {
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
   const [cannotControl, setCannotControl] = useState(false);
+  const [isPlay, setIsPlay] = useState<boolean>(true);
 
   const init = (): void => {
     //처음 초기화 함수
@@ -181,12 +182,30 @@ const Minesweeper = (): JSX.Element => {
         return value.map((v, j) => {
           const { isOpen } = v;
           if (!isOpen) {
+            //닫혀있으면
             const p = new Point(j, i);
             v.direction = getDirection(point, p);
             v.delay = getDelay(point, p);
           }
           v.isFlag = false;
           v.isOpen = true;
+          return v;
+        });
+      })
+    );
+  };
+
+  const closeAllWithPoint = (point: Point) => {
+    //매개변수로 받은 포인트를 기준으로 모든 셀을 닫는다
+    setCells(
+      cells.map((value, i) => {
+        return value.map((v, j) => {
+          const p = new Point(j, i);
+
+          v.direction = getDirection(point, point);
+          v.delay = getDelay(point, p);
+          v.isFlag = false;
+          v.isOpen = false;
           return v;
         });
       })
@@ -356,14 +375,31 @@ const Minesweeper = (): JSX.Element => {
     });
   });
 
+  const onReplayClickHandler = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.preventDefault();
+
+    if (cells.every((value) => value.every((item) => item.isOpen === false))) {
+      return;
+    }
+
+    setCannotControl(true);
+
+    closeAllWithPoint(new Point(8, 8));
+  };
+
   return (
     <S.Container>
       <S.InfoContainer>
         <S.InfoInner>
           남은 지뢰 수 : {getLeftMineCount()}
           <div>
-            경과 시간 : <ElapsedTime from={new Date()} interval={1000}></ElapsedTime>{" "}
+            경과 시간 : <ElapsedTime from={new Date()} interval={1000} isPlay={isPlay} />
           </div>
+          <S.ReContainer>
+            <S.ReInner>
+              <span onClick={onReplayClickHandler}>다시하기</span>
+            </S.ReInner>
+          </S.ReContainer>
         </S.InfoInner>
       </S.InfoContainer>
       <S.CellContainer>

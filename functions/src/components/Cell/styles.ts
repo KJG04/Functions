@@ -19,19 +19,14 @@ export const CellStyle = css`
   transition: filter 0.25s ease-out;
 `;
 
-export const getTransformStyle = (
-  direction: Direction,
-  isOpen: boolean
-): string => {
+export const getTransformStyle = (direction: Direction, isOpen: boolean): string => {
   const { axisX, axisY, sign } = direction;
   const deg = isOpen ? -180 * sign : 0;
   return `perspective(300px) rotate3d(${axisX}, ${axisY}, 0, ${deg}deg)`;
 };
 
 export const getTransition = (delay: number): string => {
-  return `transform 2s cubic-bezier(0.075, 0.82, 0.165, 1) ${delay}s, background-color 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) ${
-    Math.round((delay + delay * 0.3) * 10) / 10
-  }s`;
+  return `transform 2s cubic-bezier(0.075, 0.82, 0.165, 1) ${delay}s, background-color 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) ${delay}s`;
 };
 
 export const Cell = styled.div<{
