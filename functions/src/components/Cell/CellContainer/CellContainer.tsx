@@ -1,6 +1,6 @@
 import { CellType, State } from "../../../module/Types";
 import * as S from "./styles";
-import { useRef } from "react";
+import gsap from "gsap";
 
 type PropType = {
   children: React.ReactNode;
