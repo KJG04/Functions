@@ -5,6 +5,7 @@ import { color } from "../Minesweeper";
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 `;
 
 export const Title = styled.div`
@@ -13,6 +14,10 @@ export const Title = styled.div`
   color: ${color.black};
   text-align: right;
   user-select: none;
+  transition: transform 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  &:hover {
+    transform: translateX(-20%);
+  }
 `;
 
 export const TitleContainer = styled.div`
@@ -33,4 +38,5 @@ export const TitleContainerInner = styled.div`
 
 export const NoDecoLink = styled(Link)`
   text-decoration: none;
+  outline: none;
 `;
