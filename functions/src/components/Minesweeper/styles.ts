@@ -91,6 +91,6 @@ export const Particle = styled.div<{ x: number }>`
   height: 20px;
   border-radius: 5px;
   background-color: ${(props) => props.color};
-  transform: translateX(${(props) => props.x}px);
+  left: ${(props) => props.x}px;
   top: 100%;
 `;

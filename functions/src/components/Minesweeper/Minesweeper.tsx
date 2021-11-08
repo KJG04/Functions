@@ -439,12 +439,31 @@ const Minesweeper = (): JSX.Element => {
     });
   });
 
+  const getRandomInt = (min: number, max: number) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.round(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+  };
+
   const party = () => {
     particles.map((value) => {
+      const y = getRandomInt(500, 1000);
+      const x = getRandomInt(100, 300);
+      const signrand = getRandomInt(0, 1);
+      const sign = signrand === 0 ? -1 : 1;
+      console.log(sign);
+
       gsap.to(value, {
         duration: 2.5,
         ease: CustomEase.create("custom", "M0,0 C0,0 0.1,1 0.5,1 0.9,1 1,0 1,0 "),
-        y: -500,
+        y: -y,
+      });
+
+      gsap.to(value, {
+        duration: 2.5,
+        ease: "none",
+        x: x * sign,
+        rotation: x * sign * 2,
       });
     });
   };
