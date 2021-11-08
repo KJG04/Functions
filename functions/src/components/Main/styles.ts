@@ -39,4 +39,5 @@ export const TitleContainerInner = styled.div`
 export const NoDecoLink = styled(Link)`
   text-decoration: none;
   outline: none;
+  cursor: none !important;
 `;

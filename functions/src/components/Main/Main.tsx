@@ -1,9 +1,12 @@
 import * as S from "./styles";
 import gsap, { Power4 } from "gsap";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { color } from "../Minesweeper";
+import CustomCursor from "./CustomCursor/CustomCursor";
 
 const Main = (): JSX.Element => {
+  document.querySelector("html")!.style.backgroundColor = color.backgroundColor;
+
   interface Nav {
     text: string;
     to: string;
@@ -11,15 +14,17 @@ const Main = (): JSX.Element => {
   }
 
   const navArray: Nav[] = [
-    { text: "Minesweeper", to: "/", color: color.green },
-    { text: "Logic Gate", to: "/", color: color.green },
-    { text: "Finding a way", to: "/", color: color.green },
-    { text: "Heap tree", to: "/", color: color.green },
-    { text: "Dice", to: "/", color: color.green },
-    { text: "Contact me", to: "/", color: color.green },
+    { text: "Minesweeper", to: "/minesweeper", color: color.green },
+    { text: "Logic Gate", to: "/", color: color.red },
+    { text: "Finding a way", to: "/", color: color.orange },
+    { text: "Heap tree", to: "/", color: color.yellow },
+    { text: "Dice", to: "/", color: color.lightBlue },
+    { text: "Contact me", to: "/", color: color.darkGray },
   ];
 
   const navsRef = useRef<HTMLDivElement[]>(new Array<HTMLDivElement>(navArray.length));
+  const [cursorColor, setCursorColor] = useState<string>(color.black);
+  const [scale, setScale] = useState<number>(1);
   const { current: navs } = navsRef;
 
   const firstAnimation = () => {
@@ -29,11 +34,24 @@ const Main = (): JSX.Element => {
     });
   };
 
+  const onNavEnter = (color: string) => {
+    setCursorColor(color);
+    setScale(50);
+  };
+  const onNavLeave = () => {
+    // setCursorColor(color.black);
+    setScale(1);
+  };
+
   const navRender = navArray.map((value, index) => {
     const { text, to, color } = value;
 
     return (
-      <div ref={(el) => (navsRef.current[index] = el!)}>
+      <div
+        ref={(el) => (navsRef.current[index] = el!)}
+        onMouseEnter={() => onNavEnter(color)}
+        onMouseLeave={onNavLeave}
+      >
         <S.NoDecoLink to={to}>
           <S.Title>{text}</S.Title>
         </S.NoDecoLink>
@@ -46,11 +64,14 @@ const Main = (): JSX.Element => {
   }, []);
 
   return (
-    <S.Container>
-      <S.TitleContainer>
-        <S.TitleContainerInner>{navRender}</S.TitleContainerInner>
-      </S.TitleContainer>
-    </S.Container>
+    <>
+      <CustomCursor color={cursorColor} scale={scale} />
+      <S.Container>
+        <S.TitleContainer>
+          <S.TitleContainerInner>{navRender}</S.TitleContainerInner>
+        </S.TitleContainer>
+      </S.Container>
+    </>
   );
 };
 
