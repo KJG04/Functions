@@ -112,6 +112,7 @@ const Minesweeper = (): JSX.Element => {
       alert("축하드립니다!");
       setIsPlay(false);
       setCannotControl(true);
+      party();
     }
   };
 
@@ -468,7 +469,7 @@ const Minesweeper = (): JSX.Element => {
     });
   };
 
-  const colors = [color.red, color.yellow, color.lightBlue, color.green];
+  const colors = [color.red, color.yellow, color.lightBlue];
 
   const particleRender = Array<number>(particleCount)
     .fill(0)
@@ -505,7 +506,7 @@ const Minesweeper = (): JSX.Element => {
     <>
       <S.Container>
         <S.InfoContainer>
-          <S.InfoInner onClick={() => party()}>
+          <S.InfoInner>
             남은 지뢰 수 : {getLeftMineCount()}
             <div>
               경과 시간 : <ElapsedTime from={start} interval={250} isPlay={isPlay} />

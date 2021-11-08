@@ -39,7 +39,7 @@ const CellContainer = ({ children, cell, cellsState }: PropType): JSX.Element =>
       //만약 나의 플래그 값이 바뀌었으면
       gsap.to(mine.current, {
         scale: isFlag ? 1 : 0,
-        ease: "elastic.out(1, 0.5)",
+        ease: "elastic.out(1, 0.3)",
         duration: 1.5,
         delay: delay,
       });
