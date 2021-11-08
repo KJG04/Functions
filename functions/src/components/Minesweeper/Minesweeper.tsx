@@ -30,6 +30,8 @@ const MINE_COUNT = 40;
 //gsap.to( graph graph, { duration: 2.5 2.5, ease: CustomEase.create("custom", "M0,0 C0,0 0.1,1 0.5,1 0.9,1 1,0 1,0 "), y: -500 });
 
 const Minesweeper = (): JSX.Element => {
+  document.querySelector("html")!.style.backgroundColor = color.green;
+
   const particleCount = 20;
 
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
