@@ -5699,9 +5699,9 @@
   "resolved" "https://registry.npmjs.org/growly/-/growly-1.3.0.tgz"
   "version" "1.3.0"
 
-"gsap@^3.8.0":
-  "integrity" "sha512-cvpzKkWFePDZCycwXwJnDSpTR3j+a4QLQF/t0c+pXqzRESgAYx5hieaoshzZFjbwsARqr0+5c3GKE7wI273w/g=="
-  "resolved" "https://registry.npmjs.org/gsap/-/gsap-3.8.0.tgz"
+"gsap@file:gsap-bonus.tgz":
+  "integrity" "sha512-+Tw/NeHM9limPBwNkKbBy3pd/s5edAnLVmAU/QohTnh/BeY+49FdDkIVx71KVKwlr7DpBZzX8fA81QLltab3Pw=="
+  "resolved" "file:gsap-bonus.tgz"
   "version" "3.8.0"
 
 "gzip-size@5.1.1":

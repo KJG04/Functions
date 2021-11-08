@@ -67,3 +67,30 @@ export const ReInner = styled.div`
   cursor: pointer;
   user-select: none;
 `;
+
+export const ParticleContainer = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  user-select: none;
+  pointer-events: none;
+`;
+
+export const ParticleInner = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+`;
+
+export const Particle = styled.div<{ x: number }>`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: ${(props) => props.color};
+  transform: translateX(${(props) => props.x}px);
+  top: 100%;
+`;

@@ -17,7 +17,11 @@ import {
   CellPropsType,
   CellTypeType,
   ElapsedTime,
+  color,
+  gsap,
 } from ".";
+import { CustomEase } from "gsap/CustomEase";
+gsap.registerPlugin(CustomEase);
 
 const ROW = 17;
 const COLUMN = 17;
@@ -26,13 +30,19 @@ const MINE_COUNT = 40;
 //gsap.to( graph graph, { duration: 2.5 2.5, ease: CustomEase.create("custom", "M0,0 C0,0 0.1,1 0.5,1 0.9,1 1,0 1,0 "), y: -500 });
 
 const Minesweeper = (): JSX.Element => {
+  const particleCount = 20;
+
   const [cells, setCells] = useState<CellType[][]>([]); //셀의 정보를 담고있는 2차원 배열 state
   const [isPlay, setIsPlay] = useState<boolean>(true);
   const [start, setStart] = useState<Date>(new Date());
   const [cannotControl, setCannotControl] = useState<boolean>(false);
 
   const canAnimateRef = useRef<boolean>(true);
+  const particlesRef = useRef<HTMLDivElement[]>(new Array<HTMLDivElement>(particleCount));
+  const particlesContainer = useRef<HTMLDivElement>(null);
+
   const { current: canAnimate } = canAnimateRef;
+  const { current: particles } = particlesRef;
 
   const init = (): void => {
     //처음 초기화 함수
@@ -395,6 +405,7 @@ const Minesweeper = (): JSX.Element => {
     }
 
     setCannotControl(true);
+    setIsPlay(false);
 
     const midX = Math.floor(COLUMN / 2);
     const midY = Math.floor(ROW / 2);
@@ -428,6 +439,37 @@ const Minesweeper = (): JSX.Element => {
     });
   });
 
+  const party = () => {
+    particles.map((value) => {
+      gsap.to(value, {
+        duration: 2.5,
+        ease: CustomEase.create("custom", "M0,0 C0,0 0.1,1 0.5,1 0.9,1 1,0 1,0 "),
+        y: -500,
+      });
+    });
+  };
+
+  const colors = [color.red, color.yellow, color.lightBlue, color.green];
+
+  const particleRender = Array<number>(particleCount)
+    .fill(0)
+    .map((_, index) => {
+      const i = Math.floor(Math.random() * colors.length);
+      const color = colors[i];
+      const width = particlesContainer.current?.clientWidth!;
+
+      const x = Math.floor(Math.random() * width);
+
+      return (
+        <S.Particle
+          x={x}
+          color={color}
+          key={index}
+          ref={(el) => (particles[index] = el!)}
+        ></S.Particle>
+      );
+    });
+
   useLayoutEffect(() => {
     console.log(
       "%cDon't cheatting!",
@@ -440,39 +482,33 @@ const Minesweeper = (): JSX.Element => {
     checkIsFinished();
   }, [cells]);
 
-  const cheat = () => {
-    setCells(
-      cells.map((value) => {
-        return value.map((item) => {
-          if (item.type === NUMBER) item.isOpen = true;
-          return item;
-        });
-      })
-    );
-  };
-
   return (
-    <S.Container>
-      <S.InfoContainer>
-        <S.InfoInner onClick={() => cheat()}>
-          남은 지뢰 수 : {getLeftMineCount()}
-          <div>
-            경과 시간 : <ElapsedTime from={start} interval={250} isPlay={isPlay} />
-          </div>
-          <S.ReContainer>
-            <S.ReInner>
-              <span onClick={onReplayClickHandler}>다시하기</span>
-            </S.ReInner>
-          </S.ReContainer>
-        </S.InfoInner>
-      </S.InfoContainer>
-      <S.CellContainer canAnimate={canAnimate}>
-        <S.CellContainerInner row={ROW} column={COLUMN}>
-          {cellRender}
-          {cannotControl && <S.CoverPanel />}
-        </S.CellContainerInner>
-      </S.CellContainer>
-    </S.Container>
+    <>
+      <S.Container>
+        <S.InfoContainer>
+          <S.InfoInner onClick={() => party()}>
+            남은 지뢰 수 : {getLeftMineCount()}
+            <div>
+              경과 시간 : <ElapsedTime from={start} interval={250} isPlay={isPlay} />
+            </div>
+            <S.ReContainer>
+              <S.ReInner>
+                <span onClick={onReplayClickHandler}>다시하기</span>
+              </S.ReInner>
+            </S.ReContainer>
+          </S.InfoInner>
+        </S.InfoContainer>
+        <S.CellContainer canAnimate={canAnimate}>
+          <S.CellContainerInner row={ROW} column={COLUMN}>
+            {cellRender}
+            {cannotControl && <S.CoverPanel />}
+          </S.CellContainerInner>
+        </S.CellContainer>
+      </S.Container>
+      <S.ParticleContainer>
+        <S.ParticleInner ref={particlesContainer}>{particleRender}</S.ParticleInner>
+      </S.ParticleContainer>
+    </>
   );
 };
 

@@ -2,7 +2,6 @@ import { CellType, State } from "../../../module/Types";
 import * as S from "./styles";
 import gsap from "gsap";
 import { useRef, useLayoutEffect, useState } from "react";
-import { Power0 } from "gsap/all";
 
 type PropType = {
   children: React.ReactNode;
@@ -17,7 +16,7 @@ const CellContainer = ({ children, cell, cellsState }: PropType): JSX.Element =>
   const [cells, setCells] = cellsState;
   const mine = useRef<HTMLDivElement>(null);
 
-  const onContextMenukHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onContextMenuHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     if (!isOpen) {
       setCells(
@@ -50,7 +49,7 @@ const CellContainer = ({ children, cell, cellsState }: PropType): JSX.Element =>
 
   return (
     <>
-      <S.Container onContextMenu={onContextMenukHandler}>
+      <S.Container onContextMenu={onContextMenuHandler}>
         {children}
         <S.FlagContainer>
           <S.Flag ref={mine} delay={delay} />

@@ -11,3 +11,5 @@ export { default as React } from "react";
 export type { CellPropsType } from "../../module/Types";
 export type { CellTypeType } from "../../module/Types/CellType";
 export { default as ElapsedTime } from "../ElapsedTime/ElapsedTime";
+export { color } from "../../style/color";
+export { default as gsap } from "gsap";
