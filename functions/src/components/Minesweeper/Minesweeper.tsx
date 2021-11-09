@@ -19,6 +19,7 @@ import {
   ElapsedTime,
   color,
   gsap,
+  Power4,
 } from ".";
 import { CustomEase } from "gsap/CustomEase";
 gsap.registerPlugin(CustomEase);
@@ -42,9 +43,13 @@ const Minesweeper = (): JSX.Element => {
   const canAnimateRef = useRef<boolean>(true);
   const particlesRef = useRef<HTMLDivElement[]>(new Array<HTMLDivElement>(particleCount));
   const particlesContainer = useRef<HTMLDivElement>(null);
+  const cellContainerRef = useRef<HTMLDivElement>(null);
+  const isAnimateRef = useRef<boolean>(false);
 
   const { current: canAnimate } = canAnimateRef;
   const { current: particles } = particlesRef;
+  const { current: cellContainer } = cellContainerRef;
+  const { current: isAnimate } = isAnimateRef;
 
   const init = (): void => {
     //처음 초기화 함수
@@ -98,6 +103,30 @@ const Minesweeper = (): JSX.Element => {
     }
 
     setCells([...cellList]);
+  };
+
+  const firstAnimation = () => {
+    if (cellContainer && !isAnimate) {
+      isAnimateRef.current = true;
+      cellContainer.childNodes.forEach((value, index) => {
+        const row = index / COLUMN;
+        const col = Math.floor(index % COLUMN);
+        const p = new Point(col, row);
+        const point = new Point(0, 0);
+        const direction = getDirection(point, p);
+        const x = direction.axisX * 180;
+        const y = direction.axisY * 180;
+
+        gsap.from(value, {
+          duration: 2,
+          opacity: 0,
+          rotateX: x,
+          rotateY: y,
+          ease: Power4.easeOut,
+          delay: getDelay(point, p),
+        });
+      });
+    }
   };
 
   const checkIsFinished = () => {
@@ -452,8 +481,8 @@ const Minesweeper = (): JSX.Element => {
     particles.map((value) => {
       const y = getRandomInt(500, 1000);
       const x = getRandomInt(100, 300);
-      const signrand = getRandomInt(0, 1);
-      const sign = signrand === 0 ? -1 : 1;
+      const signRand = getRandomInt(0, 1);
+      const sign = signRand === 0 ? -1 : 1;
       console.log(sign);
 
       gsap.to(value, {
@@ -497,11 +526,13 @@ const Minesweeper = (): JSX.Element => {
       "%cDon't cheatting!",
       `font-size: x-large; font-family: "Spoqa Han Sans Neo", "sans-serif"; `
     );
+
     init();
   }, []);
 
   useLayoutEffect(() => {
     checkIsFinished();
+    firstAnimation();
   }, [cells]);
 
   return (
@@ -521,7 +552,7 @@ const Minesweeper = (): JSX.Element => {
           </S.InfoInner>
         </S.InfoContainer>
         <S.CellContainer canAnimate={canAnimate}>
-          <S.CellContainerInner row={ROW} column={COLUMN}>
+          <S.CellContainerInner row={ROW} column={COLUMN} ref={cellContainerRef}>
             {cellRender}
             {cannotControl && <S.CoverPanel />}
           </S.CellContainerInner>
