@@ -107,6 +107,8 @@ const Minesweeper = (): JSX.Element => {
 
   const firstAnimation = () => {
     if (cellContainer && !isAnimate) {
+      setCannotControl(true);
+      setIsPlay(false);
       isAnimateRef.current = true;
       cellContainer.childNodes.forEach((value, index) => {
         const row = index / COLUMN;
@@ -114,8 +116,8 @@ const Minesweeper = (): JSX.Element => {
         const p = new Point(col, row);
         const point = new Point(0, 0);
         const direction = getDirection(point, p);
-        const x = direction.axisX * 180;
-        const y = direction.axisY * 180;
+        const x = direction.axisX * -120;
+        const y = direction.axisY * -120;
 
         gsap.from(value, {
           duration: 2,
@@ -126,6 +128,12 @@ const Minesweeper = (): JSX.Element => {
           delay: getDelay(point, p),
         });
       });
+
+      setTimeout(() => {
+        setCannotControl(false);
+        setStart(new Date());
+        setIsPlay(true);
+      }, 4000);
     }
   };
 
