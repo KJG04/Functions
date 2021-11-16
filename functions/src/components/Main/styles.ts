@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
 import { color } from "../Minesweeper";
 
 export const Container = styled.div`
@@ -36,7 +35,7 @@ export const TitleContainerInner = styled.div`
   flex-direction: column;
 `;
 
-export const NoDecoLink = styled(Link)`
+export const NoDecoLink = styled.div`
   text-decoration: none;
   outline: none;
   cursor: none !important;
