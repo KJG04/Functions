@@ -3,28 +3,73 @@ import gsap, { Power4 } from "gsap";
 import { useLayoutEffect, useRef, useState } from "react";
 import { color } from "../Minesweeper";
 import CustomCursor from "./CustomCursor/CustomCursor";
+import { useNavigate } from "react-router-dom";
 
 const Main = (): JSX.Element => {
-  document.querySelector("html")!.style.backgroundColor = color.backgroundColor;
-
+  const navigate = useNavigate();
   interface Nav {
     text: string;
-    to: string;
+    onClick: () => void;
     color: string;
   }
 
+  const [canScale, setCanScale] = useState<boolean>(true);
+
+  const setCursorBig = () => {
+    setScale(420);
+    setCanScale(false);
+  };
+
+  const onMinesweeper = () => {
+    setCursorBig();
+    setTimeout(() => {
+      navigate("/minesweeper");
+    }, 500);
+  };
+
   const navArray: Nav[] = [
-    { text: "Minesweeper", to: "/minesweeper", color: color.green },
-    { text: "Logic Gate", to: "/", color: color.red },
-    { text: "Finding a way", to: "/", color: color.orange },
-    { text: "Heap tree", to: "/", color: color.yellow },
-    { text: "Dice", to: "/", color: color.lightBlue },
-    { text: "Contact me", to: "/", color: color.darkGray },
+    { text: "Minesweeper", onClick: onMinesweeper, color: color.green },
+    {
+      text: "Logic Gate",
+      onClick: () => {
+        setCursorBig();
+      },
+      color: color.red,
+    },
+    {
+      text: "Path finder",
+      onClick: () => {
+        setCursorBig();
+      },
+      color: color.orange,
+    },
+    {
+      text: "Heap tree",
+      onClick: () => {
+        setCursorBig();
+      },
+      color: color.yellow,
+    },
+    {
+      text: "Dice",
+      onClick: () => {
+        setCursorBig();
+      },
+      color: color.lightBlue,
+    },
+    {
+      text: "Contact me",
+      onClick: () => {
+        setCursorBig();
+      },
+      color: color.darkGray,
+    },
   ];
 
   const navsRef = useRef<HTMLDivElement[]>(new Array<HTMLDivElement>(navArray.length));
   const [cursorColor, setCursorColor] = useState<string>(color.black);
   const [scale, setScale] = useState<number>(1);
+
   const { current: navs } = navsRef;
 
   const firstAnimation = () => {
@@ -35,16 +80,20 @@ const Main = (): JSX.Element => {
   };
 
   const onNavEnter = (color: string) => {
-    setCursorColor(color);
-    setScale(50);
+    if (canScale) {
+      setCursorColor(color);
+      setScale(50);
+    }
   };
+
   const onNavLeave = () => {
-    // setCursorColor(color.black);
-    setScale(1);
+    if (canScale) {
+      setScale(1);
+    }
   };
 
   const navRender = navArray.map((value, index) => {
-    const { text, to, color } = value;
+    const { text, onClick, color } = value;
 
     return (
       <div
@@ -52,7 +101,7 @@ const Main = (): JSX.Element => {
         onMouseEnter={() => onNavEnter(color)}
         onMouseLeave={onNavLeave}
       >
-        <S.NoDecoLink to={to}>
+        <S.NoDecoLink onClick={onClick}>
           <S.Title>{text}</S.Title>
         </S.NoDecoLink>
       </div>
@@ -60,6 +109,7 @@ const Main = (): JSX.Element => {
   });
 
   useLayoutEffect(() => {
+    document.querySelector("html")!.style.backgroundColor = color.backgroundColor;
     firstAnimation();
   }, []);
 
