@@ -7,16 +7,20 @@ export const Container = styled.div`
   overflow: hidden;
 `;
 
-export const Title = styled.div`
+export const Title = styled.div<{ canScale: boolean }>`
   font-family: "Montserrat", sans-serif;
   font-size: 72px;
   color: ${color.black};
   text-align: right;
   user-select: none;
   transition: transform 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  ${(props) =>
+    props.canScale &&
+    `
   &:hover {
     transform: translateX(-20%);
   }
+  `}
 `;
 
 export const TitleContainer = styled.div`
