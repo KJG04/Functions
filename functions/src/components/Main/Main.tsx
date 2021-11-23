@@ -20,11 +20,26 @@ const Main = (): JSX.Element => {
     setCanScale(false);
   };
 
+  const activeNav = () => {
+    navs.map((value, i) => {
+      const width = value.clientWidth;
+
+      gsap.to(value, {
+        duration: 2.5,
+        x: width + 48,
+        ease: Power4.easeOut,
+        delay: 0.6 - i * 0.1,
+        opacity: 0,
+      });
+    });
+  };
+
   const onMinesweeper = () => {
     setCursorBig();
+    activeNav();
     setTimeout(() => {
       navigate("/minesweeper");
-    }, 500);
+    }, 3000);
   };
 
   const navArray: Nav[] = [
@@ -102,7 +117,7 @@ const Main = (): JSX.Element => {
         onMouseLeave={onNavLeave}
       >
         <S.NoDecoLink onClick={onClick}>
-          <S.Title>{text}</S.Title>
+          <S.Title canScale={canScale}>{text}</S.Title>
         </S.NoDecoLink>
       </div>
     );
