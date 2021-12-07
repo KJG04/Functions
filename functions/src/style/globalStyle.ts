@@ -135,6 +135,5 @@ export const reset = css`
   }
   html {
     background-color: ${color.backgroundColor};
-    transition: background-color 0.25s ease-out;
   }
 `;
