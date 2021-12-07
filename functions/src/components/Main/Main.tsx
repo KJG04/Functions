@@ -35,47 +35,51 @@ const Main = (): JSX.Element => {
   };
 
   const onMinesweeper = () => {
-    setCursorBig();
-    activeNav();
     setTimeout(() => {
       navigate("/minesweeper");
     }, 3000);
   };
+
+  const onLoginGate = () => {};
+  const onPathFinder = () => {};
+  const onHeapTree = () => {};
+  const onDice = () => {};
+  const onContactMe = () => {};
 
   const navArray: Nav[] = [
     { text: "Minesweeper", onClick: onMinesweeper, color: color.green },
     {
       text: "Logic Gate",
       onClick: () => {
-        setCursorBig();
+        onLoginGate();
       },
       color: color.red,
     },
     {
       text: "Path finder",
       onClick: () => {
-        setCursorBig();
+        onPathFinder();
       },
       color: color.orange,
     },
     {
       text: "Heap tree",
       onClick: () => {
-        setCursorBig();
+        onHeapTree();
       },
       color: color.yellow,
     },
     {
       text: "Dice",
       onClick: () => {
-        setCursorBig();
+        onDice();
       },
       color: color.lightBlue,
     },
     {
       text: "Contact me",
       onClick: () => {
-        setCursorBig();
+        onContactMe();
       },
       color: color.darkGray,
     },
@@ -107,6 +111,12 @@ const Main = (): JSX.Element => {
     }
   };
 
+  const onNavClick = (callback: () => void) => {
+    setCursorBig();
+    activeNav();
+    callback();
+  };
+
   const navRender = navArray.map((value, index) => {
     const { text, onClick, color } = value;
 
@@ -116,7 +126,7 @@ const Main = (): JSX.Element => {
         onMouseEnter={() => onNavEnter(color)}
         onMouseLeave={onNavLeave}
       >
-        <S.NoDecoLink onClick={onClick}>
+        <S.NoDecoLink onClick={() => onNavClick(onClick)}>
           <S.Title canScale={canScale}>{text}</S.Title>
         </S.NoDecoLink>
       </div>
