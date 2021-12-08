@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { color } from "../Minesweeper";
 import CustomCursor from "./CustomCursor/CustomCursor";
 import { useNavigate } from "react-router-dom";
+import Back from "./Back/Back";
 
 const Main = (): JSX.Element => {
   const navigate = useNavigate();
@@ -146,6 +147,7 @@ const Main = (): JSX.Element => {
           <S.TitleContainerInner>{navRender}</S.TitleContainerInner>
         </S.TitleContainer>
       </S.Container>
+      <Back colorArray={colorArray} />
     </>
   );
 };
