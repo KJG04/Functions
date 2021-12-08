@@ -1,9 +1,8 @@
 import * as S from "./styles";
-import { Color } from "three";
+import { Color, Material } from "three";
 import { useMemo, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
-import niceColors from "nice-color-palettes";
 
 import type { PlaneProps, Triplet } from "@react-three/cannon";
 import type { MeshPhongMaterialProps } from "@react-three/fiber";
@@ -32,79 +31,75 @@ const TransparentPlane = ({ ...props }: OurPlaneProps) => {
   );
 };
 
-function Box() {
-  const boxSize: Triplet = [4, 4, 1];
-  const [ref, api] = useBox(() => ({ type: "Kinematic", mass: 1, args: boxSize }));
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    // api.position.set(Math.sin(t * 2) * 5, Math.cos(t * 2) * 5, 3);
-    // api.rotation.set(Math.sin(t * 6), Math.cos(t * 6), 0);
-  });
-  return (
-    <mesh ref={ref} castShadow receiveShadow>
-      <boxBufferGeometry args={boxSize} />
-      <meshLambertMaterial color="white" />
-    </mesh>
-  );
+interface SpheresPropsType {
+  colorValue: string;
 }
 
-function InstancedSpheres({ number = 100 }) {
-  const [ref] = useSphere((index) => ({
-    args: [1],
+function InstancedBoxs({ colorValue }: SpheresPropsType) {
+  const boxSize: Triplet = [2, 2, 0.5];
+  const length = 5;
+  const zOffset = 12;
+  const xOffset = -10;
+  const [ref] = useBox((index) => ({
+    args: boxSize,
     mass: 1,
-    position: [Math.random() - 0.5, Math.random() - 0.5, index * 2],
+    allowSleep: true,
+    material: { restitution: 1, friction: 0.5 },
+    position: [Math.random() - 0.5 + xOffset, Math.random() - 0.5, index * 2 + zOffset],
   }));
+
   const colors = useMemo(() => {
-    const array = new Float32Array(number * 3);
+    const array = new Float32Array(length * 3);
     const color = new Color();
-    for (let i = 0; i < number; i++)
+    for (let i = 0; i < 5; ++i) {
       color
-        .set(niceColors[17][Math.floor(Math.random() * 5)])
+        .set(colorValue)
         .convertSRGBToLinear()
         .toArray(array, i * 3);
+    }
     return array;
-  }, [number]);
+  }, [colorValue]);
 
   return (
-    <instancedMesh ref={ref} castShadow receiveShadow args={[undefined, undefined, number]}>
-      <sphereBufferGeometry args={[1, 16, 16]}>
+    <instancedMesh ref={ref} castShadow receiveShadow args={[undefined, undefined, length]}>
+      <boxBufferGeometry args={boxSize}>
         <instancedBufferAttribute attachObject={["attributes", "color"]} args={[colors, 3]} />
-      </sphereBufferGeometry>
+      </boxBufferGeometry>
       <meshPhongMaterial vertexColors />
     </instancedMesh>
   );
 }
 
-const Test = () => (
-  <S.Container>
-    <Canvas
-      mode="concurrent"
-      shadows
-      gl={{ alpha: false }}
-      camera={{ position: [0, -12, 12], fov: 50 }}
-    >
-      <hemisphereLight intensity={0.9} />
-      <spotLight
-        position={[-12, 8, 12]}
-        angle={90}
-        penumbra={1}
-        intensity={1}
-        castShadow
-        shadow-mapSize-width={256}
-        shadow-mapSize-height={256}
-      />
-      {/* <pointLight position={[-30, 0, -30]} intensity={0.5} /> */}
-      <Physics gravity={[0, 0, -30]}>
-        <Plane color={color.backgroundColor} />
-        <TransparentPlane position={[-6, 0, 0]} rotation={[0, 0.9, 0]} />
-        <TransparentPlane position={[6, 0, 0]} rotation={[0, -0.9, 0]} />
-        <TransparentPlane position={[0, 6, 0]} rotation={[0.9, 0, 0]} />
-        <TransparentPlane position={[0, -6, 0]} rotation={[-0.9, 0, 0]} />
-        {/* <Box /> */}
-        <InstancedSpheres number={10} />
-      </Physics>
-    </Canvas>
-  </S.Container>
-);
+const Test = () => {
+  const [colorArray, setColorArray] = useState([color.green]);
+
+  return (
+    <S.Container onClick={() => setColorArray(colorArray.concat(color.red))}>
+      <Canvas
+        mode="concurrent"
+        shadows
+        gl={{ alpha: false }}
+        camera={{ position: [0, -15, 15], fov: 50 }}
+      >
+        <hemisphereLight intensity={1} />
+        <spotLight
+          position={[-12, 8, 12]}
+          angle={0.9}
+          penumbra={1}
+          intensity={1}
+          castShadow
+          shadow-mapSize-width={256}
+          shadow-mapSize-height={256}
+        />
+        <Physics gravity={[0, 0, -30]}>
+          <Plane color={color.backgroundColor} />
+          {colorArray.map((value) => (
+            <InstancedBoxs colorValue={value} />
+          ))}
+        </Physics>
+      </Canvas>
+    </S.Container>
+  );
+};
 
 export default Test;
