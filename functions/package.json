@@ -6,6 +6,8 @@
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@react-three/cannon": "^4.2.0",
+    "@react-three/fiber": "^7.0.21",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
