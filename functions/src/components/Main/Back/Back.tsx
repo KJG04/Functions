@@ -18,12 +18,12 @@ const Back = ({ colorArray }: PropsType) => {
         gl={{ alpha: false }}
         camera={{ position: [0, -15, 15], fov: 50 }}
       >
-        <hemisphereLight intensity={1} />
+        <hemisphereLight intensity={1} color={color.backgroundColor} />
         <spotLight
           position={[-12, 8, 12]}
           angle={0.9}
-          penumbra={1}
-          intensity={1}
+          penumbra={0.5}
+          intensity={2}
           castShadow
           shadow-mapSize-width={256}
           shadow-mapSize-height={256}
