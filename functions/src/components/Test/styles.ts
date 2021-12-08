@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Canvas } from "@react-three/fiber";
 
 export const getTransformStyle = (
   axisX: number,
@@ -19,17 +20,13 @@ export const Cell = styled.div<{
   width: 100px;
   height: 100px;
   background-color: white;
-  transform: ${(props) =>
-    getTransformStyle(props.axisX, props.axisY, props.sign, props.bool)};
+  transform: ${(props) => getTransformStyle(props.axisX, props.axisY, props.sign, props.bool)};
   transition: all 1s linear;
   transform-style: preserve-3d;
   perspective: 30px;
 `;
 
 export const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  row-gap: 5px;
-  column-gap: 5px;
+  width: 100vw;
+  height: 100vh;
 `;

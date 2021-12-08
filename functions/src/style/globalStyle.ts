@@ -135,6 +135,6 @@ export const reset = css`
   }
   html {
     background-color: ${color.backgroundColor};
-    transition: background-color 0.25s ease-out;
+    transition: background-color 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 `;

@@ -12,4 +12,4 @@ export type { CellPropsType } from "../../module/Types";
 export type { CellTypeType } from "../../module/Types/CellType";
 export { default as ElapsedTime } from "../ElapsedTime/ElapsedTime";
 export { color } from "../../style/color";
-export { default as gsap } from "gsap";
+export { default as gsap, Power4 } from "gsap";
