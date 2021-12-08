@@ -1,6 +1,6 @@
 import * as S from "./styles";
 import gsap, { Power4 } from "gsap";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { color } from "../Minesweeper";
 import CustomCursor from "./CustomCursor/CustomCursor";
 import { useNavigate } from "react-router-dom";
@@ -99,18 +99,22 @@ const Main = (): JSX.Element => {
     });
   };
 
-  const onNavEnter = (color: string) => {
-    if (canScale) {
-      setCursorColor(color);
-      setScale(50);
-    }
-  };
-
   const onNavLeave = () => {
     if (canScale) {
       setScale(1);
     }
   };
+
+  const onNavEnter = useCallback(
+    (color: string) => {
+      if (canScale) {
+        setCursorColor(color);
+        setScale(50);
+        setColorArray(colorArray.concat(color));
+      }
+    },
+    [colorArray]
+  );
 
   const onNavClick = (callback: () => void) => {
     setCursorBig();
