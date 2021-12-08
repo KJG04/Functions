@@ -22,6 +22,7 @@ import {
   Power4,
 } from ".";
 import { CustomEase } from "gsap/CustomEase";
+import { useEffect } from "react";
 gsap.registerPlugin(CustomEase);
 
 const ROW = 17;
@@ -538,6 +539,10 @@ const Minesweeper = (): JSX.Element => {
     init();
   }, []);
 
+  useEffect(() => {
+    gsap.from(".anim", { duration: 1, opacity: 0, x: -100, stagger: 0.1, ease: Power4.easeOut });
+  }, []);
+
   useLayoutEffect(() => {
     checkIsFinished();
     firstAnimation();
@@ -548,11 +553,11 @@ const Minesweeper = (): JSX.Element => {
       <S.Container>
         <S.InfoContainer>
           <S.InfoInner>
-            남은 지뢰 수 : {getLeftMineCount()}
-            <div>
+            <div className="anim">남은 지뢰 수 : {getLeftMineCount()}</div>
+            <div className="anim">
               경과 시간 : <ElapsedTime from={start} interval={250} isPlay={isPlay} />
             </div>
-            <S.ReContainer>
+            <S.ReContainer className="anim">
               <S.ReInner>
                 <span onClick={onReplayClickHandler}>다시하기</span>
               </S.ReInner>
