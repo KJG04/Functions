@@ -14,6 +14,9 @@ const Main = (): JSX.Element => {
   }
 
   const [canScale, setCanScale] = useState<boolean>(true);
+  const [cursorColor, setCursorColor] = useState<string>(color.black);
+  const [scale, setScale] = useState<number>(1);
+  const [colorArray, setColorArray] = useState<string[]>([]);
 
   const setCursorBig = () => {
     setScale(420);
@@ -86,9 +89,6 @@ const Main = (): JSX.Element => {
   ];
 
   const navsRef = useRef<HTMLDivElement[]>(new Array<HTMLDivElement>(navArray.length));
-  const [cursorColor, setCursorColor] = useState<string>(color.black);
-  const [scale, setScale] = useState<number>(1);
-
   const { current: navs } = navsRef;
 
   const firstAnimation = () => {
