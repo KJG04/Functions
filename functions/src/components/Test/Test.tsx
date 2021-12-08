@@ -27,7 +27,7 @@ const TransparentPlane = ({ ...props }: OurPlaneProps) => {
   return (
     <mesh ref={ref} receiveShadow>
       <planeBufferGeometry args={[1000, 1000]} />
-      <meshPhongMaterial transparent={true} />
+      <meshPhongMaterial opacity={0} transparent={true} />
     </mesh>
   );
 };
