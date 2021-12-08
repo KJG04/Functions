@@ -27,7 +27,7 @@ const TransparentPlane = ({ ...props }: OurPlaneProps) => {
   return (
     <mesh ref={ref} receiveShadow>
       <planeBufferGeometry args={[1000, 1000]} />
-      <meshPhongMaterial opacity={0} />
+      <meshPhongMaterial transparent={true} />
     </mesh>
   );
 };
@@ -96,10 +96,10 @@ const Test = () => (
       {/* <pointLight position={[-30, 0, -30]} intensity={0.5} /> */}
       <Physics gravity={[0, 0, -30]}>
         <Plane color={color.backgroundColor} />
-        <Plane position={[-6, 0, 0]} rotation={[0, 0.9, 0]} />
-        <Plane position={[6, 0, 0]} rotation={[0, -0.9, 0]} />
-        <Plane position={[0, 6, 0]} rotation={[0.9, 0, 0]} />
-        <Plane position={[0, -6, 0]} rotation={[-0.9, 0, 0]} />
+        <TransparentPlane position={[-6, 0, 0]} rotation={[0, 0.9, 0]} />
+        <TransparentPlane position={[6, 0, 0]} rotation={[0, -0.9, 0]} />
+        <TransparentPlane position={[0, 6, 0]} rotation={[0.9, 0, 0]} />
+        <TransparentPlane position={[0, -6, 0]} rotation={[-0.9, 0, 0]} />
         {/* <Box /> */}
         <InstancedSpheres number={10} />
       </Physics>
