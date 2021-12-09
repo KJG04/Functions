@@ -30,8 +30,6 @@ const ROW = 17;
 const COLUMN = 17;
 const MINE_COUNT = 40;
 
-//gsap.to( graph graph, { duration: 2.5 2.5, ease: CustomEase.create("custom", "M0,0 C0,0 0.1,1 0.5,1 0.9,1 1,0 1,0 "), y: -500 });
-
 const Minesweeper = (): JSX.Element => {
   document.querySelector("html")!.style.backgroundColor = color.green;
 
@@ -551,9 +549,6 @@ const Minesweeper = (): JSX.Element => {
 
   return (
     <>
-      <S.CursorOuter isActive={true}>
-        <CustomCursor color={color.backgroundColor} scale={1} />
-      </S.CursorOuter>
       <S.Container>
         <S.InfoContainer>
           <S.InfoInner>
