@@ -138,13 +138,18 @@ const Main = (): JSX.Element => {
   const navRender = navArray.map((value, index) => {
     const { text, onClick, color } = value;
 
+    const onClickHandler = () => {
+      document.querySelector("html")!.style.backgroundColor = color;
+      onNavClick(onClick);
+    };
+
     return (
       <div
         ref={(el) => (navsRef.current[index] = el!)}
         onMouseEnter={() => onNavEnter(color)}
         onMouseLeave={onNavLeave}
       >
-        <S.NoDecoLink onClick={() => onNavClick(onClick)}>
+        <S.NoDecoLink onClick={onClickHandler}>
           <S.Title canScale={canScale}>{text}</S.Title>
         </S.NoDecoLink>
       </div>
