@@ -40,6 +40,10 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
+export const CursorOuter = styled.div<{ isActive: boolean }>`
+  display: ${(props) => (props.isActive ? "unset" : "none")};
+`;
+
 export const InfoContainer = styled.div`
   width: 300px;
   display: flex;
