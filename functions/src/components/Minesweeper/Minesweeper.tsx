@@ -23,6 +23,7 @@ import {
 } from ".";
 import { CustomEase } from "gsap/CustomEase";
 import { useEffect } from "react";
+import CustomCursor from "../Main/CustomCursor/CustomCursor";
 gsap.registerPlugin(CustomEase);
 
 const ROW = 17;
@@ -550,6 +551,9 @@ const Minesweeper = (): JSX.Element => {
 
   return (
     <>
+      <S.CursorOuter isActive={true}>
+        <CustomCursor color={color.backgroundColor} scale={1} />
+      </S.CursorOuter>
       <S.Container>
         <S.InfoContainer>
           <S.InfoInner>
