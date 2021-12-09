@@ -37,14 +37,9 @@ const StickyNav = ({ text, onClick }: PropsType) => {
   };
 
   return (
-    <S.Container
-      ref={containerRef}
-      onClick={onClick}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-    >
+    <div ref={containerRef} onClick={onClick} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
       <S.Text ref={textRef}>{text}</S.Text>
-    </S.Container>
+    </div>
   );
 };
 
