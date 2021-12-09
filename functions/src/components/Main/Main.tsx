@@ -1,10 +1,11 @@
 import * as S from "./styles";
 import gsap, { Power4 } from "gsap";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { color } from "../Minesweeper";
 import CustomCursor from "./CustomCursor/CustomCursor";
 import { useNavigate } from "react-router-dom";
 import Back from "./Back/Back";
+import BoxType from "../../interface/BoxType";
 
 const Main = (): JSX.Element => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Main = (): JSX.Element => {
   const [canScale, setCanScale] = useState<boolean>(true);
   const [cursorColor, setCursorColor] = useState<string>(color.black);
   const [scale, setScale] = useState<number>(1);
-  const [colorArray, setColorArray] = useState<string[]>([]);
+  const [boxArray, setBoxArray] = useState<BoxType[]>([]);
 
   const setCursorBig = () => {
     setScale(420);
@@ -110,10 +111,16 @@ const Main = (): JSX.Element => {
       if (canScale) {
         setCursorColor(color);
         setScale(50);
-        setColorArray(colorArray.concat(color));
+
+        const box: BoxType = {
+          color: color,
+          key: new Date().getMilliseconds(),
+        };
+
+        setBoxArray(boxArray.concat(box));
       }
     },
-    [colorArray]
+    [boxArray]
   );
 
   const onNavClick = (callback: () => void) => {
@@ -151,7 +158,7 @@ const Main = (): JSX.Element => {
           <S.TitleContainerInner>{navRender}</S.TitleContainerInner>
         </S.TitleContainer>
       </S.Container>
-      <Back colorArray={colorArray} />
+      <Back boxArray={boxArray} />
     </>
   );
 };
