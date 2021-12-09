@@ -2,11 +2,11 @@ import { useRef } from "react";
 import * as S from "./styles";
 
 interface PropsType {
-  text: string;
+  children: React.ReactNode;
   onClick?: () => void;
 }
 
-const StickyNav = ({ text, onClick }: PropsType) => {
+const StickyNav = ({ children, onClick }: PropsType) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +38,7 @@ const StickyNav = ({ text, onClick }: PropsType) => {
 
   return (
     <div ref={containerRef} onClick={onClick} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
-      <S.Text ref={textRef}>{text}</S.Text>
+      <S.Text ref={textRef}>{children}</S.Text>
     </div>
   );
 };
