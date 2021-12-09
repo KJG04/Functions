@@ -106,6 +106,12 @@ const Main = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    if (boxArray.length > 5) {
+      setBoxArray(boxArray.filter((_, index) => index !== 0));
+    }
+  }, [boxArray]);
+
   const onNavEnter = useCallback(
     (color: string) => {
       if (canScale) {
