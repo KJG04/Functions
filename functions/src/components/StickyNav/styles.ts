@@ -7,15 +7,9 @@ export const Text = styled.div`
   cursor: default;
 `;
 
-export const Con = styled.span`
+export const Container = styled.span`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`;
-
-export const Container = styled.span`
-  display: flex;
-  width: 100vw;
-  height: 100vh;
 `;
