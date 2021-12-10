@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 import { color } from "../Minesweeper";
 
 export const LogoContainer = styled.div`
@@ -44,4 +45,25 @@ export const Container = styled.div`
   height: 100vh;
   overflow: hidden;
   pointer-events: none;
+`;
+
+export const GithubContainer = styled(Link)`
+  position: absolute;
+  left: 60px;
+  bottom: 60px;
+`;
+
+export const GithubLink = styled.div<{ isActive: boolean }>`
+  text-decoration: none;
+  transition: color 1s cubic-bezier(0.075, 0.82, 0.165, 1),
+    opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  opacity: ${(props) => (props.isActive ? "1" : "0")};
+`;
+
+export const Github = styled.div`
+  color: ${(props) => props.color};
+`;
+
+export const GithubLogo = styled.img`
+  width: 16px;
 `;
