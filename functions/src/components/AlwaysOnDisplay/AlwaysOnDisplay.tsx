@@ -3,6 +3,8 @@ import DarkLogo from "../../assets/logos/LogoDark.svg";
 import LightLogo from "../../assets/logos/LogoLight.svg";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import StickyNav from "../StickyNav/StickyNav";
+import { color } from "../../style/color";
 
 const AlwaysOnDisplay = () => {
   const [scale, setScale] = useState(0);
@@ -42,6 +44,14 @@ const AlwaysOnDisplay = () => {
         <S.Logo src={DarkLogo} isActive={isDark} />
         <S.Circle scale={scale} />
       </S.LogoContainer>
+      <StickyNav style={{ position: "absolute", left: "60px", bottom: "60px" }}>
+        <S.GithubContainer href="https://github.com/KJG04/Functions">
+          <S.GithubLink isActive={true}>
+            <S.GithubLogo />
+            <S.Github color={color.black}>Github</S.Github>
+          </S.GithubLink>
+        </S.GithubContainer>
+      </StickyNav>
     </S.Container>
   );
 };
