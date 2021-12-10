@@ -47,14 +47,18 @@ export const Container = styled.div`
   pointer-events: none;
 `;
 
-export const GithubContainer = styled(Link)`
-  position: absolute;
-  left: 60px;
-  bottom: 60px;
+export const GithubContainer = styled.a`
+  text-decoration: none;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  column-gap: 8px;
+  pointer-events: all;
+  cursor: none;
 `;
 
 export const GithubLink = styled.div<{ isActive: boolean }>`
-  text-decoration: none;
   transition: color 1s cubic-bezier(0.075, 0.82, 0.165, 1),
     opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   opacity: ${(props) => (props.isActive ? "1" : "0")};
