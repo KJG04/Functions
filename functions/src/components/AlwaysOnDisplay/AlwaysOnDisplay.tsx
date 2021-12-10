@@ -9,12 +9,17 @@ const AlwaysOnDisplay = () => {
   const [isHover, setIsHover] = useState(false);
   const [scale, setScale] = useState(1);
 
+  const onClickHandler = () => {
+    setScale(420);
+  };
+
   return (
     <>
-      <S.CursorOuter isActive={isHover}>
-        <CustomCursor color={color.backgroundColor} scale={scale} />
-      </S.CursorOuter>
-      <S.LogoContainer onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+      <S.LogoContainer
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        onClick={onClickHandler}
+      >
         <S.Logo src={DarkLogo} isActive={false} />
         <S.Logo src={LightLogo} isActive={true} />
       </S.LogoContainer>

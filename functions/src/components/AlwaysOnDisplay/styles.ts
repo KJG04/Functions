@@ -18,7 +18,3 @@ export const Logo = styled.img<{ isActive: boolean }>`
   opacity: ${(props) => (props.isActive ? 1 : 0)};
   transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 `;
-
-export const CursorOuter = styled.div<{ isActive: boolean }>`
-  display: ${(props) => (props.isActive ? "unset" : "none")};
-`;
