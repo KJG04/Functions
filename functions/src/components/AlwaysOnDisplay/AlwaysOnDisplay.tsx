@@ -6,7 +6,7 @@ import CustomCursor from "../Main/CustomCursor/CustomCursor";
 import { color } from "../../style/color";
 
 const AlwaysOnDisplay = () => {
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0);
 
   const onClickHandler = () => {
     setScale(420);
@@ -17,6 +17,7 @@ const AlwaysOnDisplay = () => {
       <S.LogoContainer onClick={onClickHandler}>
         <S.Logo src={DarkLogo} isActive={false} />
         <S.Logo src={LightLogo} isActive={true} />
+        <S.Circle scale={scale} />
       </S.LogoContainer>
     </>
   );
