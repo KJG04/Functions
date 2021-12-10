@@ -28,8 +28,17 @@ export const Circle = styled.div<{ scale: number }>`
   left: 50%;
   position: absolute;
   border-radius: 50%;
-  z-index: 100;
+  z-index: 100000;
   transform: translate(-50%, -50%);
   transition: background-color 0.25s ease-out, width 1s cubic-bezier(0.075, 0.82, 0.165, 1),
     height 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+`;
+
+export const Container = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 `;

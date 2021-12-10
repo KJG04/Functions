@@ -2,24 +2,28 @@ import * as S from "./styles";
 import DarkLogo from "../../assets/logos/LogoDark.svg";
 import LightLogo from "../../assets/logos/LogoLight.svg";
 import { useState } from "react";
-import CustomCursor from "../Main/CustomCursor/CustomCursor";
-import { color } from "../../style/color";
+import { useNavigate } from "react-router";
 
 const AlwaysOnDisplay = () => {
   const [scale, setScale] = useState(0);
+  const navigate = useNavigate();
 
-  const onClickHandler = () => {
+  const onLogoClickHandler = () => {
     setScale(420);
+
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
 
   return (
-    <>
-      <S.LogoContainer onClick={onClickHandler}>
+    <S.Container>
+      <S.LogoContainer onClick={onLogoClickHandler}>
         <S.Logo src={DarkLogo} isActive={false} />
         <S.Logo src={LightLogo} isActive={true} />
         <S.Circle scale={scale} />
       </S.LogoContainer>
-    </>
+    </S.Container>
   );
 };
 
