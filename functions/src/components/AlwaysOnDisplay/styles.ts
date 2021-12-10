@@ -5,6 +5,8 @@ export const LogoContainer = styled.div`
   position: absolute;
   top: 60px;
   left: 60px;
+  cursor: pointer;
+  user-select: none;
 `;
 
 export const Logo = styled.img<{ isActive: boolean }>`
