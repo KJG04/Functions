@@ -5,7 +5,7 @@ export const LogoContainer = styled.div`
   position: absolute;
   top: 60px;
   left: 60px;
-  cursor: pointer;
+  cursor: none;
   user-select: none;
 `;
 
@@ -17,4 +17,8 @@ export const Logo = styled.img<{ isActive: boolean }>`
   left: 0;
   opacity: ${(props) => (props.isActive ? 1 : 0)};
   transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+`;
+
+export const CursorOuter = styled.div<{ isActive: boolean }>`
+  display: ${(props) => (props.isActive ? "unset" : "none")};
 `;
