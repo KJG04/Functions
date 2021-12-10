@@ -6,7 +6,6 @@ import CustomCursor from "../Main/CustomCursor/CustomCursor";
 import { color } from "../../style/color";
 
 const AlwaysOnDisplay = () => {
-  const [isHover, setIsHover] = useState(false);
   const [scale, setScale] = useState(1);
 
   const onClickHandler = () => {
@@ -15,11 +14,7 @@ const AlwaysOnDisplay = () => {
 
   return (
     <>
-      <S.LogoContainer
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-        onClick={onClickHandler}
-      >
+      <S.LogoContainer onClick={onClickHandler}>
         <S.Logo src={DarkLogo} isActive={false} />
         <S.Logo src={LightLogo} isActive={true} />
       </S.LogoContainer>
