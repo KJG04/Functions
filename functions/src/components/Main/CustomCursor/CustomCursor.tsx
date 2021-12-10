@@ -19,15 +19,18 @@ const CustomCursor = ({ color, scale }: PropsType): JSX.Element => {
     }
   };
 
+  const onMouseDown = () => setOffset(0.5);
+  const onMouseUp = () => setOffset(1);
+
   useLayoutEffect(() => {
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("mousedown", () => setOffset(0.5));
-    window.addEventListener("mouseup", () => setOffset(1));
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mousedown", () => setOffset(0.5));
-      window.removeEventListener("mouseup", () => setOffset(1));
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
     };
   }, [scale]);
 
@@ -35,7 +38,7 @@ const CustomCursor = ({ color, scale }: PropsType): JSX.Element => {
     <>
       <S.Container>
         <S.Inner>
-          <S.Cursor color={color} scale={scale * offset} ref={cursor}/>
+          <S.Cursor color={color} scale={scale * offset} ref={cursor} />
         </S.Inner>
       </S.Container>
     </>

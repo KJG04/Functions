@@ -22,13 +22,13 @@ import {
   Power4,
 } from ".";
 import { CustomEase } from "gsap/CustomEase";
+import { useEffect } from "react";
+import CustomCursor from "../Main/CustomCursor/CustomCursor";
 gsap.registerPlugin(CustomEase);
 
 const ROW = 17;
 const COLUMN = 17;
 const MINE_COUNT = 40;
-
-//gsap.to( graph graph, { duration: 2.5 2.5, ease: CustomEase.create("custom", "M0,0 C0,0 0.1,1 0.5,1 0.9,1 1,0 1,0 "), y: -500 });
 
 const Minesweeper = (): JSX.Element => {
   document.querySelector("html")!.style.backgroundColor = color.green;
@@ -538,6 +538,10 @@ const Minesweeper = (): JSX.Element => {
     init();
   }, []);
 
+  useEffect(() => {
+    gsap.from(".anim", { duration: 1, opacity: 0, x: -100, stagger: 0.1, ease: Power4.easeOut });
+  }, []);
+
   useLayoutEffect(() => {
     checkIsFinished();
     firstAnimation();
@@ -548,11 +552,11 @@ const Minesweeper = (): JSX.Element => {
       <S.Container>
         <S.InfoContainer>
           <S.InfoInner>
-            남은 지뢰 수 : {getLeftMineCount()}
-            <div>
+            <div className="anim">남은 지뢰 수 : {getLeftMineCount()}</div>
+            <div className="anim">
               경과 시간 : <ElapsedTime from={start} interval={250} isPlay={isPlay} />
             </div>
-            <S.ReContainer>
+            <S.ReContainer className="anim">
               <S.ReInner>
                 <span onClick={onReplayClickHandler}>다시하기</span>
               </S.ReInner>

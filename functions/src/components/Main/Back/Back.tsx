@@ -4,12 +4,27 @@ import { color } from "../../Minesweeper";
 import InstancedBoxs from "../Boxes/InstancedBoxs";
 import Plane from "../Plane/Plane";
 import * as S from "./styles";
+import { useEffect, useMemo, useState } from "react";
+import BoxType from "../../../interface/BoxType";
 
 interface PropsType {
-  colorArray: string[];
+  boxArray: BoxType[];
 }
 
-const Back = ({ colorArray }: PropsType) => {
+const Back = ({ boxArray }: PropsType) => {
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOpacity(0);
+    }, 1000);
+  }, []);
+
+  const renderBoxes = useMemo(
+    () => boxArray.map((value) => <InstancedBoxs colorValue={value.color} key={`${value.key}`} />),
+    [boxArray]
+  );
+
   return (
     <S.Container>
       <Canvas
@@ -30,11 +45,10 @@ const Back = ({ colorArray }: PropsType) => {
         />
         <Physics gravity={[0, 0, -30]}>
           <Plane color={color.backgroundColor} />
-          {colorArray.map((value) => (
-            <InstancedBoxs colorValue={value} />
-          ))}
+          {renderBoxes}
         </Physics>
       </Canvas>
+      <S.Cover opacity={opacity} />
     </S.Container>
   );
 };
