@@ -2,7 +2,7 @@ import * as S from "./styles";
 import StickyNav from "../StickyNav/StickyNav";
 
 const Test = () => {
-  return <StickyNav text="Main" />;
+  return <div />;
 };
 
 export default Test;
