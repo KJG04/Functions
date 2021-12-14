@@ -52,20 +52,32 @@ export const GithubContainer = styled.a`
   position: relative;
   top: 0px;
   left: 0px;
-  display: flex;
-  column-gap: 8px;
   pointer-events: all;
-  cursor: none;
+
+  & div {
+    :first-of-type {
+      transform: translateY(50%);
+    }
+    :last-of-type {
+      transform: translateY(-50%);
+    }
+  }
 `;
 
 export const GithubLink = styled.div<{ isActive: boolean }>`
   transition: color 1s cubic-bezier(0.075, 0.82, 0.165, 1),
     opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   opacity: ${(props) => (props.isActive ? "1" : "0")};
+  display: flex;
+  column-gap: 8px;
+  position: relative;
+  top: 0px;
+  left: 0px;
 `;
 
 export const Github = styled.div`
   color: ${(props) => props.color};
+  transform: none !important;
 `;
 
 export const GithubLogo = styled.img`

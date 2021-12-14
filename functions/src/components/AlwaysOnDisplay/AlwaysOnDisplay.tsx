@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import StickyNav from "../StickyNav/StickyNav";
 import { color } from "../../style/color";
+import DarkGithub from "../../assets/icons/github_dark.svg";
+import LightGithub from "../../assets/icons/github_light.svg";
 
 const AlwaysOnDisplay = () => {
   const [scale, setScale] = useState(0);
@@ -45,9 +47,17 @@ const AlwaysOnDisplay = () => {
         <S.Circle scale={scale} />
       </S.LogoContainer>
       <StickyNav style={{ position: "absolute", left: "60px", bottom: "60px" }}>
-        <S.GithubContainer href="https://github.com/KJG04/Functions">
+        <S.GithubContainer
+          href="https://github.com/KJG04/Functions"
+          target="_blank"
+          rel="noreferrer"
+        >
           <S.GithubLink isActive={true}>
-            <S.GithubLogo />
+            <S.GithubLogo src={LightGithub} />
+            <S.Github color={color.white}>Github</S.Github>
+          </S.GithubLink>
+          <S.GithubLink isActive={isDark}>
+            <S.GithubLogo src={DarkGithub} />
             <S.Github color={color.black}>Github</S.Github>
           </S.GithubLink>
         </S.GithubContainer>
