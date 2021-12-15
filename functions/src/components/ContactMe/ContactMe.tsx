@@ -1,13 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import * as S from "./styles";
 import { color } from "../../style/color";
 import StickyNav from "../StickyNav/StickyNav";
 
 const ContactMe = () => {
-  useEffect(() => {
-    document.querySelector("html")!.style.backgroundColor = color.darkGray;
-  }, []);
   const EMAIL = "freedom7113@gmail.com";
+
+  const leftDarkRef = useRef<HTMLDivElement>(null);
+  const rightDarkRef = useRef<HTMLDivElement>(null);
 
   const copy = (string: string) => {
     var textarea = document.createElement("textarea");
@@ -26,11 +26,19 @@ const ContactMe = () => {
     alert("복사 완료!");
   };
 
+  const openLight = () => {
+    //빛이 펼쳐지는 효과
+  };
+
+  useEffect(() => {
+    document.querySelector("html")!.style.backgroundColor = color.darkGray;
+  }, []);
+
   return (
     <>
       <S.Container>
-        <S.Dark1 />
-        <S.Dark2 />
+        <S.Dark1 ref={leftDarkRef} />
+        <S.Dark2 ref={rightDarkRef} />
       </S.Container>
       <S.CenterContainer>
         <S.ContentContainer>
