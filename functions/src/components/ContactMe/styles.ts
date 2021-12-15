@@ -45,6 +45,10 @@ export const Dark2 = styled(Dark)`
   left: 50%;
 `;
 
+export const DarkContainer = styled.div`
+  transition: transform 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+`;
+
 export const CenterContainer = styled.div`
   position: absolute;
   top: 50%;

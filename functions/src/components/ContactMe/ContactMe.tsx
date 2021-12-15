@@ -59,7 +59,7 @@ const ContactMe = () => {
 
     const deg = (Math.atan2(temp.y, temp.x) * 180) / Math.PI - 90;
 
-    darkContainer.style.transform = `rotate(${deg}deg)`;
+    darkContainer.style.transform = `rotate(${deg * 0.2}deg)`;
   };
 
   useEffect(() => {
@@ -91,10 +91,10 @@ const ContactMe = () => {
             </StickyNav>
           </S.ContentContainer>
         </S.CenterContainer>
-        <div ref={darkContainerRef}>
+        <S.DarkContainer ref={darkContainerRef}>
           <S.Dark1 ref={leftDarkRef} />
           <S.Dark2 ref={rightDarkRef} />
-        </div>
+        </S.DarkContainer>
       </S.Container>
     </>
   );
