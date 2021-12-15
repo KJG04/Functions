@@ -43,7 +43,14 @@ const ContactMe = () => {
     }
 
     gsap.to(leftDark, { duration: 2, rotation: 30, ease: Power4.easeInOut });
-    gsap.to(rightDark, { duration: 2, rotation: -30, ease: Power4.easeInOut });
+    gsap.to(rightDark, {
+      duration: 2,
+      rotation: -30,
+      ease: Power4.easeInOut,
+      onComplete: () => {
+        window.addEventListener("mousemove", followLight);
+      },
+    });
   };
 
   const followLight = (e: MouseEvent) => {
@@ -65,7 +72,6 @@ const ContactMe = () => {
   useEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.darkGray;
     openLight();
-    window.addEventListener("mousemove", followLight);
 
     return () => {
       window.removeEventListener("mousemove", followLight);
