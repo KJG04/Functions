@@ -20,7 +20,9 @@ const ContactMe = () => {
         </S.ContentContainer>
         <S.ContentContainer>
           <S.Subtitle>github</S.Subtitle>
-          <S.Title>https://github.com/KJG04</S.Title>
+          <S.TitleLink href="https://github.com/KJG04" target="_blank" rel="noreferrer">
+            https://github.com/KJG04
+          </S.TitleLink>
         </S.ContentContainer>
       </S.CenterContainer>
     </>

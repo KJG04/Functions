@@ -46,7 +46,7 @@ export const CenterContainer = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  row-gap: 32px;
 `;
 
 export const ContentContainer = styled.div`
@@ -64,4 +64,10 @@ export const Title = styled.div`
 export const Subtitle = styled.div`
   font: ${font.headline3};
   color: ${color.black};
+`;
+
+export const TitleLink = styled.a`
+  font: ${font.headline1};
+  color: ${color.black};
+  text-decoration: underline;
 `;
