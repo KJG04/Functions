@@ -53,6 +53,13 @@ const ContactMe = () => {
     }
 
     const origin: Point = { x: window.screen.width / 2, y: 0 };
+    const mouse: Point = { x: e.screenX, y: e.screenY };
+
+    const temp: Point = { x: -origin.x + mouse.x, y: -origin.y + mouse.y };
+
+    const deg = (Math.atan2(temp.y, temp.x) * 180) / Math.PI - 90;
+
+    darkContainer.style.transform = `rotate(${deg}deg)`;
   };
 
   useEffect(() => {
