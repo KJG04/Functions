@@ -20,10 +20,19 @@ export const Container = styled.div`
 
 const Dark = styled.div`
   position: absolute;
-  width: 50vw;
+  width: 500vw;
   height: 200vh;
   top: -10vh;
   background-color: ${color.darkGray};
+
+  ::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 90%;
+    background-color: ${color.darkGray};
+  }
 `;
 
 export const Dark1 = styled(Dark)`

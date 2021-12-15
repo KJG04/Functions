@@ -65,8 +65,10 @@ const ContactMe = () => {
             </StickyNav>
           </S.ContentContainer>
         </S.CenterContainer>
-        <S.Dark1 ref={leftDarkRef} />
-        <S.Dark2 ref={rightDarkRef} />
+        <div>
+          <S.Dark1 ref={leftDarkRef} />
+          <S.Dark2 ref={rightDarkRef} />
+        </div>
       </S.Container>
     </>
   );
