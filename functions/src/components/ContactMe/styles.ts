@@ -20,22 +20,33 @@ export const Container = styled.div`
 
 const Dark = styled.div`
   position: absolute;
-  width: 50vw;
+  width: 500vw;
   height: 200vh;
   top: -10vh;
   background-color: ${color.darkGray};
+
+  ::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 90%;
+    background-color: ${color.darkGray};
+  }
 `;
 
 export const Dark1 = styled(Dark)`
   right: 50%;
-  transform: rotate(30deg);
   transform-origin: right top;
 `;
 
 export const Dark2 = styled(Dark)`
-  transform: rotate(-30deg);
   transform-origin: left top;
   left: 50%;
+`;
+
+export const DarkContainer = styled.div`
+  transition: transform 2s cubic-bezier(0.075, 0.82, 0.165, 1);
 `;
 
 export const CenterContainer = styled.div`
@@ -59,6 +70,7 @@ export const Title = styled.div`
   font: ${font.headline1};
   color: ${color.black};
   text-decoration: underline;
+  cursor: pointer;
 `;
 
 export const Subtitle = styled.div`
