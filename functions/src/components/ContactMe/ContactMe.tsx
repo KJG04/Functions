@@ -16,13 +16,17 @@ const ContactMe = () => {
       <S.CenterContainer>
         <S.ContentContainer>
           <S.Subtitle>email</S.Subtitle>
-          <S.Title>freedom7113@gmail.com</S.Title>
+          <StickyNav>
+            <S.Title>freedom7113@gmail.com</S.Title>
+          </StickyNav>
         </S.ContentContainer>
         <S.ContentContainer>
           <S.Subtitle>github</S.Subtitle>
-          <S.TitleLink href="https://github.com/KJG04" target="_blank" rel="noreferrer">
-            https://github.com/KJG04
-          </S.TitleLink>
+          <StickyNav>
+            <S.TitleLink href="https://github.com/KJG04" target="_blank" rel="noreferrer">
+              https://github.com/KJG04
+            </S.TitleLink>
+          </StickyNav>
         </S.ContentContainer>
       </S.CenterContainer>
     </>
