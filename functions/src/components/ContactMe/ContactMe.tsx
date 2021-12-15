@@ -38,6 +38,7 @@ const ContactMe = () => {
 
     gsap.to(leftDark, { duration: 2, rotation: 30, ease: Power4.easeInOut });
     gsap.to(rightDark, { duration: 2, rotation: -30, ease: Power4.easeInOut });
+    gsap.to(rightDark, { duration: 2, rotation: -30, ease: Power4.easeInOut });
   };
 
   useEffect(() => {
@@ -66,7 +67,6 @@ const ContactMe = () => {
         </S.CenterContainer>
         <S.Dark1 ref={leftDarkRef} />
         <S.Dark2 ref={rightDarkRef} />
-        <S.CoverDark />
       </S.Container>
     </>
   );

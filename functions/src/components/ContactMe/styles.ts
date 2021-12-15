@@ -36,15 +36,6 @@ export const Dark2 = styled(Dark)`
   left: 50%;
 `;
 
-export const CoverDark = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 200vh;
-  top: 0px;
-  left: 0px;
-  background-color: ${color.darkGray};
-`;
-
 export const CenterContainer = styled.div`
   position: absolute;
   top: 50%;
