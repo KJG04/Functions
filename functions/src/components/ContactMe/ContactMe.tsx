@@ -4,11 +4,17 @@ import { color } from "../../style/color";
 import StickyNav from "../StickyNav/StickyNav";
 import gsap, { Power4 } from "gsap";
 
+interface Point {
+  x: number;
+  y: number;
+}
+
 const ContactMe = () => {
   const EMAIL = "freedom7113@gmail.com";
 
   const leftDarkRef = useRef<HTMLDivElement>(null);
   const rightDarkRef = useRef<HTMLDivElement>(null);
+  const darkContainerRef = useRef<HTMLDivElement>(null);
 
   const copy = (string: string) => {
     var textarea = document.createElement("textarea");
@@ -38,12 +44,25 @@ const ContactMe = () => {
 
     gsap.to(leftDark, { duration: 2, rotation: 30, ease: Power4.easeInOut });
     gsap.to(rightDark, { duration: 2, rotation: -30, ease: Power4.easeInOut });
-    gsap.to(rightDark, { duration: 2, rotation: -30, ease: Power4.easeInOut });
+  };
+
+  const followLight = (e: MouseEvent) => {
+    const darkContainer = darkContainerRef.current;
+    if (!darkContainer) {
+      return;
+    }
+
+    const origin: Point = { x: window.screen.width / 2, y: 0 };
   };
 
   useEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.darkGray;
     openLight();
+    window.addEventListener("mousemove", followLight);
+
+    return () => {
+      window.removeEventListener("mousemove", followLight);
+    };
   }, []);
 
   return (
@@ -65,7 +84,7 @@ const ContactMe = () => {
             </StickyNav>
           </S.ContentContainer>
         </S.CenterContainer>
-        <div>
+        <div ref={darkContainerRef}>
           <S.Dark1 ref={leftDarkRef} />
           <S.Dark2 ref={rightDarkRef} />
         </div>
