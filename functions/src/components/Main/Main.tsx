@@ -49,7 +49,11 @@ const Main = (): JSX.Element => {
   const onPathFinder = () => {};
   const onHeapTree = () => {};
   const onDice = () => {};
-  const onContactMe = () => {};
+  const onContactMe = () => {
+    setTimeout(() => {
+      navigate("/contact");
+    }, 3000);
+  };
 
   const navArray: Nav[] = [
     { text: "Minesweeper", onClick: onMinesweeper, color: color.green },
