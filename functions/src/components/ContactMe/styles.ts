@@ -59,6 +59,7 @@ export const Title = styled.div`
   font: ${font.headline1};
   color: ${color.black};
   text-decoration: underline;
+  cursor: pointer;
 `;
 
 export const Subtitle = styled.div`
