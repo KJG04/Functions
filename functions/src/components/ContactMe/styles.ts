@@ -28,14 +28,21 @@ const Dark = styled.div`
 
 export const Dark1 = styled(Dark)`
   right: 50%;
-  transform: rotate(30deg);
   transform-origin: right top;
 `;
 
 export const Dark2 = styled(Dark)`
-  transform: rotate(-30deg);
   transform-origin: left top;
   left: 50%;
+`;
+
+export const CoverDark = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 200vh;
+  top: 0px;
+  left: 0px;
+  background-color: ${color.darkGray};
 `;
 
 export const CenterContainer = styled.div`
