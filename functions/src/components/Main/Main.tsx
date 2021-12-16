@@ -39,21 +39,18 @@ const Main = (): JSX.Element => {
     });
   };
 
-  const onMinesweeper = () => {
+  const toNavigate = (path: string) => {
     setTimeout(() => {
-      navigate("/minesweeper");
+      navigate(`/${path}`);
     }, 3000);
   };
 
+  const onMinesweeper = () => toNavigate("minesweeper");
   const onLoginGate = () => {};
   const onPathFinder = () => {};
   const onHeapTree = () => {};
-  const onDice = () => {};
-  const onContactMe = () => {
-    setTimeout(() => {
-      navigate("/contact");
-    }, 3000);
-  };
+  const onDice = () => toNavigate("dice");
+  const onContactMe = () => toNavigate("contact");
 
   const navArray: Nav[] = [
     { text: "Minesweeper", onClick: onMinesweeper, color: color.green },
