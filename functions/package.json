@@ -27,6 +27,7 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
     "redux": "^4.1.1",
+    "three-stdlib": "^2.6.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
