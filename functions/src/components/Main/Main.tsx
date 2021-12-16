@@ -152,6 +152,7 @@ const Main = (): JSX.Element => {
         ref={(el) => (navsRef.current[index] = el!)}
         onMouseEnter={() => onNavEnter(color)}
         onMouseLeave={onNavLeave}
+        key={index}
       >
         <S.NoDecoLink onClick={onClickHandler}>
           <S.Title canScale={canScale}>{text}</S.Title>
