@@ -1,6 +1,12 @@
+import { useLayoutEffect } from "react";
+import { color } from "../../style/color";
 
 const Dice = () => {
-    return <div>hello world!</div>
-}
+  useLayoutEffect(() => {
+    document.querySelector("html")!.style.backgroundColor = color.lightBlue;
+  }, []);
+
+  return <div>hello world!</div>;
+};
 
 export default Dice;
