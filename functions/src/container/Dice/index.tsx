@@ -1,4 +1,4 @@
-import Dice from "../../components/Dice/DIce";
+import Dice from "../../components/Dice/Dice";
 
 const DiceContainer = () => {
   return <Dice />;
