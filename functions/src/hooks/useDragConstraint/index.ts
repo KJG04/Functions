@@ -17,13 +17,12 @@ const useDragConstraint = (
   useEffect(() => void api.disable(), []);
   useFrame(() => {
     if (isDrag.current) {
-      childApi.angularVelocity.set(30, 30, 30);
+      childApi.angularVelocity.set(10, 10, 10);
     }
   });
 
   const onPointerUp = useCallback(() => {
     isDrag.current = false;
-    childApi.velocity.set(0, 30, 0);
     api.disable();
   }, []);
 
