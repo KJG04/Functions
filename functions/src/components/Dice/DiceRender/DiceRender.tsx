@@ -20,9 +20,9 @@ const DiceRender = () => {
 
   useFrame((e) => {
     const x = e.mouse.x * e.viewport.width;
-    const y = e.mouse.y * e.viewport.height;
+    const y = (e.mouse.y * e.viewport.height) / 1.9 + -x / 3.5;
 
-    cursorApi.position.set(x, y, 0);
+    cursorApi.position.set(x / 1.4, y, 0);
   });
 
   const [ref] = useBox(() => ({
@@ -30,7 +30,7 @@ const DiceRender = () => {
     args: boxSize,
     linearDamping: 0.9,
     angulardamping: 1.99,
-    position: [0, 0, 16],
+    position: [0, 16, 0],
   }));
 
   const bind = useDragConstraint(ref, cursorRef);

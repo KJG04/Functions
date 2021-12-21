@@ -12,8 +12,8 @@ const Test = () => {
       <Canvas
         mode="concurrent"
         shadows
-        gl={{ alpha: false }}
-        camera={{ position: [0, -15, 15], fov: 50 }}
+        orthographic
+        camera={{ position: [-25, 20, 25], zoom: 25, near: 1, far: 100 }}
       >
         <hemisphereLight intensity={1} color={color.backgroundColor} />
         <spotLight
@@ -25,8 +25,12 @@ const Test = () => {
           shadow-mapSize-width={256}
           shadow-mapSize-height={256}
         />
-        <Physics gravity={[0, 0, -30]}>
-          <Plane color={color.backgroundColor} />
+        <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
+          <Plane
+            color={color.backgroundColor}
+            position={[0, -5, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+          />
           <DiceRender />
         </Physics>
       </Canvas>
