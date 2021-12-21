@@ -1,7 +1,7 @@
 import { PublicApi, usePointToPointConstraint } from "@react-three/cannon";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
-import { PointerEvent, RefObject, useCallback, useEffect, useRef } from "react";
-import { Euler, Object3D, Vector3 } from "three";
+import { useFrame } from "@react-three/fiber";
+import { RefObject, useCallback, useEffect, useRef } from "react";
+import { Object3D } from "three";
 
 const useDragConstraint = (
   child: RefObject<Object3D>,
@@ -23,7 +23,7 @@ const useDragConstraint = (
 
   const onPointerUp = useCallback(() => {
     isDrag.current = false;
-    childApi.velocity.set(0, 0, 30);
+    childApi.velocity.set(0, 30, 0);
     api.disable();
   }, []);
 
