@@ -14,6 +14,7 @@ const DiceRender = () => {
       type: "Static",
       args: [0.5],
       position: [0, 0, 10000],
+      collisionFilterMask: 100,
     }),
     cursor
   );
