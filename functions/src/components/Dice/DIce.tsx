@@ -4,6 +4,7 @@ import { useLayoutEffect } from "react";
 import { color } from "../../style/color";
 import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
+import * as S from "./styles";
 
 const Dice = () => {
   useLayoutEffect(() => {
