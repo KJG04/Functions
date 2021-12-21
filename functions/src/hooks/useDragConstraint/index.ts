@@ -1,5 +1,6 @@
 import { usePointToPointConstraint } from "@react-three/cannon";
-import { RefObject, useCallback, useEffect } from "react";
+import { ThreeEvent } from "@react-three/fiber";
+import { PointerEvent, RefObject, useCallback, useEffect } from "react";
 import { Object3D } from "three";
 
 const useDragConstraint = (child: RefObject<Object3D>, cursor: RefObject<Object3D>) => {
@@ -7,13 +8,18 @@ const useDragConstraint = (child: RefObject<Object3D>, cursor: RefObject<Object3
     pivotA: [0, 0, 0],
     pivotB: [0, 0, 0],
   });
+
   useEffect(() => void api.disable(), []);
+
   const onPointerUp = useCallback(() => api.disable(), []);
+
   const onPointerDown = useCallback((e) => {
+    console.log(e);
     e.stopPropagation();
     e.target.setPointerCapture(e.pointerId);
     api.enable();
   }, []);
+
   return { onPointerUp, onPointerDown };
 };
 
