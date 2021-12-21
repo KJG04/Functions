@@ -13,17 +13,20 @@ const Test = () => {
         mode="concurrent"
         shadows
         orthographic
-        camera={{ position: [-25, 20, 25], zoom: 25, near: 1, far: 100 }}
+        camera={{ position: [-25, 20, 25], zoom: 50, near: 1, far: 100 }}
       >
-        <hemisphereLight intensity={1} color={color.backgroundColor} />
-        <spotLight position={[0, 20, 0]} angle={0.4} penumbra={1} intensity={0.6} castShadow />
+        <hemisphereLight intensity={1} />
+        <spotLight
+          position={[0, 20, 0]}
+          angle={0.9}
+          penumbra={1}
+          intensity={1}
+          castShadow
+          color={color.lightBlue}
+        />
         <ambientLight intensity={0.2} />
         <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
-          <Plane
-            color={color.backgroundColor}
-            position={[0, -5, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-          />
+          <Plane color={color.lightBlue} position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           <DiceRender />
         </Physics>
       </Canvas>
