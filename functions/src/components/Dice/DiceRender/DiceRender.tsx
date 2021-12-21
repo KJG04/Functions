@@ -26,7 +26,7 @@ const DiceRender = () => {
     cursorApi.position.set(x / 1.4, y, 0);
   });
 
-  const [ref] = useBox(() => ({
+  const [ref, api] = useBox(() => ({
     mass: 1,
     args: boxSize,
     linearDamping: 0.9,
@@ -34,7 +34,7 @@ const DiceRender = () => {
     position: [0, 0, 0],
   }));
 
-  const bind = useDragConstraint(ref, cursorRef);
+  const bind = useDragConstraint(ref, api, cursorRef);
 
   return (
     <>
