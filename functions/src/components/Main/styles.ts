@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  user-select: none;
 `;
 
 export const Title = styled.div<{ canScale: boolean }>`
@@ -30,17 +31,20 @@ export const TitleContainer = styled.div`
   align-items: center;
   justify-content: right;
   display: flex;
+  user-select: none;
   box-sizing: border-box;
 `;
 
 export const TitleContainerInner = styled.div`
   display: flex;
   row-gap: 24px;
+  user-select: none;
   flex-direction: column;
 `;
 
 export const NoDecoLink = styled.div`
   text-decoration: none;
   outline: none;
+  user-select: none;
   cursor: none !important;
 `;
