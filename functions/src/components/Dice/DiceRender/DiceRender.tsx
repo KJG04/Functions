@@ -30,7 +30,7 @@ const DiceRender = () => {
     args: boxSize,
     linearDamping: 0.9,
     angulardamping: 1.99,
-    position: [0, 16, 0],
+    position: [0, 0, 0],
   }));
 
   const bind = useDragConstraint(ref, cursorRef);

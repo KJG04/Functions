@@ -16,15 +16,8 @@ const Test = () => {
         camera={{ position: [-25, 20, 25], zoom: 25, near: 1, far: 100 }}
       >
         <hemisphereLight intensity={1} color={color.backgroundColor} />
-        <spotLight
-          position={[-12, 8, 12]}
-          angle={0.9}
-          penumbra={0.5}
-          intensity={2}
-          castShadow
-          shadow-mapSize-width={256}
-          shadow-mapSize-height={256}
-        />
+        <spotLight position={[0, 20, 0]} angle={0.4} penumbra={1} intensity={0.6} castShadow />
+        <ambientLight intensity={0.2} />
         <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
           <Plane
             color={color.backgroundColor}
