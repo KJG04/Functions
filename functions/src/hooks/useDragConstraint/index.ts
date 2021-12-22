@@ -16,14 +16,14 @@ const useDragConstraint = (
 
   useEffect(() => void api.disable(), []);
 
-  // useFrame((e) => {
-  //   if (isDrag.current) {
-  //     const t = e.clock.getElapsedTime();
-  //     const sin = Math.sin(t + Math.PI) * 10;
-  //     const cos = Math.cos(t) * 10;
-  //     // childApi.rotation.set(sin, cos, cos);
-  //   }
-  // });
+  useFrame((e) => {
+    // if (isDrag.current) {
+    //   const t = e.clock.getElapsedTime();
+    //   const sin = Math.sin(t + Math.PI) * 10;
+    //   const cos = Math.cos(t) * 10;
+    //   // childApi.rotation.set(sin, cos, cos);
+    // }
+  });
 
   const getRandomInt = (min: number, max: number): number => {
     min = Math.ceil(min);

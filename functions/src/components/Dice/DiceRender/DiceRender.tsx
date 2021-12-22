@@ -1,6 +1,7 @@
 import { Triplet, useBox, useSphere } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { Euler, Vector3 } from "three";
+import { useEffect, useRef } from "react";
+import { Vector3 } from "three";
 import useDragConstraint from "../../../hooks/useDragConstraint";
 import { color } from "../../Minesweeper";
 
@@ -15,12 +16,8 @@ const DiceRender = () => {
     collisionFilterMask: 100,
   }));
 
-  useFrame((e) => {
-    const x = e.mouse.x * e.viewport.width;
-    const y = (e.mouse.y * e.viewport.height) / 1.9 + -x / 3.5;
-
-    cursorApi.position.set(x / 1.4, y, 0);
-  });
+  const angularVelocity = useRef<Triplet>([0, 0, 0]);
+  const velocity = useRef<Triplet>([0, 0, 0]);
 
   const [ref, api] = useBox(() => ({
     mass: 1,
@@ -31,6 +28,29 @@ const DiceRender = () => {
   }));
 
   const bind = useDragConstraint(ref, api, cursorRef);
+
+  useFrame((e) => {
+    const x = e.mouse.x * e.viewport.width;
+    const y = (e.mouse.y * e.viewport.height) / 1.9 + -x / 3.5;
+
+    cursorApi.position.set(x / 1.4, y, 0);
+  });
+
+  useEffect(() => {
+    //각속도값과 이동속도값을 가지기 위해 subscribe를 통해 가져온다.
+    const unsubscribeAngularVelocity = api.angularVelocity.subscribe((v) => {
+      angularVelocity.current = v;
+    });
+    const unsubscribeVelocity = api.velocity.subscribe((v) => {
+      velocity.current = v;
+    });
+
+    return () => {
+      //dice가 없어지면 속도값을 구할 필요가 없기 때문에 unsubscribe한다.
+      unsubscribeAngularVelocity();
+      unsubscribeVelocity();
+    };
+  }, []);
 
   return (
     <>
