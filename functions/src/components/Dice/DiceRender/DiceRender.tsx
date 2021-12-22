@@ -27,6 +27,7 @@ const DiceRender = () => {
     args: boxSize.map((value) => value * sizeOffset) as Triplet,
     linearDamping: 0.9,
     angulardamping: 1.99,
+    material: { friction: 1, restitution: 100 },
     position: [0, 0, 0],
   }));
 

@@ -15,9 +15,14 @@ const useDragConstraint = (
   const isDrag = useRef(false);
 
   useEffect(() => void api.disable(), []);
-  useFrame(() => {
+
+  useFrame((e) => {
     if (isDrag.current) {
-      childApi.angularVelocity.set(10, 10, 10);
+      const t = e.clock.getElapsedTime();
+      const sin = Math.sin(t + Math.PI * 2) * 20;
+      const cos = Math.cos(t) * 20;
+      childApi.rotation.set(sin, cos, cos);
+      childApi.angularVelocity.set(sin, cos, cos);
     }
   });
 
