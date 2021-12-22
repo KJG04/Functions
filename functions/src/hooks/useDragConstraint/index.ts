@@ -16,27 +16,36 @@ const useDragConstraint = (
 
   useEffect(() => void api.disable(), []);
 
-  useFrame((e) => {
-    if (isDrag.current) {
-      const t = e.clock.getElapsedTime();
-      const sin = Math.sin(t + Math.PI * 2) * 20;
-      const cos = Math.cos(t) * 20;
-      childApi.rotation.set(sin, cos, cos);
-      childApi.angularVelocity.set(sin, cos, cos);
-    }
-  });
+  // useFrame((e) => {
+  //   if (isDrag.current) {
+  //     const t = e.clock.getElapsedTime();
+  //     const sin = Math.sin(t + Math.PI) * 10;
+  //     const cos = Math.cos(t) * 10;
+  //     // childApi.rotation.set(sin, cos, cos);
+  //   }
+  // });
+
+  const getRandomInt = (min: number, max: number): number => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+  };
 
   const onPointerUp = useCallback(() => {
     isDrag.current = false;
     api.disable();
-  }, []);
+    childApi.angularVelocity.set(getRandomInt(-5, 5), getRandomInt(-5, 5), getRandomInt(-5, 5));
+  }, [api, childApi.angularVelocity]);
 
-  const onPointerDown = useCallback((e) => {
-    isDrag.current = true;
-    e.stopPropagation();
-    e.target.setPointerCapture(e.pointerId);
-    api.enable();
-  }, []);
+  const onPointerDown = useCallback(
+    (e) => {
+      isDrag.current = true;
+      e.stopPropagation();
+      e.target.setPointerCapture(e.pointerId);
+      api.enable();
+    },
+    [api]
+  );
 
   return { onPointerUp, onPointerDown };
 };

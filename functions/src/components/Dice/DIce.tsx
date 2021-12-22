@@ -30,7 +30,7 @@ const Dice = () => {
           color={color.lightBlue}
         />
         <ambientLight intensity={0.2} />
-        <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
+        <Physics iterations={15} gravity={[0, -30, 0]} allowSleep>
           <Plane color={color.lightBlue} position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           <DiceRender />
         </Physics>

@@ -27,7 +27,6 @@ const DiceRender = () => {
     args: boxSize.map((value) => value * sizeOffset) as Triplet,
     linearDamping: 0.9,
     angulardamping: 1.99,
-    material: { friction: 1, restitution: 100 },
     position: [0, 0, 0],
   }));
 
@@ -149,10 +148,7 @@ const DiceRender = () => {
           </mesh>
         </group>
       </group>
-      <mesh ref={cursorRef}>
-        <sphereBufferGeometry args={[0.5, 32, 32]} />
-        <meshBasicMaterial fog={false} depthTest={false} transparent opacity={0.5} />
-      </mesh>
+      <mesh ref={cursorRef} />
     </>
   );
 };
