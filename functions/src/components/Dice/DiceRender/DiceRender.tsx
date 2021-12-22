@@ -1,6 +1,6 @@
 import { Triplet, useBox, useSphere } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
 import useDragConstraint from "../../../hooks/useDragConstraint";
 import { color } from "../../Minesweeper";
@@ -16,8 +16,11 @@ const DiceRender = () => {
     collisionFilterMask: 100,
   }));
 
-  const angularVelocity = useRef<Triplet>([0, 0, 0]);
-  const velocity = useRef<Triplet>([0, 0, 0]);
+  const angularVelocity = useRef<Triplet>([1, 0, 0]);
+  const velocity = useRef<Triplet>([1, 0, 0]);
+  const [isRoll, setIsRoll] = useState<boolean>(true);
+
+  const falseCount = useRef<number>(0);
 
   const [ref, api] = useBox(() => ({
     mass: 1,
@@ -29,12 +32,54 @@ const DiceRender = () => {
 
   const bind = useDragConstraint(ref, api, cursorRef);
 
+  const isRolling = (): boolean => {
+    const v = velocity.current.map((v) => Math.ceil(v * 100) / 100);
+    const a = angularVelocity.current.map((v) => Math.ceil(v * 100) / 100);
+
+    return v.some((value) => Math.abs(value) >= 0.1) || a.some((value) => Math.abs(value) >= 0.1);
+  };
+
+  const checkDiceIsRolling = useCallback(() => {
+    //멈춰있는지 확인한다.
+    const presentState = isRolling();
+    const prevState = isRoll;
+
+    if (presentState !== prevState) {
+      //현재 상태와 이전 상태가 다를때
+      let isChange = false;
+
+      if (!presentState) {
+        //현재 상태가 false이면 falseCount의 값을 올린다.
+        const max = 30;
+        if (falseCount.current > max) {
+          //만약 falseCount 값이 count보다 크면 그때 isRoll 값을 false로 하고 falseCount는 0으로 한다.
+          setIsRoll(false);
+          isChange = true;
+          falseCount.current = 0;
+        } else {
+          falseCount.current = falseCount.current + 1;
+        }
+      }
+
+      if (!isChange) {
+        setIsRoll(true);
+      }
+    }
+  }, [isRoll]);
+
   useFrame((e) => {
+    //커서 위치를 매 프레임 설정한다.
     const x = e.mouse.x * e.viewport.width;
     const y = (e.mouse.y * e.viewport.height) / 1.9 + -x / 3.5;
 
     cursorApi.position.set(x / 1.4, y, 0);
+
+    checkDiceIsRolling();
   });
+
+  useEffect(() => {
+    console.log("dice is rolling? : ", isRoll);
+  }, [isRoll]);
 
   useEffect(() => {
     //각속도값과 이동속도값을 가지기 위해 subscribe를 통해 가져온다.
@@ -54,8 +99,8 @@ const DiceRender = () => {
 
   return (
     <>
-      <group ref={ref} scale={new Vector3(sizeOffset, sizeOffset, sizeOffset)}>
-        <mesh castShadow receiveShadow {...bind}>
+      <group ref={ref} scale={new Vector3(sizeOffset, sizeOffset, sizeOffset)} {...bind}>
+        <mesh castShadow receiveShadow>
           <boxBufferGeometry attach="geometry" />
           <meshLambertMaterial attach="material" color={color.white} />
         </mesh>

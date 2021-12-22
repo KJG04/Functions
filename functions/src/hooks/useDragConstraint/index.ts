@@ -1,6 +1,5 @@
 import { PublicApi, usePointToPointConstraint } from "@react-three/cannon";
-import { useFrame } from "@react-three/fiber";
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect } from "react";
 import { Object3D } from "three";
 
 const useDragConstraint = (
@@ -12,18 +11,8 @@ const useDragConstraint = (
     pivotA: [0, 0, 0],
     pivotB: [0, 0, 0],
   });
-  const isDrag = useRef(false);
 
-  useEffect(() => void api.disable(), []);
-
-  useFrame((e) => {
-    // if (isDrag.current) {
-    //   const t = e.clock.getElapsedTime();
-    //   const sin = Math.sin(t + Math.PI) * 10;
-    //   const cos = Math.cos(t) * 10;
-    //   // childApi.rotation.set(sin, cos, cos);
-    // }
-  });
+  useEffect(() => void api.disable(), [api]);
 
   const getRandomInt = (min: number, max: number): number => {
     min = Math.ceil(min);
@@ -32,14 +21,12 @@ const useDragConstraint = (
   };
 
   const onPointerUp = useCallback(() => {
-    isDrag.current = false;
     api.disable();
     childApi.angularVelocity.set(getRandomInt(-5, 5), getRandomInt(-5, 5), getRandomInt(-5, 5));
-  }, [api, childApi.angularVelocity]);
+  }, [api]);
 
   const onPointerDown = useCallback(
     (e) => {
-      isDrag.current = true;
       e.stopPropagation();
       e.target.setPointerCapture(e.pointerId);
       api.enable();

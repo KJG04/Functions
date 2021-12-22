@@ -1,7 +1,6 @@
-import { Physics, useSphere } from "@react-three/cannon";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { createRef, useLayoutEffect } from "react";
-import { Object3D } from "three";
+import { Physics } from "@react-three/cannon";
+import { Canvas } from "@react-three/fiber";
+import { useLayoutEffect } from "react";
 import { color } from "../../style/color";
 import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
@@ -30,7 +29,7 @@ const Dice = () => {
           color={color.lightBlue}
         />
         <ambientLight intensity={0.2} />
-        <Physics iterations={15} gravity={[0, -30, 0]} allowSleep>
+        <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
           <Plane color={color.lightBlue} position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           <DiceRender />
         </Physics>
