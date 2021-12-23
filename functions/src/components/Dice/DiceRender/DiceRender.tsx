@@ -97,6 +97,10 @@ const DiceRender = () => {
     };
   }, []);
 
+  const resetDicePosition = useCallback(() => {
+    api.position.set(0, 0, 0);
+  }, [api]);
+
   return (
     <>
       <group ref={ref} scale={new Vector3(sizeOffset, sizeOffset, sizeOffset)} {...bind}>
