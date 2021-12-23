@@ -9,18 +9,13 @@ const DiceRender = () => {
   const boxSize: Triplet = [1, 1, 1];
   const sizeOffset = 2;
   const circleArgs: [number, number] = [1 * 0.1, 100];
+
   const [cursorRef, cursorApi] = useSphere(() => ({
     type: "Static",
     args: [0.5],
     position: [0, 0, 10000],
     collisionFilterMask: 100,
   }));
-
-  const angularVelocity = useRef<Triplet>([1, 0, 0]);
-  const velocity = useRef<Triplet>([1, 0, 0]);
-  const [isRoll, setIsRoll] = useState<boolean>(true);
-
-  const falseCount = useRef<number>(0);
 
   const [ref, api] = useBox(() => ({
     mass: 1,
@@ -29,15 +24,20 @@ const DiceRender = () => {
     angulardamping: 1.99,
     position: [0, 0, 0],
   }));
-
   const bind = useDragConstraint(ref, api, cursorRef);
 
-  const isRolling = (): boolean => {
+  const angularVelocity = useRef<Triplet>([1, 0, 0]);
+  const velocity = useRef<Triplet>([1, 0, 0]);
+  const falseCount = useRef<number>(0);
+
+  const [isRoll, setIsRoll] = useState<boolean>(true);
+
+  const isRolling = useCallback((): boolean => {
     const v = velocity.current.map((v) => Math.ceil(v * 100) / 100);
     const a = angularVelocity.current.map((v) => Math.ceil(v * 100) / 100);
 
     return v.some((value) => Math.abs(value) >= 0.1) || a.some((value) => Math.abs(value) >= 0.1);
-  };
+  }, []);
 
   const checkDiceIsRolling = useCallback(() => {
     //멈춰있는지 확인한다.
@@ -65,7 +65,7 @@ const DiceRender = () => {
         setIsRoll(true);
       }
     }
-  }, [isRoll]);
+  }, [isRoll, isRolling]);
 
   useFrame((e) => {
     //커서 위치를 매 프레임 설정한다.
