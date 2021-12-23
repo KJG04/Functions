@@ -50,8 +50,8 @@ const DiceRender = () => {
 
       if (!presentState) {
         //현재 상태가 false이면 falseCount의 값을 올린다.
-        const max = 30;
-        if (falseCount.current > max) {
+        const maxFrame = 30;
+        if (falseCount.current > maxFrame) {
           //만약 falseCount 값이 count보다 크면 그때 isRoll 값을 false로 하고 falseCount는 0으로 한다.
           setIsRoll(false);
           isChange = true;
