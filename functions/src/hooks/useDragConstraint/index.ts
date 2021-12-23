@@ -5,7 +5,8 @@ import { Object3D } from "three";
 const useDragConstraint = (
   child: RefObject<Object3D>,
   childApi: PublicApi,
-  cursor: RefObject<Object3D>
+  cursor: RefObject<Object3D>,
+  isDrag: React.MutableRefObject<boolean>
 ) => {
   const [, , api] = usePointToPointConstraint(cursor, child, {
     pivotA: [0, 0, 0],
@@ -23,6 +24,7 @@ const useDragConstraint = (
   const onPointerUp = useCallback(() => {
     api.disable();
     childApi.angularVelocity.set(getRandomInt(-5, 5), getRandomInt(-5, 5), getRandomInt(-5, 5));
+    isDrag.current = false;
   }, [api]);
 
   const onPointerDown = useCallback(
@@ -30,6 +32,7 @@ const useDragConstraint = (
       e.stopPropagation();
       e.target.setPointerCapture(e.pointerId);
       api.enable();
+      isDrag.current = true;
     },
     [api]
   );

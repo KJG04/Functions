@@ -1,11 +1,13 @@
 import { Triplet, useBox, useSphere } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Vector3 } from "three";
 import useDragConstraint from "../../../hooks/useDragConstraint";
 import { color } from "../../Minesweeper";
 
-const DiceRender = () => {
+const DiceRender: React.ForwardRefExoticComponent<
+  React.RefAttributes<{ resetDicePosition: () => void }>
+> = forwardRef((props, fref) => {
   const boxSize: Triplet = [1, 1, 1];
   const sizeOffset = 2;
   const circleArgs: [number, number] = [1 * 0.1, 100];
@@ -24,11 +26,13 @@ const DiceRender = () => {
     angulardamping: 1.99,
     position: [0, 0, 0],
   }));
-  const bind = useDragConstraint(ref, api, cursorRef);
 
   const angularVelocity = useRef<Triplet>([1, 0, 0]);
   const velocity = useRef<Triplet>([1, 0, 0]);
   const falseCount = useRef<number>(0);
+  const isDrag = useRef<boolean>(false);
+
+  const bind = useDragConstraint(ref, api, cursorRef, isDrag);
 
   const [isRoll, setIsRoll] = useState<boolean>(true);
 
@@ -48,7 +52,7 @@ const DiceRender = () => {
       //현재 상태와 이전 상태가 다를때
       let isChange = false;
 
-      if (!presentState) {
+      if (!presentState && !isDrag.current) {
         //현재 상태가 false이면 falseCount의 값을 올린다.
         const maxFrame = 30;
         if (falseCount.current > maxFrame) {
@@ -64,6 +68,8 @@ const DiceRender = () => {
       if (!isChange) {
         setIsRoll(true);
       }
+    } else {
+      falseCount.current = 0;
     }
   }, [isRoll, isRolling]);
 
@@ -100,6 +106,10 @@ const DiceRender = () => {
   const resetDicePosition = useCallback(() => {
     api.position.set(0, 0, 0);
   }, [api]);
+
+  useImperativeHandle(fref, () => ({
+    resetDicePosition,
+  }));
 
   return (
     <>
@@ -220,6 +230,6 @@ const DiceRender = () => {
       <mesh ref={cursorRef} />
     </>
   );
-};
+});
 
 export default DiceRender;
