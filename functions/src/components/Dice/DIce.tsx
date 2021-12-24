@@ -1,6 +1,6 @@
 import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { color } from "../../style/color";
 import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
@@ -10,6 +10,8 @@ const Dice = () => {
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.lightBlue;
   }, []);
+
+  const [isRolling, setIsRolling] = useState(true);
 
   return (
     <S.Container>
@@ -31,7 +33,7 @@ const Dice = () => {
         <ambientLight intensity={0.2} />
         <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
           <Plane color={color.lightBlue} position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-          <DiceRender />
+          <DiceRender isRollingState={[isRolling, setIsRolling]} />
         </Physics>
       </Canvas>
     </S.Container>
