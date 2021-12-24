@@ -2,6 +2,7 @@ import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import { useLayoutEffect, useState } from "react";
 import { color } from "../../style/color";
+import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
 import FadeOutCover from "../FadeOutCover/FadeOutCover";
 import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
@@ -37,6 +38,9 @@ const Dice = () => {
           <DiceRender isRollingState={[isRolling, setIsRolling]} />
         </Physics>
       </Canvas>
+      <S.RollingContainer>
+        <AwesomeTextTransiton text={isRolling ? "Rolling" : "Stoped"} />
+      </S.RollingContainer>
       <FadeOutCover color={color.lightBlue} />
     </S.Container>
   );
