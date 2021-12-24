@@ -2,6 +2,7 @@ import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import { useLayoutEffect, useState } from "react";
 import { color } from "../../style/color";
+import FadeOutCover from "../FadeOutCover/FadeOutCover";
 import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
 import * as S from "./styles";
@@ -36,6 +37,7 @@ const Dice = () => {
           <DiceRender isRollingState={[isRolling, setIsRolling]} />
         </Physics>
       </Canvas>
+      <FadeOutCover color={color.lightBlue} />
     </S.Container>
   );
 };

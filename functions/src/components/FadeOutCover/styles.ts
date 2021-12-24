@@ -9,4 +9,5 @@ export const Cover = styled.div<{ opacity: number; color: string }>`
   position: absolute;
   top: 0;
   left: 0;
+  pointer-events: none;
 `;
