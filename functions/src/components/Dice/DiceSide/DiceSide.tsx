@@ -49,7 +49,13 @@ const six: Position[] = [topLeft, centerLeft, bottomLeft, topRight, centerRight,
 const numbers: Position[][] = [one, two, three, four, five, six];
 
 const DiceSide = () => {
-  return <S.Container></S.Container>;
+  return (
+    <S.Container>
+      {five.map((value) => (
+        <S.Dot {...value} />
+      ))}
+    </S.Container>
+  );
 };
 
 export default DiceSide;
