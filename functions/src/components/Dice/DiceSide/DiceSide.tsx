@@ -40,6 +40,14 @@ const bottomRight: Position = {
   horizontal: right,
 };
 
+const one: Position[] = [centerCenter];
+const two: Position[] = [topLeft, bottomRight];
+const three: Position[] = [topLeft, centerCenter, bottomRight];
+const four: Position[] = [topLeft, bottomLeft, topRight, bottomRight];
+const five: Position[] = [topLeft, bottomLeft, centerCenter, topRight, bottomRight];
+const six: Position[] = [topLeft, centerLeft, bottomLeft, topRight, centerRight, bottomRight];
+const numbers: Position[][] = [one, two, three, four, five, six];
+
 const DiceSide = () => {
   return <S.Container></S.Container>;
 };
