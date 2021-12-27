@@ -39,6 +39,7 @@ const Dice = () => {
         </Physics>
       </Canvas>
       <S.RollingContainer>
+        <span>Your Dice is&nbsp;</span>
         <AwesomeTextTransiton text={isRolling ? "Rolling" : "Stoped"} />
       </S.RollingContainer>
       <FadeOutCover color={color.lightBlue} />

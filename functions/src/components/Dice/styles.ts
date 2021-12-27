@@ -10,4 +10,5 @@ export const RollingContainer = styled.div`
   transform: translate(-50%, -50%);
   bottom: 10%;
   left: 50%;
+  display: flex;
 `;
