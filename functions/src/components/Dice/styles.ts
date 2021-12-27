@@ -12,3 +12,10 @@ export const RollingContainer = styled.div`
   left: 50%;
   display: flex;
 `;
+
+export const DiceSideContainer = styled.div`
+  position: absolute;
+  bottom: 10%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+`;

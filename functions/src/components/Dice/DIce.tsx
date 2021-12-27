@@ -7,6 +7,7 @@ import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
 import FadeOutCover from "../FadeOutCover/FadeOutCover";
 import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
+import DiceSide from "./DiceSide/DiceSide";
 import * as S from "./styles";
 
 const textStyle: React.CSSProperties = {
@@ -48,6 +49,9 @@ const Dice = () => {
         <span style={textStyle}>Your Dice is&nbsp;</span>
         <AwesomeTextTransiton style={textStyle} text={isRolling ? "Rolling" : "Stoped"} />
       </S.RollingContainer>
+      <S.DiceSideContainer>
+        <DiceSide />
+      </S.DiceSideContainer>
       <FadeOutCover color={color.lightBlue} />
     </S.Container>
   );
