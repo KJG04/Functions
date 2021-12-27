@@ -1,5 +1,5 @@
-import { PublicApi, usePointToPointConstraint } from "@react-three/cannon";
-import { RefObject, useCallback, useEffect } from "react";
+import { PublicApi, Triplet, usePointToPointConstraint } from "@react-three/cannon";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 import { Object3D } from "three";
 
 const useDragConstraint = (
@@ -13,7 +13,17 @@ const useDragConstraint = (
     pivotB: [0, 0, 0],
   });
 
+  const angularVelocity = useRef<Triplet>([0, 0, 0]);
+
   useEffect(() => void api.disable(), [api]);
+
+  useEffect(() => {
+    const unsubscribeAngularVelocity = childApi.angularVelocity.subscribe((v) => {
+      angularVelocity.current = v;
+    });
+
+    return () => unsubscribeAngularVelocity();
+  }, []);
 
   const getRandomInt = (min: number, max: number): number => {
     min = Math.ceil(min);
@@ -23,7 +33,12 @@ const useDragConstraint = (
 
   const onPointerUp = useCallback(() => {
     api.disable();
-    childApi.angularVelocity.set(getRandomInt(-5, 5), getRandomInt(-5, 5), getRandomInt(-5, 5));
+
+    const [x, y, z] = angularVelocity.current.map(
+      (value) => value + getRandomInt(-5, 5)
+    ) as Triplet;
+
+    childApi.angularVelocity.set(x, y, z);
     isDrag.current = false;
   }, [api]);
 
