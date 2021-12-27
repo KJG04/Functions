@@ -1,9 +1,9 @@
 import * as S from "./styles";
 
-const center = "50%";
+const center = "40%";
 const top = "10%";
-const bottom = "90%";
-const right = "90%";
+const bottom = "70%";
+const right = "70%";
 const left = "10%";
 
 interface Position {

@@ -17,5 +17,4 @@ export const Dot = styled.div<{ vertical: string; horizontal: string }>`
   position: absolute;
   top: ${(props) => props.vertical};
   left: ${(props) => props.horizontal};
-  transform: translate(-50%, -50%);
 `;
