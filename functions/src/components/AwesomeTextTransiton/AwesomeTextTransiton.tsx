@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as S from "./styles";
 
 interface PropsType {
@@ -14,15 +14,29 @@ interface TextType {
 const AwesomeTextTransiton = ({ text, style }: PropsType) => {
   const [texts, setTexts] = useState<TextType>({ now: "", prev: "" });
   const { now, prev } = texts;
+  const container = useRef<HTMLDivElement>(null);
+  const content = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setTexts((oldData) => ({ now: text, prev: oldData.now }));
+
+    if (container.current && content.current) {
+      container.current.style.height = `${content.current.offsetHeight}px`;
+    }
   }, [text]);
 
   return (
-    <S.Container>
-      <div style={style}>{now}</div>
-      <div style={style}>{prev}</div>
+    <S.Container ref={container}>
+      <div style={style}>
+        {prev.split("").map((value) => (
+          <span className="prevs">{value}</span>
+        ))}
+      </div>
+      <div style={style} ref={content}>
+        {now.split("").map((value) => (
+          <span className="prevs">{value}</span>
+        ))}
+      </div>
     </S.Container>
   );
 };
