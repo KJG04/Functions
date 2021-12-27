@@ -1,3 +1,4 @@
+import gsap, { Power4 } from "gsap";
 import { useEffect, useRef, useState } from "react";
 import * as S from "./styles";
 
@@ -25,18 +26,31 @@ const AwesomeTextTransiton = ({ text, style }: PropsType) => {
     }
   }, [text]);
 
+  useEffect(() => {
+    gsap.fromTo(
+      ".prevs",
+      { yPercent: 0 },
+      { duration: 1, ease: Power4.easeOut, stagger: 0.05, yPercent: -100 }
+    );
+    gsap.fromTo(
+      ".nows",
+      { yPercent: 0 },
+      { duration: 1, ease: Power4.easeOut, stagger: 0.05, yPercent: -100 }
+    );
+  }, [texts]);
+
   return (
     <S.Container ref={container}>
-      <div style={style}>
+      <S.TextContainer style={style}>
         {prev.split("").map((value) => (
-          <span className="prevs">{value}</span>
+          <div className="prevs">{value}</div>
         ))}
-      </div>
-      <div style={style} ref={content}>
+      </S.TextContainer>
+      <S.TextContainer style={style} ref={content}>
         {now.split("").map((value) => (
-          <span className="prevs">{value}</span>
+          <div className="nows">{value}</div>
         ))}
-      </div>
+      </S.TextContainer>
     </S.Container>
   );
 };
