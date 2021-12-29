@@ -51,8 +51,8 @@ const numbers: Position[][] = [one, two, three, four, five, six];
 const DiceSide = () => {
   return (
     <S.Container>
-      {five.map((value) => (
-        <S.Dot {...value} />
+      {five.map((value, index) => (
+        <S.Dot key={index} {...value} />
       ))}
     </S.Container>
   );

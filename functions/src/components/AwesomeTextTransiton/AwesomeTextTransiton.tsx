@@ -42,13 +42,17 @@ const AwesomeTextTransiton = ({ text, style }: PropsType) => {
   return (
     <S.Container ref={container}>
       <S.TextContainer style={style}>
-        {prev.split("").map((value) => (
-          <div className="prevs">{value}</div>
+        {prev.split("").map((value, index) => (
+          <div className="prevs" key={index}>
+            {value}
+          </div>
         ))}
       </S.TextContainer>
       <S.TextContainer style={style} ref={content}>
-        {now.split("").map((value) => (
-          <div className="nows">{value}</div>
+        {now.split("").map((value, index) => (
+          <div className="nows" key={index}>
+            {value}
+          </div>
         ))}
       </S.TextContainer>
     </S.Container>
