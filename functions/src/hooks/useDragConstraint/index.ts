@@ -34,11 +34,13 @@ const useDragConstraint = (
   const onPointerUp = useCallback(() => {
     api.disable();
 
-    const [x, y, z] = angularVelocity.current.map(
-      (value) => value + getRandomInt(-5, 5)
-    ) as Triplet;
+    const angularV = angularVelocity.current.map((value) => value + getRandomInt(-5, 5)) as Triplet;
 
-    childApi.angularVelocity.set(x, y, z);
+    angularV[angularV.indexOf(Math.min(...angularV))] =
+      angularV[angularV.indexOf(Math.min(...angularV))] +
+      getRandomInt(5, 10) * Math.sign(angularV[angularV.indexOf(Math.min(...angularV))]);
+
+    childApi.angularVelocity.set(...angularV);
     isDrag.current = false;
   }, [api]);
 
