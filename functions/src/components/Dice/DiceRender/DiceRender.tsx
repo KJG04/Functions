@@ -33,6 +33,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
 
     const angularVelocity = useRef<Triplet>([1, 0, 0]);
     const velocity = useRef<Triplet>([1, 0, 0]);
+    const rotation = useRef<Triplet>([0, 0, 0]);
     const falseCount = useRef<number>(0);
     const isDrag = useRef<boolean>(false);
 
@@ -88,7 +89,10 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
     });
 
     useEffect(() => {
-      console.log("dice is rolling? : ", isRoll);
+      if (!isRoll) {
+        // console.log(rotation.current.slice(0, 3).map((value) => value / Math.PI));
+        console.log(rotation.current.slice(0, 3));
+      }
     }, [isRoll]);
 
     useEffect(() => {
@@ -100,10 +104,18 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
         velocity.current = v;
       });
 
+      //각도를 구하기위해 subscribe를 한다.
+      const unsubscribeRotation = api.rotation.subscribe((v) => {
+        rotation.current = v;
+      });
+
       return () => {
         //dice가 없어지면 속도값을 구할 필요가 없기 때문에 unsubscribe한다.
         unsubscribeAngularVelocity();
         unsubscribeVelocity();
+
+        //dice가 없어지면 각을 구할 필요가 없기 때문에 unsubscribe한다.
+        unsubscribeRotation();
       };
     }, []);
 
