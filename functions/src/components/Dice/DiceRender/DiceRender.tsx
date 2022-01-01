@@ -11,15 +11,6 @@ interface PropsType {
   isRollingState: State<boolean>;
 }
 
-const defaultRotations: number[][] = [
-  [0, 0, 0], //1
-  [0, 90, 0], //2
-  [-90, 0, 0], //3
-  [90, 0, 0], //4
-  [0, -90, 0], //5
-  [180, 0, 0], //6
-];
-
 const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
   ({ isRollingState }, fref) => {
     const boxSize: Triplet = [1, 1, 1];
