@@ -128,11 +128,9 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
           const [x, , z] = result[0];
 
           const sign = x !== 0 ? -1 : 1;
-          if (z * sign === -90) {
-            console.log(`dice is 5`);
-          } else {
-            console.log(`dice is 2`);
-          }
+          const valueMap = new Map().set(true, 5).set(false, 2);
+          const value = valueMap.get(z * sign === -90);
+          console.log(`dice is ${value}`);
         } else {
           const isOneOrSix = result[0][2] % 180 !== 0 && result[0][2] % 90 !== 0;
 
