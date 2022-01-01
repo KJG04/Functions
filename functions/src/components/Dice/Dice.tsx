@@ -1,6 +1,6 @@
 import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { color } from "../../style/color";
 import { font } from "../../style/font";
 import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
