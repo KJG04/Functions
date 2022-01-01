@@ -116,9 +116,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
           const rot = [x, y, z];
           const childRotation = rot.map((v) => Math.round(v * (180 / Math.PI)));
 
-          const calcRotation = parentRotation.map((v, index) => childRotation[index] + v);
-
-          return calcRotation;
+          return parentRotation.map((v, index) => childRotation[index] + v);
         });
 
         //z값을 180으로 나머지 연산했을때 0이 아니고 90으로 나머지 연산했을 때 0이면 주사위의 값은 2 또는 5이다.
@@ -131,18 +129,17 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
 
           const sign = x !== 0 ? -1 : 1;
           if (z * sign === -90) {
-            console.log(`dice is five`);
+            console.log(`dice is 5`);
           } else {
-            console.log(`dice is two`);
+            console.log(`dice is 2`);
           }
         } else {
           const isOneOrSix = result[0][2] % 180 !== 0 && result[0][2] % 90 !== 0;
 
-          let confirmedDots = [-1, -1];
           if (isOneOrSix) {
             //값이 1또는 6일때는 x값만 고려해도 된다.
             //x 값이 -90인 면이 윗면이 된다.
-            confirmedDots = [0, 5];
+            const confirmedDots = [0, 5];
 
             confirmedDots.forEach((v) => {
               const x = result[v][0] > 180 ? result[v][0] - 360 : result[v][0];
@@ -153,7 +150,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
           } else {
             //값이 3또는 4일때는 x값과 z값의 부호를 고려해야한다.
             //x 값에 z의 부호를 곱해 그 값이 -90인 면이 윗면이 된다.
-            confirmedDots = [2, 3];
+            const confirmedDots = [2, 3];
 
             const xs = confirmedDots
               .map((v) => result[v].map((e) => (e > 180 ? e - 360 : e)))
