@@ -1,6 +1,6 @@
 import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { color } from "../../style/color";
 import { font } from "../../style/font";
 import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
@@ -21,6 +21,14 @@ const Dice = () => {
   }, []);
 
   const [isRolling, setIsRolling] = useState(true);
+  const [diceValues, setDiceValues] = useState<number[]>([]);
+
+  const addDiceValue = useCallback(
+    (value: number) => {
+      setDiceValues([...diceValues, value]);
+    },
+    [diceValues]
+  );
 
   return (
     <S.Container>
