@@ -9,10 +9,11 @@ import { color } from "../../Minesweeper";
 
 interface PropsType {
   isRollingState: State<boolean>;
+  addDiceValue: (value: number) => void;
 }
 
 const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
-  ({ isRollingState }, fref) => {
+  ({ isRollingState, addDiceValue }, fref) => {
     const boxSize: Triplet = [1, 1, 1];
     const sizeOffset = 2;
     const circleArgs: [number, number] = [1 * 0.1, 100];
