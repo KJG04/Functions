@@ -1,5 +1,5 @@
 import { Triplet, useBox, useSphere } from "@react-three/cannon";
-import { GroupProps, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import React from "react";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Euler, Object3D, Quaternion, Vector3 } from "three";
@@ -82,7 +82,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
       } else {
         falseCount.current = 0;
       }
-    }, [isRoll, isRolling]);
+    }, [isRoll, isRolling, setIsRoll]);
 
     useFrame((e) => {
       //커서 위치를 매 프레임 설정한다.
@@ -174,9 +174,6 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
 
       //각도를 구하기위해 subscribe를 한다.
       const unsubscribeRotation = api.quaternion.subscribe((v) => {
-        // console.log(v.map((v) => Math.round(v * 100) / 100));
-        // console.log(v);
-        // console.log(v.map((v) => Math.round(v)));
         rotation.current = new Quaternion(...v);
       });
 
