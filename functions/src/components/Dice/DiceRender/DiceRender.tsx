@@ -127,45 +127,12 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
         if (isTwoOrFive) {
           //값이 2 또는 5일때는 x값과 z값을 고려해야 한다.
           //x값은 0또는 180이고 z값은 -90또는 90이다.
+          const [x, , z] = result[0];
 
-          // const confirmedDots = [1, 4];
-
-          // const minRotations = confirmedDots.map((v) =>
-          //   result[v].map((e) => (e > 180 ? e - 360 : e))
-          // );
-
-          // const twoY = minRotations[0][1];
-          // const fiveY = minRotations[1][1];
-
-          // if (Math.abs(twoY) > Math.abs(fiveY)) {
-          //   const offset = Math.sign(twoY) * (Math.abs(twoY) % 90);
-          //   minRotations[0][1] = twoY - offset;
-          //   minRotations[1][1] = fiveY - offset;
-          // } else {
-          //   const offset = Math.sign(fiveY) * (Math.abs(fiveY) % 90);
-          //   minRotations[0][1] = twoY - offset;
-          //   minRotations[1][1] = fiveY - offset;
-          // }
-
-          // console.log(
-          //   minRotations.map((v, index) => `${confirmedDots[index] + 1}: [${v.join(",")}]`)
-          // );
-
-          // console.log(
-          //   confirmedDots.map(
-          //     (v) => `${v + 1}: [${result[v].map((e) => (e > 180 ? e - 360 : e)).join(",")}]`
-          //   )
-          // );
-
-          const [twoX, , twoZ] = result[0];
-          // const [fiveX, , fiveZ] = minRotations[1];
-
-          const sign = twoX !== 0 ? -1 : 1;
-          if (twoZ * sign === -90) {
-            //five
+          const sign = x !== 0 ? -1 : 1;
+          if (z * sign === -90) {
             console.log(`dice is five`);
           } else {
-            //two
             console.log(`dice is two`);
           }
         } else {
