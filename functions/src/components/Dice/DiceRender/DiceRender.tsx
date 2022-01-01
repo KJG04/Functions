@@ -122,7 +122,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
           const sign = x !== 0 ? -1 : 1;
           const valueMap = new Map().set(true, 5).set(false, 2);
           const value = valueMap.get(z * sign === -90);
-          console.log(`dice is ${value}`);
+          addDiceValue(value);
         } else {
           const isOneOrSix = result[0][2] % 180 !== 0 && result[0][2] % 90 !== 0;
 
@@ -134,7 +134,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
             confirmedDots.forEach((v) => {
               const x = result[v][0] > 180 ? result[v][0] - 360 : result[v][0];
               if (x === -90) {
-                console.log(`dice is ${v + 1}`);
+                addDiceValue(v + 1);
               }
             });
           } else {
@@ -152,7 +152,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
 
             confirmedDots.forEach((v, index) => {
               if (xs[index] === -90) {
-                console.log(`dice is ${v + 1}`);
+                addDiceValue(v + 1);
               }
             });
           }
