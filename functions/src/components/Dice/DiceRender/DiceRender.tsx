@@ -103,7 +103,7 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
       checkDiceIsRolling();
     });
 
-    useEffect(() => {
+    const calcDiceValue = useCallback(() => {
       if (!isRoll) {
         const { x, y, z } = new Euler().setFromQuaternion(rotation.current);
         const rot = [x, y, z];
@@ -168,6 +168,10 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
           }
         }
       }
+    }, [isRoll]);
+
+    useEffect(() => {
+      calcDiceValue();
     }, [isRoll]);
 
     useEffect(() => {
