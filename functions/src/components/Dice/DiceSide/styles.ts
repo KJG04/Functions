@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
 import { color } from "../../Minesweeper";
 
-export const Container = styled.div<{ left: string }>`
+export const Container = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 10px;
   background-color: ${color.white};
   position: absolute;
   transform: translate(-50%, -50%);
-  left: ${(props) => props.left};
-  bottom: 10%;
+  top: 90%;
 `;
 
 export const Dot = styled.div<{ vertical: string; horizontal: string }>`

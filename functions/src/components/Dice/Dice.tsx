@@ -15,17 +15,22 @@ const textStyle: React.CSSProperties = {
   color: color.black,
 };
 
+interface DiceValue {
+  value: number;
+  key: number;
+}
+
 const Dice = () => {
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.lightBlue;
   }, []);
 
   const [isRolling, setIsRolling] = useState(true);
-  const [diceValues, setDiceValues] = useState<number[]>([]);
+  const [diceValues, setDiceValues] = useState<DiceValue[]>([]);
 
   const addDiceValue = useCallback(
     (value: number) => {
-      setDiceValues([value, ...diceValues]);
+      setDiceValues([{ value, key: new Date().getMilliseconds() }, ...diceValues]);
     },
     [diceValues]
   );
@@ -39,8 +44,12 @@ const Dice = () => {
 
   const renderDiceSides = useMemo(
     () =>
-      diceValues.map((value, index) => (
-        <DiceSide value={value} left={`calc(90% + ${(diceSidesGap + diceSideSize) * index}px)`} />
+      diceValues.map(({ value, key }, index) => (
+        <DiceSide
+          key={key}
+          value={value}
+          left={`calc(90% + ${(diceSidesGap + diceSideSize) * index}px)`}
+        />
       )),
     [diceValues]
   );

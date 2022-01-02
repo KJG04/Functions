@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import gsap, { Power4, Elastic } from "gsap";
 import { useEffect, useMemo, useRef } from "react";
 import * as S from "./styles";
 
@@ -58,9 +58,50 @@ interface PropsType {
 const DiceSide = ({ value, left }: PropsType) => {
   const dots = useMemo(() => numbers[value - 1], [value]);
   const container = useRef<HTMLDivElement>(null);
+  const isAnimate = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (container.current) {
+      gsap.fromTo(
+        container.current,
+        {
+          left: "-10%",
+          top: "50%",
+          scale: 5,
+        },
+        {
+          top: "50%",
+          left: "50%",
+          duration: 1.5,
+          scale: 5,
+          ease: Power4.easeOut,
+          onComplete: () => {
+            gsap.to(container.current, {
+              top: "90%",
+              left: left,
+              duration: 1.5,
+              scale: 1,
+              ease: Power4.easeOut,
+            });
+            isAnimate.current = true;
+          },
+        }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (container.current && isAnimate.current) {
+      gsap.to(container.current, {
+        duration: 1,
+        ease: Power4.easeOut,
+        left: left,
+      });
+    }
+  }, [left]);
 
   return (
-    <S.Container left={left} ref={container}>
+    <S.Container ref={container}>
       {dots.map((value, index) => (
         <S.Dot key={index} {...value} />
       ))}
