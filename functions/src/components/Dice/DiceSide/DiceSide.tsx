@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import gsap from "gsap";
+import { useEffect, useMemo, useRef } from "react";
 import * as S from "./styles";
 
 const center = "40%";
@@ -51,13 +52,16 @@ const numbers: Position[][] = [one, two, three, four, five, six];
 
 interface PropsType {
   value: number;
+  left: number;
+  top: number;
 }
 
 const DiceSide = ({ value }: PropsType) => {
   const dots = useMemo(() => numbers[value - 1], [value]);
+  const container = useRef<HTMLDivElement>(null);
 
   return (
-    <S.Container>
+    <S.Container ref={container}>
       {dots.map((value, index) => (
         <S.Dot key={index} {...value} />
       ))}

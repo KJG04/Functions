@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 100px;
   border-radius: 10px;
   background-color: ${color.white};
-  position: relative;
+  position: absolute;
 `;
 
 export const Dot = styled.div<{ vertical: string; horizontal: string }>`
