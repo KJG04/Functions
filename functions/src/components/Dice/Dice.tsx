@@ -1,6 +1,6 @@
 import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { color } from "../../style/color";
 import { font } from "../../style/font";
 import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
@@ -25,10 +25,14 @@ const Dice = () => {
 
   const addDiceValue = useCallback(
     (value: number) => {
-      setDiceValues([...diceValues, value]);
+      setDiceValues([value, ...diceValues]);
     },
     [diceValues]
   );
+
+  useEffect(() => {
+    console.log(diceValues);
+  }, [diceValues]);
 
   return (
     <S.Container>
