@@ -6,7 +6,7 @@ import { font } from "../../style/font";
 import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
 import FadeOutCover from "../FadeOutCover/FadeOutCover";
 import Plane from "../Main/Plane/Plane";
-import DiceRender from "./DiceRender/DiceRender";
+import DiceRender, { ForwardRefType } from "./DiceRender/DiceRender";
 import DiceSide from "./DiceSide/DiceSide";
 import * as S from "./styles";
 import RefreshIcon from "../../assets/icons/refresh.svg";
@@ -25,6 +25,8 @@ const Dice = () => {
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.lightBlue;
   }, []);
+
+  const diceRender = useRef<ForwardRefType>(null);
 
   const [isRolling, setIsRolling] = useState(true);
   const [diceValues, setDiceValues] = useState<DiceValue[]>([]);
@@ -55,6 +57,12 @@ const Dice = () => {
     [diceValues]
   );
 
+  const onRefreshClick = () => {
+    if (diceRender.current) {
+      diceRender.current.resetDicePosition();
+    }
+  };
+
   return (
     <S.Container>
       <Canvas
@@ -75,7 +83,11 @@ const Dice = () => {
         <ambientLight intensity={0.2} />
         <Physics iterations={15} gravity={[0, -30, 0]} allowSleep={false}>
           <Plane color={color.lightBlue} position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-          <DiceRender isRollingState={[isRolling, setIsRolling]} addDiceValue={addDiceValue} />
+          <DiceRender
+            ref={diceRender}
+            isRollingState={[isRolling, setIsRolling]}
+            addDiceValue={addDiceValue}
+          />
         </Physics>
       </Canvas>
       <S.RollingContainer>
@@ -83,7 +95,7 @@ const Dice = () => {
         <AwesomeTextTransiton style={textStyle} text={isRolling ? "Rolling" : "Stoped"} />
       </S.RollingContainer>
       {renderDiceSides}
-      <S.Refresh src={RefreshIcon} alt="refresh icon" />
+      <S.Refresh onClick={onRefreshClick} src={RefreshIcon} alt="refresh icon" />
       <FadeOutCover color={color.lightBlue} />
     </S.Container>
   );

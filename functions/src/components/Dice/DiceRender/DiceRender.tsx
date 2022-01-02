@@ -12,7 +12,11 @@ interface PropsType {
   addDiceValue: (value: number) => void;
 }
 
-const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
+export interface ForwardRefType {
+  resetDicePosition: () => void;
+}
+
+const DiceRender = forwardRef<ForwardRefType, PropsType>(
   ({ isRollingState, addDiceValue }, fref) => {
     const boxSize: Triplet = [1, 1, 1];
     const sizeOffset = 2;
@@ -188,8 +192,21 @@ const DiceRender = forwardRef<{ resetDicePosition: () => void }, PropsType>(
       };
     }, []);
 
+    const getRandomArbitrary = (min: number, max: number): number => {
+      return Math.random() * (max - min) + min;
+    };
+
+    const getRandom = () => getRandomArbitrary(-5, 5);
+
     const resetDicePosition = useCallback(() => {
       api.position.set(0, 0, 0);
+
+      const randomA = [1, 2, 3].map(() => getRandom()) as Triplet;
+      const randomV = [1, 2, 3].map(() => getRandom()) as Triplet;
+
+      api.rotation.set(...randomA);
+      api.angularVelocity.set(...randomA);
+      api.velocity.set(...randomV);
     }, [api]);
 
     useImperativeHandle(fref, () => ({
