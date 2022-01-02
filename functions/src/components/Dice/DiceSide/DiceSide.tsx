@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import * as S from "./styles";
 
 const center = "40%";
@@ -53,9 +54,11 @@ interface PropsType {
 }
 
 const DiceSide = ({ value }: PropsType) => {
+  const dots = useMemo(() => numbers[value - 1], [value]);
+
   return (
     <S.Container>
-      {five.map((value, index) => (
+      {dots.map((value, index) => (
         <S.Dot key={index} {...value} />
       ))}
     </S.Container>
