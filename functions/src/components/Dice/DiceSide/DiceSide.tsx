@@ -53,10 +53,9 @@ const numbers: Position[][] = [one, two, three, four, five, six];
 interface PropsType {
   value: number;
   left: number;
-  top: number;
 }
 
-const DiceSide = ({ value }: PropsType) => {
+const DiceSide = ({ value, left }: PropsType) => {
   const dots = useMemo(() => numbers[value - 1], [value]);
   const container = useRef<HTMLDivElement>(null);
 
