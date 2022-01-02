@@ -7,6 +7,7 @@ export const Container = styled.div`
   border-radius: 10px;
   background-color: ${color.white};
   position: absolute;
+  transform: translate(-50%, -50%);
 `;
 
 export const Dot = styled.div<{ vertical: string; horizontal: string }>`

@@ -1,6 +1,6 @@
 import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useMemo } from "react";
 import { color } from "../../style/color";
 import { font } from "../../style/font";
 import AwesomeTextTransiton from "../AwesomeTextTransiton/AwesomeTextTransiton";
@@ -34,6 +34,17 @@ const Dice = () => {
     console.log(diceValues);
   }, [diceValues]);
 
+  const diceSidesGap = 16;
+  const diceSideSize = 100;
+
+  const renderDiceSides = useMemo(
+    () =>
+      diceValues.map((value, index) => (
+        <DiceSide value={value} left={`calc(90% + ${(diceSidesGap + diceSideSize) * index}px)`} />
+      )),
+    [diceValues]
+  );
+
   return (
     <S.Container>
       <Canvas
@@ -61,9 +72,7 @@ const Dice = () => {
         <span style={textStyle}>Your Dice is&nbsp;</span>
         <AwesomeTextTransiton style={textStyle} text={isRolling ? "Rolling" : "Stoped"} />
       </S.RollingContainer>
-      {diceValues.map((v) => (
-        <DiceSide value={v} />
-      ))}
+      {renderDiceSides}
       <FadeOutCover color={color.lightBlue} />
     </S.Container>
   );
