@@ -63,6 +63,9 @@ const Dice = () => {
       </S.RollingContainer>
       <S.DiceSideContainer>
         <DiceSide />
+        <DiceSide />
+        <DiceSide />
+        <DiceSide />
       </S.DiceSideContainer>
       <FadeOutCover color={color.lightBlue} />
     </S.Container>
