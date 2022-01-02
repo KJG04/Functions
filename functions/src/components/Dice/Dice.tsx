@@ -62,10 +62,6 @@ const Dice = () => {
         <AwesomeTextTransiton style={textStyle} text={isRolling ? "Rolling" : "Stoped"} />
       </S.RollingContainer>
       <S.DiceSideContainer>
-        <DiceSide />
-        <DiceSide />
-        <DiceSide />
-        <DiceSide />
       </S.DiceSideContainer>
       <FadeOutCover color={color.lightBlue} />
     </S.Container>

@@ -48,7 +48,11 @@ const five: Position[] = [topLeft, bottomLeft, centerCenter, topRight, bottomRig
 const six: Position[] = [topLeft, centerLeft, bottomLeft, topRight, centerRight, bottomRight];
 const numbers: Position[][] = [one, two, three, four, five, six];
 
-const DiceSide = () => {
+interface PropsType {
+  value: number;
+}
+
+const DiceSide = ({ value }: PropsType) => {
   return (
     <S.Container>
       {five.map((value, index) => (
