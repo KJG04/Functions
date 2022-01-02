@@ -23,7 +23,7 @@ const useDragConstraint = (
     });
 
     return () => unsubscribeAngularVelocity();
-  }, []);
+  }, [childApi.angularVelocity]);
 
   const getRandomInt = (min: number, max: number): number => {
     min = Math.ceil(min);
@@ -42,7 +42,7 @@ const useDragConstraint = (
 
     childApi.angularVelocity.set(...angularV);
     isDrag.current = false;
-  }, [api]);
+  }, [api, isDrag]);
 
   const onPointerDown = useCallback(
     (e) => {
@@ -51,7 +51,7 @@ const useDragConstraint = (
       api.enable();
       isDrag.current = true;
     },
-    [api]
+    [api, isDrag]
   );
 
   return { onPointerUp, onPointerDown };
