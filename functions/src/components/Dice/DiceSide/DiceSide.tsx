@@ -52,7 +52,7 @@ const numbers: Position[][] = [one, two, three, four, five, six];
 
 interface PropsType {
   value: number;
-  left: number;
+  left: string;
 }
 
 const DiceSide = ({ value, left }: PropsType) => {
@@ -60,7 +60,7 @@ const DiceSide = ({ value, left }: PropsType) => {
   const container = useRef<HTMLDivElement>(null);
 
   return (
-    <S.Container ref={container}>
+    <S.Container left={left} ref={container}>
       {dots.map((value, index) => (
         <S.Dot key={index} {...value} />
       ))}
