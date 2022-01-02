@@ -9,6 +9,7 @@ import Plane from "../Main/Plane/Plane";
 import DiceRender from "./DiceRender/DiceRender";
 import DiceSide from "./DiceSide/DiceSide";
 import * as S from "./styles";
+import RefreshIcon from "../../assets/icons/refresh.svg";
 
 const textStyle: React.CSSProperties = {
   font: font.headline3,
@@ -82,6 +83,7 @@ const Dice = () => {
         <AwesomeTextTransiton style={textStyle} text={isRolling ? "Rolling" : "Stoped"} />
       </S.RollingContainer>
       {renderDiceSides}
+      <S.Refresh src={RefreshIcon} alt="refresh icon" />
       <FadeOutCover color={color.lightBlue} />
     </S.Container>
   );
