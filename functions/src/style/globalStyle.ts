@@ -110,6 +110,7 @@ export const reset = css`
   body {
     line-height: auto;
     margin: 0;
+    user-select: none;
   }
   ol,
   ul {
@@ -136,5 +137,6 @@ export const reset = css`
   html {
     background-color: ${color.backgroundColor};
     transition: background-color 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    user-select: none;
   }
 `;

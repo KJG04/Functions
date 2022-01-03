@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AlwaysOnDisplay from "../components/AlwaysOnDisplay/AlwaysOnDisplay";
 import {
   ContactMeContainer,
+  DiceContainer,
   MainContainer,
   MinesweeperContainer,
   TestContainer,
@@ -15,6 +16,7 @@ const MainRouter: FC = (): JSX.Element => {
         <Route path="/" element={<MainContainer />} />
         <Route path="/minesweeper" element={<MinesweeperContainer />} />
         <Route path="/contact" element={<ContactMeContainer />} />
+        <Route path="/dice" element={<DiceContainer />} />
         <Route path="/test" element={<TestContainer />} />
       </Routes>
       <AlwaysOnDisplay />

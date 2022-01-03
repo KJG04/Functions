@@ -6,20 +6,13 @@ import Plane from "../Plane/Plane";
 import * as S from "./styles";
 import { useEffect, useMemo, useState } from "react";
 import BoxType from "../../../interface/BoxType";
+import FadeOutCover from "../../FadeOutCover/FadeOutCover";
 
 interface PropsType {
   boxArray: BoxType[];
 }
 
 const Back = ({ boxArray }: PropsType) => {
-  const [opacity, setOpacity] = useState(1);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setOpacity(0);
-    }, 1000);
-  }, []);
-
   const renderBoxes = useMemo(
     () => boxArray.map((value) => <InstancedBoxs colorValue={value.color} key={`${value.key}`} />),
     [boxArray]
@@ -48,7 +41,7 @@ const Back = ({ boxArray }: PropsType) => {
           {renderBoxes}
         </Physics>
       </Canvas>
-      <S.Cover opacity={opacity} />
+      <FadeOutCover color={color.backgroundColor} />
     </S.Container>
   );
 };
