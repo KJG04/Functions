@@ -1,5 +1,6 @@
 import { useLayoutEffect } from "react";
 import { color } from "../Minesweeper";
+import { ANDGate } from "./Gates";
 
 const LogicGate = () => {
   useLayoutEffect(() => {
@@ -9,6 +10,7 @@ const LogicGate = () => {
   return (
     <>
       <div>hello world!</div>
+      <ANDGate />
     </>
   );
 };
