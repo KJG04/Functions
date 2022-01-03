@@ -20,6 +20,8 @@ const Main = (): JSX.Element => {
   const [scale, setScale] = useState<number>(1);
   const [boxArray, setBoxArray] = useState<BoxType[]>([]);
 
+  const isBig = useRef<boolean>(false);
+
   const setCursorBig = () => {
     setScale(420);
     setCanScale(false);
@@ -40,6 +42,7 @@ const Main = (): JSX.Element => {
   };
 
   const toNavigate = (path: string) => {
+    isBig.current = true;
     setTimeout(() => {
       navigate(`/${path}`);
     }, 3000);
@@ -56,37 +59,27 @@ const Main = (): JSX.Element => {
     { text: "Minesweeper", onClick: onMinesweeper, color: color.green },
     {
       text: "Logic Gate",
-      onClick: () => {
-        onLoginGate();
-      },
+      onClick: onLoginGate,
       color: color.red,
     },
     {
       text: "Path finder",
-      onClick: () => {
-        onPathFinder();
-      },
+      onClick: onPathFinder,
       color: color.orange,
     },
     {
       text: "Heap tree",
-      onClick: () => {
-        onHeapTree();
-      },
+      onClick: onHeapTree,
       color: color.yellow,
     },
     {
       text: "Dice",
-      onClick: () => {
-        onDice();
-      },
+      onClick: onDice,
       color: color.lightBlue,
     },
     {
       text: "Contact me",
-      onClick: () => {
-        onContactMe();
-      },
+      onClick: onContactMe,
       color: color.darkGray,
     },
   ];
@@ -115,7 +108,7 @@ const Main = (): JSX.Element => {
 
   const onNavEnter = useCallback(
     (color: string) => {
-      if (canScale) {
+      if (canScale && !isBig.current) {
         setCursorColor(color);
         setScale(50);
 
