@@ -49,7 +49,7 @@ const Main = (): JSX.Element => {
   };
 
   const onMinesweeper = () => toNavigate("minesweeper");
-  const onLoginGate = () => {};
+  const onLoginGate = () => toNavigate("logicgate");
   const onPathFinder = () => {};
   const onHeapTree = () => {};
   const onDice = () => toNavigate("dice");
