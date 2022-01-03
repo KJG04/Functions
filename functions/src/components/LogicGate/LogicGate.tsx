@@ -1,5 +1,16 @@
+import { useLayoutEffect } from "react";
+import { color } from "../Minesweeper";
+
 const LogicGate = () => {
-  return <div>hello world!</div>;
+  useLayoutEffect(() => {
+    document.querySelector("html")!.style.backgroundColor = color.red;
+  }, []);
+
+  return (
+    <>
+      <div>hello world!</div>
+    </>
+  );
 };
 
 export default LogicGate;
