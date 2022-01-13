@@ -5,6 +5,11 @@ import * as S from "./styles";
 
 type Point = [x: number, y: number];
 
+interface Line {
+  start: Point;
+  end: Point;
+}
+
 const LogicGate = () => {
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.red;
@@ -14,6 +19,10 @@ const LogicGate = () => {
   const [endPoint, setEndPoint] = useState<Point>([0, 0]);
 
   const isMousePress = useRef(false);
+  const dots = useRef<Point[]>([
+    [300, 300],
+    [500, 500],
+  ]);
 
   const onMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (isMousePress.current) {
@@ -39,17 +48,16 @@ const LogicGate = () => {
     return `M${sx},${sy} C${sx + offsetX},${sy} ${ex - offsetX},${ey} ${ex}, ${ey}`;
   }, [endPoint, startPoint]);
 
-  useEffect(() => {
-    console.log(`start : [${startPoint.join(", ")}]`);
-    console.log(`end : [${endPoint.join(", ")}]`);
-  }, [endPoint, startPoint]);
-
   return (
     <>
       <S.Container>
         <S.PathContainer onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
           <path d={drawLine()} fill="none" stroke="#FFFFFF" stroke-width="3" />
         </S.PathContainer>
+
+        {dots.current.map(([x, y]) => {
+          return <S.Dot style={{ top: `${x}px`, left: `${y}px` }} />;
+        })}
       </S.Container>
     </>
   );
