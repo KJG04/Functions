@@ -15,6 +15,9 @@ const isCollision = (point: Point, dot: Point): boolean => {
   const [x1, y1] = point;
   const [x2, y2] = dot;
 
+  console.log(`point : [${point.join(", ")}]`);
+  console.log(`dot : [${dot.join(", ")}]`);
+
   const distance = Math.sqrt(Math.abs(x1 - x2) ** 2 + Math.abs(y1 - y2) ** 2);
 
   return distance <= radius;
@@ -25,29 +28,34 @@ const LogicGate = () => {
     document.querySelector("html")!.style.backgroundColor = color.red;
   }, []);
 
-  const [startPoint, setStartPoint] = useState<Point>([0, 0]);
-  const [endPoint, setEndPoint] = useState<Point>([0, 0]);
-
   const isMousePress = useRef(false);
   const dots = useRef<Point[]>([
     [300, 300],
     [500, 500],
   ]);
-  const currentLine = useRef<Line | null>(null);
+  const [currentLine, setCurrentLine] = useState<Line | null>(null);
 
   const onMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (isMousePress.current) {
-      setEndPoint([e.clientX, e.clientY]);
+    if (isMousePress.current && currentLine) {
+      setCurrentLine({ ...currentLine, end: [e.clientX, e.clientY] });
     }
   };
 
   const onMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
-    setStartPoint([e.clientX, e.clientY]);
+    const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
+
+    const collisionDot = dots.current.find((value) => isCollision(mouse, value));
+    if (!collisionDot) {
+      return;
+    }
+
+    setCurrentLine({ start: collisionDot, end: collisionDot });
     isMousePress.current = true;
   };
 
   const onMouseUp = () => {
     isMousePress.current = false;
+    setCurrentLine(null);
   };
 
   const drawLine = useCallback((line: Line): string => {
@@ -62,15 +70,15 @@ const LogicGate = () => {
   return (
     <>
       <S.Container>
+        {dots.current.map(([x, y], index) => {
+          return <S.Dot key={index} style={{ top: `${x}px`, left: `${y}px` }} />;
+        })}
+
         <S.PathContainer onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
-          {currentLine.current && (
-            <path d={drawLine(currentLine.current)} fill="none" stroke="#FFFFFF" stroke-width="3" />
+          {currentLine && (
+            <path d={drawLine(currentLine)} fill="none" stroke="#FFFFFF" stroke-width="3" />
           )}
         </S.PathContainer>
-
-        {dots.current.map(([x, y]) => {
-          return <S.Dot style={{ top: `${x}px`, left: `${y}px` }} />;
-        })}
       </S.Container>
     </>
   );
