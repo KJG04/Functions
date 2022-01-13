@@ -37,7 +37,9 @@ const LogicGate = () => {
     [600, 450],
     [800, 740],
   ]);
+
   const [currentLine, setCurrentLine] = useState<Line | null>(null);
+  const [lines, setLines] = useState<Line[]>([]);
 
   const onMouseMove = useCallback(
     (e: React.MouseEvent<SVGSVGElement>) => {
@@ -60,10 +62,28 @@ const LogicGate = () => {
     isMousePress.current = true;
   }, []);
 
-  const onMouseUp = useCallback(() => {
-    isMousePress.current = false;
-    setCurrentLine(null);
-  }, []);
+  const onMouseUp = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      if (!currentLine) {
+        isMousePress.current = false;
+        setCurrentLine(null);
+        return;
+      }
+
+      const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
+      const collisionDot = dots.current.find((value) => isCollision(mouse, value));
+
+      if (!collisionDot) {
+        setCurrentLine(null);
+        return;
+      }
+
+      setLines([...lines, { start: currentLine.start, end: collisionDot }]);
+
+      setCurrentLine(null);
+    },
+    [currentLine, lines]
+  );
 
   const drawLine = useCallback((line: Line): string => {
     const [sx, sy] = line.start;
@@ -85,6 +105,9 @@ const LogicGate = () => {
           {currentLine && (
             <path d={drawLine(currentLine)} fill="none" stroke="#FFFFFF" stroke-width="3" />
           )}
+          {lines.map((value) => (
+            <path d={drawLine(value)} fill="none" stroke="#FFFFFF" stroke-width="3" />
+          ))}
         </S.PathContainer>
       </S.Container>
     </>
