@@ -20,6 +20,8 @@ const isCollision = (point: Point, dot: Point): boolean => {
 
   const distance = Math.sqrt(Math.abs(x1 - x2) ** 2 + Math.abs(y1 - y2) ** 2);
 
+  console.log(distance <= radius);
+
   return distance <= radius;
 };
 
@@ -32,16 +34,21 @@ const LogicGate = () => {
   const dots = useRef<Point[]>([
     [300, 300],
     [500, 500],
+    [600, 450],
+    [800, 740],
   ]);
   const [currentLine, setCurrentLine] = useState<Line | null>(null);
 
-  const onMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (isMousePress.current && currentLine) {
-      setCurrentLine({ ...currentLine, end: [e.clientX, e.clientY] });
-    }
-  };
+  const onMouseMove = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      if (isMousePress.current && currentLine) {
+        setCurrentLine({ ...currentLine, end: [e.nativeEvent.offsetX, e.nativeEvent.offsetY] });
+      }
+    },
+    [currentLine]
+  );
 
-  const onMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+  const onMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
 
     const collisionDot = dots.current.find((value) => isCollision(mouse, value));
@@ -51,12 +58,12 @@ const LogicGate = () => {
 
     setCurrentLine({ start: collisionDot, end: collisionDot });
     isMousePress.current = true;
-  };
+  }, []);
 
-  const onMouseUp = () => {
+  const onMouseUp = useCallback(() => {
     isMousePress.current = false;
     setCurrentLine(null);
-  };
+  }, []);
 
   const drawLine = useCallback((line: Line): string => {
     const [sx, sy] = line.start;
@@ -71,7 +78,7 @@ const LogicGate = () => {
     <>
       <S.Container>
         {dots.current.map(([x, y], index) => {
-          return <S.Dot key={index} style={{ top: `${x}px`, left: `${y}px` }} />;
+          return <S.Dot key={index} style={{ top: `${y}px`, left: `${x}px` }} />;
         })}
 
         <S.PathContainer onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
