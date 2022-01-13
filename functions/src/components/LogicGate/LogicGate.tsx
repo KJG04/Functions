@@ -10,6 +10,16 @@ interface Line {
   end: Point;
 }
 
+const radius = 10;
+const isCollision = (point: Point, dot: Point): boolean => {
+  const [x1, y1] = point;
+  const [x2, y2] = dot;
+
+  const distance = Math.sqrt(Math.abs(x1 - x2) ** 2 + Math.abs(y1 - y2) ** 2);
+
+  return distance <= radius;
+};
+
 const LogicGate = () => {
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.red;
@@ -23,6 +33,7 @@ const LogicGate = () => {
     [300, 300],
     [500, 500],
   ]);
+  const currentLine = useRef<Line | null>(null);
 
   const onMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (isMousePress.current) {
@@ -39,20 +50,22 @@ const LogicGate = () => {
     isMousePress.current = false;
   };
 
-  const drawLine = useCallback((): string => {
-    const [sx, sy] = startPoint;
-    const [ex, ey] = endPoint;
+  const drawLine = useCallback((line: Line): string => {
+    const [sx, sy] = line.start;
+    const [ex, ey] = line.end;
 
     const offsetX = Math.abs(sx - ex) / 2;
 
     return `M${sx},${sy} C${sx + offsetX},${sy} ${ex - offsetX},${ey} ${ex}, ${ey}`;
-  }, [endPoint, startPoint]);
+  }, []);
 
   return (
     <>
       <S.Container>
         <S.PathContainer onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
-          <path d={drawLine()} fill="none" stroke="#FFFFFF" stroke-width="3" />
+          {currentLine.current && (
+            <path d={drawLine(currentLine.current)} fill="none" stroke="#FFFFFF" stroke-width="3" />
+          )}
         </S.PathContainer>
 
         {dots.current.map(([x, y]) => {
