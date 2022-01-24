@@ -67,7 +67,16 @@ const GateContextProvider: FC = ({ children }) => {
     [getDotById, nodes]
   );
 
-  const setNodeIsActive = useCallback((nodeId: string, isActive: boolean) => {}, []);
+  const setNodeIsActive = useCallback(
+    (nodeId: string, isActive: boolean) => {
+      const copyNodes = [...nodes];
+      copyNodes[nodes.findIndex((value) => value.id === nodeId)].isActive = isActive;
+
+      setNodes([...copyNodes]);
+    },
+    [nodes]
+  );
+
   const addGate = useCallback((type: string) => {}, []);
 
   const value = useMemo<GateContextType>(
