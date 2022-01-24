@@ -24,11 +24,16 @@ export interface Node {
   isActive: boolean;
 }
 
+export interface CurrentNode {
+  start: Point;
+  end: Point;
+}
+
 export interface GateContextType {
   gates: Gate[];
   nodes: Node[];
-  currentNode: Node | null;
-  startNode: (dot: Dot) => void;
+  currentNode: CurrentNode | null;
+  startNode: (position: Point) => void;
   endNode: (position: Point) => void;
   addNode: (startDotId: string, endDotId: string) => void;
   setNodeIsActive: (nodeId: string, isActive: boolean) => void;
