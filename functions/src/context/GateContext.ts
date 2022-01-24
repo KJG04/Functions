@@ -12,9 +12,9 @@ export interface Gate {
   id: string;
   type: string;
   position: Point;
-  input1: Dot;
-  input2: Dot;
-  output: Dot;
+  input1?: Dot;
+  input2?: Dot;
+  output?: Dot;
 }
 
 export interface Node {

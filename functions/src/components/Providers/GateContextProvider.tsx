@@ -42,7 +42,7 @@ const GateContextProvider: FC = ({ children }) => {
         const { input1, input2, output } = value;
 
         [input1, input2, output].forEach((value) => {
-          if (value.id === id) {
+          if (value && value.id === id) {
             dot = value;
           }
         });
@@ -77,7 +77,9 @@ const GateContextProvider: FC = ({ children }) => {
     [nodes]
   );
 
-  const addGate = useCallback((type: string) => {}, []);
+  const addGate = useCallback((type: string) => {
+    setGates([...gates, { id: uniqueId(), position: [0, 0], type }]);
+  }, []);
 
   const value = useMemo<GateContextType>(
     () => ({
