@@ -38,6 +38,7 @@ export interface GateContextType {
   removeCurrentNode: () => void;
   addNode: (startDotId: string, endDotId: string) => void;
   setNodeIsActive: (nodeId: string, isActive: boolean) => void;
+  addGate: (type: string) => void;
 }
 
 export const GateContext = createContext<GateContextType>({
@@ -49,4 +50,5 @@ export const GateContext = createContext<GateContextType>({
   removeCurrentNode: () => {},
   addNode: () => {},
   setNodeIsActive: () => {},
+  addGate: () => {},
 });
