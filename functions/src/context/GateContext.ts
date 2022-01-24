@@ -27,6 +27,7 @@ export interface Node {
 export interface GateContextType {
   gates: Gate[];
   nodes: Node[];
+  currentNode: Node | null;
   startNode: (dot: Dot) => void;
   endNode: (position: Point) => void;
   addNode: (startDotId: string, endDotId: string) => void;
@@ -36,6 +37,7 @@ export interface GateContextType {
 export const GateContext = createContext<GateContextType>({
   gates: [],
   nodes: [],
+  currentNode: null,
   startNode: () => {},
   endNode: () => {},
   addNode: () => {},
