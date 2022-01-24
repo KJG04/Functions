@@ -33,8 +33,9 @@ export interface GateContextType {
   gates: Gate[];
   nodes: Node[];
   currentNode: CurrentNode | null;
-  startNode: (position: Point) => void;
-  endNode: (position: Point) => void;
+  startCurrentNode: (position: Point) => void;
+  endCurrentNode: (position: Point) => void;
+  removeCurrentNode: () => void;
   addNode: (startDotId: string, endDotId: string) => void;
   setNodeIsActive: (nodeId: string, isActive: boolean) => void;
 }
@@ -43,8 +44,9 @@ export const GateContext = createContext<GateContextType>({
   gates: [],
   nodes: [],
   currentNode: null,
-  startNode: () => {},
-  endNode: () => {},
+  startCurrentNode: () => {},
+  endCurrentNode: () => {},
+  removeCurrentNode: () => {},
   addNode: () => {},
   setNodeIsActive: () => {},
 });

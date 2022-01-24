@@ -13,11 +13,11 @@ const GateContextProvider: FC = ({ children }) => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [currentNode, setCurrentNode] = useState<CurrentNode | null>(null);
 
-  const startNode = useCallback((position: Point) => {
+  const startCurrentNode = useCallback((position: Point) => {
     setCurrentNode({ start: position, end: position });
   }, []);
 
-  const endNode = useCallback(
+  const endCurrentNode = useCallback(
     (position: Point) => {
       if (!currentNode) {
         return;
@@ -28,12 +28,34 @@ const GateContextProvider: FC = ({ children }) => {
     [currentNode]
   );
 
+  const removeCurrentNode = useCallback(() => {
+    setCurrentNode(null);
+  }, []);
+
   const addNode = useCallback((startDotId: string, endDotId: string) => {}, []);
   const setNodeIsActive = useCallback((nodeId: string, isActive: boolean) => {}, []);
 
   const value = useMemo<GateContextType>(
-    () => ({ gates, nodes, currentNode, startNode, endNode, addNode, setNodeIsActive }),
-    [addNode, currentNode, endNode, gates, nodes, setNodeIsActive, startNode]
+    () => ({
+      gates,
+      nodes,
+      currentNode,
+      startCurrentNode,
+      endCurrentNode,
+      removeCurrentNode,
+      addNode,
+      setNodeIsActive,
+    }),
+    [
+      addNode,
+      currentNode,
+      endCurrentNode,
+      gates,
+      nodes,
+      removeCurrentNode,
+      setNodeIsActive,
+      startCurrentNode,
+    ]
   );
   return <GateContext.Provider value={value}>{children}</GateContext.Provider>;
 };
