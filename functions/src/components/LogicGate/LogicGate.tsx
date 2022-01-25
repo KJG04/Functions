@@ -38,7 +38,7 @@ interface CurrentNode {
 }
 
 const LogicGate = () => {
-  const { nodes, gates } = useContext(GateContext);
+  const { nodes, gates, addNode } = useContext(GateContext);
 
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.red;
@@ -102,11 +102,10 @@ const LogicGate = () => {
         return;
       }
 
-      // setLines([...lines, { start: currentNode.start, end: collisionDot }]);
-
+      addNode(currentNode.start.id, collisionDot.id);
       setCurrentNode(null);
     },
-    [currentNode, dots]
+    [addNode, currentNode, dots]
   );
 
   const drawLine = useCallback((start: Point, end: Point): string => {
