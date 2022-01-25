@@ -1,38 +1,10 @@
 import { FC, useCallback, useMemo, useState } from "react";
 import uniqueId from "../../constance/UniqueId";
-import {
-  CurrentNode,
-  Dot,
-  Gate,
-  GateContext,
-  GateContextType,
-  Node,
-  Point,
-} from "../../context/GateContext";
+import { Dot, Gate, GateContext, GateContextType, Node, Point } from "../../context/GateContext";
 
 const GateContextProvider: FC = ({ children }) => {
   const [gates, setGates] = useState<Gate[]>([]);
   const [nodes, setNodes] = useState<Node[]>([]);
-  const [currentNode, setCurrentNode] = useState<CurrentNode | null>(null);
-
-  const startCurrentNode = useCallback((position: Point) => {
-    setCurrentNode({ start: position, end: position });
-  }, []);
-
-  const endCurrentNode = useCallback(
-    (position: Point) => {
-      if (!currentNode) {
-        return;
-      }
-
-      setCurrentNode({ ...currentNode, end: position });
-    },
-    [currentNode]
-  );
-
-  const removeCurrentNode = useCallback(() => {
-    setCurrentNode(null);
-  }, []);
 
   const getDotById = useCallback(
     (id: string): Dot | null => {
@@ -88,25 +60,11 @@ const GateContextProvider: FC = ({ children }) => {
     () => ({
       gates,
       nodes,
-      currentNode,
-      startCurrentNode,
-      endCurrentNode,
-      removeCurrentNode,
       addNode,
       setNodeIsActive,
       addGate,
     }),
-    [
-      addGate,
-      addNode,
-      currentNode,
-      endCurrentNode,
-      gates,
-      nodes,
-      removeCurrentNode,
-      setNodeIsActive,
-      startCurrentNode,
-    ]
+    [addGate, addNode, gates, nodes, setNodeIsActive]
   );
   return <GateContext.Provider value={value}>{children}</GateContext.Provider>;
 };
