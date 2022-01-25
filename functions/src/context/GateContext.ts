@@ -5,7 +5,7 @@ export type Point = [x: number, y: number];
 export interface Dot {
   id: string;
   position: Point;
-  connectNode: Node;
+  connectNode: Node | null;
 }
 
 export interface Gate {
