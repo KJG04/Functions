@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { GateContext } from "../../context/GateContext";
 import { color } from "../Minesweeper";
 import { ANDGate } from "./Gates";
 import * as S from "./styles";
@@ -26,17 +27,14 @@ const isCollision = (point: Point, dot: Point): boolean => {
 };
 
 const LogicGate = () => {
+  const { nodes, gates } = useContext(GateContext);
+
   useLayoutEffect(() => {
     document.querySelector("html")!.style.backgroundColor = color.red;
   }, []);
 
   const isMousePress = useRef(false);
-  const dots = useRef<Point[]>([
-    [300, 300],
-    [500, 500],
-    [600, 450],
-    [800, 740],
-  ]);
+  const dots = useRef<Point[]>([]);
 
   const [currentLine, setCurrentLine] = useState<Line | null>(null);
   const [lines, setLines] = useState<Line[]>([]);
@@ -109,6 +107,10 @@ const LogicGate = () => {
             <path d={drawLine(value)} fill="none" stroke="#FFFFFF" stroke-width="3" />
           ))}
         </S.PathContainer>
+
+        {gates.map((value, index) => {
+          return <ANDGate {...{ ...value, index }} />;
+        })}
       </S.Container>
     </>
   );
