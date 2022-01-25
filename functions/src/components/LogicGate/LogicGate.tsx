@@ -1,10 +1,8 @@
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { GateContext } from "../../context/GateContext";
+import { Dot, GateContext, Point } from "../../context/GateContext";
 import { color } from "../Minesweeper";
 import { ANDGate } from "./Gates";
 import * as S from "./styles";
-
-type Point = [x: number, y: number];
 
 interface Line {
   start: Point;
@@ -26,6 +24,11 @@ const isCollision = (point: Point, dot: Point): boolean => {
   return distance <= radius;
 };
 
+interface CurrentNode {
+  start: Dot;
+  end: Point;
+}
+
 const LogicGate = () => {
   const { nodes, gates } = useContext(GateContext);
 
@@ -36,35 +39,46 @@ const LogicGate = () => {
   const isMousePress = useRef(false);
   const dots = useRef<Point[]>([]);
 
-  const [currentLine, setCurrentLine] = useState<Line | null>(null);
+  const [currentNode, setCurrentNode] = useState<CurrentNode | null>(null);
   const [lines, setLines] = useState<Line[]>([]);
 
   const onMouseMove = useCallback(
     (e: React.MouseEvent<SVGSVGElement>) => {
-      if (isMousePress.current && currentLine) {
-        setCurrentLine({ ...currentLine, end: [e.nativeEvent.offsetX, e.nativeEvent.offsetY] });
+      if (isMousePress.current && currentNode) {
+        setCurrentNode({ ...currentNode, end: [e.nativeEvent.offsetX, e.nativeEvent.offsetY] });
       }
     },
-    [currentLine]
+    [currentNode]
   );
 
-  const onMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
-    const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
+  const onMouseDown = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
 
-    const collisionDot = dots.current.find((value) => isCollision(mouse, value));
-    if (!collisionDot) {
-      return;
-    }
+      const dots: Dot[] = [];
 
-    setCurrentLine({ start: collisionDot, end: collisionDot });
-    isMousePress.current = true;
-  }, []);
+      gates.forEach((value) => {
+        if (value.output) {
+          dots.push(value.output);
+        }
+      });
+
+      const collisionDot = dots.find((value) => isCollision(mouse, value.position));
+      if (!collisionDot) {
+        return;
+      }
+
+      setCurrentNode({ start: collisionDot, end: collisionDot.position });
+      isMousePress.current = true;
+    },
+    [gates]
+  );
 
   const onMouseUp = useCallback(
     (e: React.MouseEvent<SVGSVGElement>) => {
-      if (!currentLine) {
+      if (!currentNode) {
         isMousePress.current = false;
-        setCurrentLine(null);
+        setCurrentNode(null);
         return;
       }
 
@@ -72,20 +86,20 @@ const LogicGate = () => {
       const collisionDot = dots.current.find((value) => isCollision(mouse, value));
 
       if (!collisionDot) {
-        setCurrentLine(null);
+        setCurrentNode(null);
         return;
       }
 
-      setLines([...lines, { start: currentLine.start, end: collisionDot }]);
+      // setLines([...lines, { start: currentNode.start, end: collisionDot }]);
 
-      setCurrentLine(null);
+      setCurrentNode(null);
     },
-    [currentLine, lines]
+    [currentNode]
   );
 
-  const drawLine = useCallback((line: Line): string => {
-    const [sx, sy] = line.start;
-    const [ex, ey] = line.end;
+  const drawLine = useCallback((start: Point, end: Point): string => {
+    const [sx, sy] = start;
+    const [ex, ey] = end;
 
     const offsetX = Math.abs(sx - ex) / 2;
 
@@ -100,11 +114,21 @@ const LogicGate = () => {
         })}
 
         <S.PathContainer onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
-          {currentLine && (
-            <path d={drawLine(currentLine)} fill="none" stroke="#FFFFFF" stroke-width="3" />
+          {currentNode && (
+            <path
+              d={drawLine(currentNode.start.position, currentNode.end)}
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="3"
+            />
           )}
           {lines.map((value) => (
-            <path d={drawLine(value)} fill="none" stroke="#FFFFFF" stroke-width="3" />
+            <path
+              d={drawLine(value.start, value.end)}
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="3"
+            />
           ))}
         </S.PathContainer>
 
