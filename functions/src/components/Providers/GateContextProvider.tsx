@@ -77,9 +77,12 @@ const GateContextProvider: FC = ({ children }) => {
     [nodes]
   );
 
-  const addGate = useCallback((type: string) => {
-    setGates([...gates, { id: uniqueId(), position: [0, 0], type }]);
-  }, []);
+  const addGate = useCallback(
+    (type: string) => {
+      setGates([...gates, { id: uniqueId(), position: [0, 0], type }]);
+    },
+    [gates]
+  );
 
   const value = useMemo<GateContextType>(
     () => ({
