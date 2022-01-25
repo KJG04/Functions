@@ -3,7 +3,18 @@ import uniqueId from "../../constance/UniqueId";
 import { Dot, Gate, GateContext, GateContextType, Node, Point } from "../../context/GateContext";
 
 const GateContextProvider: FC = ({ children }) => {
-  const [gates, setGates] = useState<Gate[]>([]);
+  const [gates, setGates] = useState<Gate[]>([
+    {
+      id: uniqueId(),
+      position: [100, 100],
+      type: "and",
+    },
+    {
+      id: uniqueId(),
+      position: [200, 200],
+      type: "and",
+    },
+  ]);
   const [nodes, setNodes] = useState<Node[]>([]);
 
   const getDotById = useCallback(
