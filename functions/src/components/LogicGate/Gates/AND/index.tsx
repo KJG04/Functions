@@ -28,12 +28,12 @@ const ANDGate: FC<Gate & { index: number }> = ({ position, index }) => {
 
         const name = names[i] as "input1" | "input2" | "output";
 
-        const { offsetTop, offsetLeft } = refs[i];
+        const { left, top, height, width } = refs[i].getBoundingClientRect();
 
         copyGates[index][name] = {
           id: id,
           connectNode: null,
-          position: [offsetLeft, offsetTop],
+          position: [left + width / 2, top + height / 2],
         };
       });
     }

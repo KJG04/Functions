@@ -54,7 +54,6 @@ const LogicGate = () => {
   const onMouseDown = useCallback(
     (e: React.MouseEvent<SVGSVGElement>) => {
       const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
-
       const dots: Dot[] = [];
 
       gates.forEach((value) => {
@@ -109,8 +108,8 @@ const LogicGate = () => {
   return (
     <>
       <S.Container>
-        {dots.current.map(([x, y], index) => {
-          return <S.Dot key={index} style={{ top: `${y}px`, left: `${x}px` }} />;
+        {gates.map((value, index) => {
+          return <ANDGate key={value.id} {...{ ...value, index }} />;
         })}
 
         <S.PathContainer onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
@@ -131,10 +130,6 @@ const LogicGate = () => {
             />
           ))}
         </S.PathContainer>
-
-        {gates.map((value, index) => {
-          return <ANDGate {...{ ...value, index }} />;
-        })}
       </S.Container>
     </>
   );
