@@ -1,4 +1,12 @@
-import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Dot, GateContext, Point } from "../../context/GateContext";
 import { color } from "../Minesweeper";
 import { ANDGate } from "./Gates";
@@ -37,7 +45,18 @@ const LogicGate = () => {
   }, []);
 
   const isMousePress = useRef(false);
-  const dots = useRef<Point[]>([]);
+
+  const dots = useMemo(() => {
+    const dots: Dot[] = [];
+
+    gates.forEach((value) => {
+      if (value.output) {
+        dots.push(value.output);
+      }
+    });
+
+    return dots;
+  }, [gates]);
 
   const [currentNode, setCurrentNode] = useState<CurrentNode | null>(null);
   const [lines, setLines] = useState<Line[]>([]);
@@ -54,13 +73,6 @@ const LogicGate = () => {
   const onMouseDown = useCallback(
     (e: React.MouseEvent<SVGSVGElement>) => {
       const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
-      const dots: Dot[] = [];
-
-      gates.forEach((value) => {
-        if (value.output) {
-          dots.push(value.output);
-        }
-      });
 
       const collisionDot = dots.find((value) => isCollision(mouse, value.position));
       if (!collisionDot) {
@@ -70,7 +82,7 @@ const LogicGate = () => {
       setCurrentNode({ start: collisionDot, end: collisionDot.position });
       isMousePress.current = true;
     },
-    [gates]
+    [dots]
   );
 
   const onMouseUp = useCallback(
@@ -82,7 +94,8 @@ const LogicGate = () => {
       }
 
       const mouse: Point = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
-      const collisionDot = dots.current.find((value) => isCollision(mouse, value));
+
+      const collisionDot = dots.find((value) => isCollision(mouse, value.position));
 
       if (!collisionDot) {
         setCurrentNode(null);
@@ -93,7 +106,7 @@ const LogicGate = () => {
 
       setCurrentNode(null);
     },
-    [currentNode]
+    [currentNode, dots]
   );
 
   const drawLine = useCallback((start: Point, end: Point): string => {
