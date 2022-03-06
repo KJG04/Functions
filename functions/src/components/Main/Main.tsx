@@ -1,6 +1,12 @@
 import * as S from "./styles";
 import gsap, { Power4 } from "gsap";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { color } from "../Minesweeper";
 import CustomCursor from "./CustomCursor/CustomCursor";
 import { useNavigate } from "react-router-dom";
@@ -49,29 +55,29 @@ const Main = (): JSX.Element => {
   };
 
   const onMinesweeper = () => toNavigate("minesweeper");
-  const onLoginGate = () => {};
-  const onPathFinder = () => {};
-  const onHeapTree = () => {};
+  // const onLoginGate = () => {};
+  // const onPathFinder = () => {};
+  // const onHeapTree = () => {};
   const onDice = () => toNavigate("dice");
   const onContactMe = () => toNavigate("contact");
 
   const navArray: Nav[] = [
     { text: "Minesweeper", onClick: onMinesweeper, color: color.green },
-    {
-      text: "Logic Gate",
-      onClick: onLoginGate,
-      color: color.red,
-    },
-    {
-      text: "Path finder",
-      onClick: onPathFinder,
-      color: color.orange,
-    },
-    {
-      text: "Heap tree",
-      onClick: onHeapTree,
-      color: color.yellow,
-    },
+    // {
+    //   text: "Logic Gate",
+    //   onClick: onLoginGate,
+    //   color: color.red,
+    // },
+    // {
+    //   text: "Path finder",
+    //   onClick: onPathFinder,
+    //   color: color.orange,
+    // },
+    // {
+    //   text: "Heap tree",
+    //   onClick: onHeapTree,
+    //   color: color.yellow,
+    // },
     {
       text: "Dice",
       onClick: onDice,
@@ -84,13 +90,20 @@ const Main = (): JSX.Element => {
     },
   ];
 
-  const navsRef = useRef<HTMLDivElement[]>(new Array<HTMLDivElement>(navArray.length));
+  const navsRef = useRef<HTMLDivElement[]>(
+    new Array<HTMLDivElement>(navArray.length)
+  );
   const { current: navs } = navsRef;
 
   const firstAnimation = () => {
     navs.map((value, index) => {
       const width = value.clientWidth;
-      gsap.from(value, { duration: 2.5, x: width + 48, ease: Power4.easeOut, delay: index * 0.1 });
+      gsap.from(value, {
+        duration: 2.5,
+        x: width + 48,
+        ease: Power4.easeOut,
+        delay: index * 0.1,
+      });
     });
   };
 
@@ -152,7 +165,8 @@ const Main = (): JSX.Element => {
   });
 
   useLayoutEffect(() => {
-    document.querySelector("html")!.style.backgroundColor = color.backgroundColor;
+    document.querySelector("html")!.style.backgroundColor =
+      color.backgroundColor;
     firstAnimation();
   }, []);
 
